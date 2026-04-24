@@ -1,0 +1,51 @@
+/* Design tokens — Manuscript & Typewriter visual system */
+/* Source of truth: docs/superpowers/specs/2026-04-23-portfolio-design.md §4 */
+
+:root {
+  /* Color */
+  --paper: #faf6ec;
+  --ink: #2a2420;
+  --ink-hover: #1a1410;
+  --red: #b8000a;
+  --marginalia: #7a6a54;
+  --divider: #c4b89f;
+
+  /* Type */
+  --font-display: 'Libre Bodoni', Georgia, serif;
+  --font-body: 'Courier Prime', 'Courier New', monospace;
+
+  /* Size */
+  --text-xs: 11px;
+  --text-sm: 13px;
+  --text-base: 15px;
+  --text-lg: 18px;
+  --text-xl: 22px;
+  --text-2xl: 28px;
+  --text-3xl: 36px;
+  --text-4xl: 44px;
+  --text-5xl: 56px;
+
+  /* Spacing */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-6: 24px;
+  --s-8: 32px;
+  --s-12: 48px;
+  --s-16: 64px;
+  --s-24: 96px;
+  --s-32: 128px;
+
+  /* Layout */
+  --content-max: 860px;
+  --hero-max: 1200px;
+  --gutter: 32px;
+  --gutter-mobile: 16px;
+}
+
+@media (max-width: 640px) {
+  :root {
+    --gutter: 16px;
+  }
+}
