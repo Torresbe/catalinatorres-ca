@@ -1,0 +1,75 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+<h2>Sección 2/5 — Visual system</h2>
+<p class="subtitle">Tres combinaciones de tipografía + color, todas dentro de "Technical × Editorial". Cada una comunica algo sutil distinto.</p>
+
+<div class="cards" style="grid-template-columns:1fr;gap:24px">
+
+  <!-- Option A -->
+  <div class="card" data-choice="classical-editorial" onclick="toggleSelect(this)" style="padding:0;overflow:hidden">
+    <div style="background:#fbf9f5;padding:48px 40px;color:#1c1917">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#a16207;margin-bottom:24px;letter-spacing:0.5px">~/catalina-torres</div>
+      <div style="font-family:'EB Garamond',serif;font-size:44px;font-weight:500;line-height:1.1;margin-bottom:18px;letter-spacing:-0.01em">AI automation,<br><em style="font-style:italic">with editorial judgment.</em></div>
+      <div style="font-family:Inter,sans-serif;font-size:15px;color:#57534e;line-height:1.6;max-width:520px;margin-bottom:24px">I build automation workflows for organizations that care about how information flows — not just that it moves.</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:5px 10px;background:#f5f1e8;border:1px solid #e7e0d0;border-radius:4px;color:#78716c">N8N</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:5px 10px;background:#f5f1e8;border:1px solid #e7e0d0;border-radius:4px;color:#78716c">Claude</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:5px 10px;background:#f5f1e8;border:1px solid #e7e0d0;border-radius:4px;color:#78716c">Python</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:5px 10px;background:#f5f1e8;border:1px solid #e7e0d0;border-radius:4px;color:#78716c">Omeka</span>
+      </div>
+    </div>
+    <div class="card-body" style="padding:20px 24px">
+      <h3 style="font-family:'EB Garamond',serif;font-weight:500">A · Classical Editorial</h3>
+      <p><strong>Headings:</strong> EB Garamond (serif clásico, tipografía de libro) · <strong>Body:</strong> Inter · <strong>Mono:</strong> IBM Plex Mono</p>
+      <p><strong>Colores:</strong> cream #fbf9f5 · ink #1c1917 · amber warm #a16207 · accent beige #f5f1e8</p>
+      <p class="subtitle">Vibe: editora clásica que construye con código. Referencia visual: una casa editorial antigua con sitio web moderno.</p>
+    </div>
+  </div>
+
+  <!-- Option B -->
+  <div class="card" data-choice="modern-editorial" onclick="toggleSelect(this)" style="padding:0;overflow:hidden">
+    <div style="background:#fafaf8;padding:48px 40px;color:#0c0a09">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#b45309;margin-bottom:24px;letter-spacing:0.3px">catalina.torres · 2026</div>
+      <div style="font-family:'Fraunces',serif;font-size:46px;font-weight:500;line-height:1.05;margin-bottom:18px;letter-spacing:-0.02em;font-variation-settings:'opsz' 144">AI automation,<br><span style="font-style:italic;font-weight:400">built with editorial judgment.</span></div>
+      <div style="font-family:Inter,sans-serif;font-size:15px;color:#44403c;line-height:1.55;max-width:520px;margin-bottom:24px">I build automation workflows for organizations that care about how information flows — not just that it moves.</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;padding:5px 10px;background:#fff;border:1px solid #e7e5e4;border-radius:4px;color:#78716c">N8N</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;padding:5px 10px;background:#fff;border:1px solid #e7e5e4;border-radius:4px;color:#78716c">Claude</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;padding:5px 10px;background:#fff;border:1px solid #e7e5e4;border-radius:4px;color:#78716c">Python</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;padding:5px 10px;background:#fff;border:1px solid #e7e5e4;border-radius:4px;color:#78716c">Omeka</span>
+      </div>
+    </div>
+    <div class="card-body" style="padding:20px 24px">
+      <h3 style="font-family:'Fraunces',serif;font-weight:500">B · Modern Editorial</h3>
+      <p><strong>Headings:</strong> Fraunces (serif moderno variable, carácter pronunciado) · <strong>Body:</strong> Inter · <strong>Mono:</strong> JetBrains Mono</p>
+      <p><strong>Colores:</strong> bone #fafaf8 · ink #0c0a09 · amber bright #b45309 · accent white #ffffff</p>
+      <p class="subtitle">Vibe: contemporary, con personalidad. Referencia visual: una agencia de diseño con alma editorial. Más Linear, menos Random House.</p>
+    </div>
+  </div>
+
+  <!-- Option C -->
+  <div class="card" data-choice="warm-editorial" onclick="toggleSelect(this)" style="padding:0;overflow:hidden">
+    <div style="background:#fdf6e3;padding:48px 40px;color:#2a2520">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#92400e;margin-bottom:24px;letter-spacing:0.3px">→ catalina torres</div>
+      <div style="font-family:'Lora',serif;font-size:44px;font-weight:500;line-height:1.15;margin-bottom:18px;letter-spacing:-0.005em">AI automation,<br><em style="font-style:italic;font-weight:400">with editorial judgment.</em></div>
+      <div style="font-family:Inter,sans-serif;font-size:15px;color:#57534e;line-height:1.6;max-width:520px;margin-bottom:24px">I build automation workflows for organizations that care about how information flows — not just that it moves.</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;padding:5px 10px;background:#fbecc4;border:1px solid #f3d89b;border-radius:4px;color:#78716c">N8N</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;padding:5px 10px;background:#fbecc4;border:1px solid #f3d89b;border-radius:4px;color:#78716c">Claude</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;padding:5px 10px;background:#fbecc4;border:1px solid #f3d89b;border-radius:4px;color:#78716c">Python</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;padding:5px 10px;background:#fbecc4;border:1px solid #f3d89b;border-radius:4px;color:#78716c">Omeka</span>
+      </div>
+    </div>
+    <div class="card-body" style="padding:20px 24px">
+      <h3 style="font-family:'Lora',serif;font-weight:500">C · Warm Editorial</h3>
+      <p><strong>Headings:</strong> Lora (serif cálido, approachable) · <strong>Body:</strong> Inter · <strong>Mono:</strong> JetBrains Mono</p>
+      <p><strong>Colores:</strong> warm cream #fdf6e3 · ink #2a2520 · amber deep #92400e · accent soft amber #fbecc4</p>
+      <p class="subtitle">Vibe: cálido, cuidadoso, humano. Referencia visual: un estudio boutique con personalidad. Más MailChimp, menos Stripe.</p>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:32px">Las tres mantienen la identidad "Technical × Editorial" — cambian el volumen de cada ingrediente.</p>

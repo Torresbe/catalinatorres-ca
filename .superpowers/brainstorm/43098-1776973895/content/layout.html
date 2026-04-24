@@ -1,0 +1,33 @@
+<h2>¿Cómo se organiza el portafolio?</h2>
+<p class="subtitle">Tienes 2 case studies con bastante detalle. La pregunta es cuánto de ese detalle va inline vs en páginas separadas.</p>
+
+<div class="options">
+  <div class="option" data-choice="single-all-inline" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Single page, todo inline</h3>
+      <p>Una sola URL. Hero → Servicios → <strong>Case studies completos (texto + resultados)</strong> → Stack → Contacto. El visitante hace scroll largo pero ve todo sin clicks.</p>
+      <p><strong>Pro:</strong> Simple, un solo archivo, fácil de compartir. <strong>Contra:</strong> Página muy larga (~3500-4500 palabras). Agobiante si solo quieres skimmear.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="single-expandable" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Single page, case studies expandibles</h3>
+      <p>Una sola URL pero case studies son <strong>cards colapsadas</strong> que se expanden al click. El visitante ve todo el resumen y abre el detalle del case study que le interese.</p>
+      <p><strong>Pro:</strong> Todavía un archivo. Skim fácil. Detalle accesible. <strong>Contra:</strong> Requiere un poco de JS. URL no cambia al expandir (menos shareable).</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="multi-page" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Multi-page (recomendación)</h3>
+      <p>Home con resúmenes + páginas dedicadas por case study. <strong>3 URLs</strong>: <code>/</code>, <code>/geoffrey</code>, <code>/sol-literature-review</code>. El home se mantiene liviano. Cada case study tiene su propia URL shareable.</p>
+      <p><strong>Pro:</strong> URLs individuales que puedes enviar a un cliente. Cada case study escalable a más profundidad. SEO-friendly. <strong>Contra:</strong> 3 archivos HTML en vez de 1.</p>
+    </div>
+  </div>
+</div>
+
+<p class="subtitle" style="margin-top:28px">Mi recomendación: <strong>C (multi-page)</strong> — te permite mandar un link específico a un cliente y los case studies pueden crecer sin saturar el home.</p>
