@@ -1,0 +1,39 @@
+---
+import Layout from '../components/Layout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+---
+<Layout title="About" description="Catalina Torres — editor who codes. From Planeta to Digital Humanities to AI automation.">
+  <SectionHeader label="§2" title="About" />
+  <article class="prose">
+    <p class="label">[DRAFT — to be finalized with Catalina]</p>
+
+    <p>
+      I'm Catalina Torres Benjumea. I spent ten years as an editor in Colombian publishing — first at Círculo de Lectores, then at Editorial Planeta — building books and catalogues for imprints like Seix Barral, Planeta, and Diana. The first lesson I learned is that editing is not a single skill: it's translation, patience, judgment, and the moderately honest use of euphemisms to make a writer arrive at what the editor wants <em>(needs)</em> while being completely convinced it was their idea.
+    </p>
+
+    <p>
+      In 2022 I moved to Edmonton to do a Master of Arts in Digital Humanities at the University of Alberta. The degree gave me the vocabulary and the infrastructure for something I had been doing informally for years — organizing information, thinking about how it flows, and designing systems that help other people find what they need. During the MA I worked on three research projects: SpokenWeb (where I was the web content master), Bridging Divides (a database of literature and a study of immigration processes), and the YEG Police Violence Archive (Omeka S, algorithmic description, ethical data analysis).
+    </p>
+
+    <p>
+      Since then I've built automation systems in Python, N8N, and Claude Code: a digital library from a lifetime of scattered documents and photographs; an AI-assisted literature review for 200 academic articles in English and Spanish; custom GPT assistants for small non-profits; personalized email automation from Google Sheets before I knew what Claude Code was. I teach minimal computing — low-cost web publishing with the smallest viable technical footprint — at public libraries in Edmonton.
+    </p>
+
+    <p>
+      If there is a through-line, it's this: the same taste that lets you read a messy manuscript and know what it wants to become also lets you read a messy archive or a messy inbox and know what <em>it</em> wants to become. Ten years of editorial judgment is not separate from the code I write now. It's the reason the code works.
+    </p>
+
+    <p>
+      I am fluent in English and Spanish. I live in Edmonton, Alberta. I am available for freelance consulting, short-term contracts, and full-time roles in operations automation or AI implementation.
+    </p>
+  </article>
+</Layout>
+<style>
+  .prose p {
+    font-size: var(--text-base);
+    line-height: 1.75;
+    margin-bottom: var(--s-6);
+    max-width: 680px;
+  }
+  .prose .label { margin-bottom: var(--s-6); }
+</style>

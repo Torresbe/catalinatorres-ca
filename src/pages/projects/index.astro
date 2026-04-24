@@ -1,0 +1,36 @@
+---
+import Layout from '../../components/Layout.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import TagChip from '../../components/TagChip.astro';
+
+const projects = [
+  { slug: 'geoffrey', title: 'Geoffrey — Personal Library & Archive', era: '2025', tools: ['Python', 'Claude Code', 'APIs'] },
+  { slug: 'sol-literature-review', title: 'Sol — AI-Assisted Literature Review', era: '2025', tools: ['Claude Code', 'Python', 'PDF parsing'] },
+  { slug: 'ehba-email-automation', title: 'EHBA — Personalized Mass Email', era: '2024', tools: ['Google Sheets', 'Apps Script'] },
+  { slug: 'ehba-gpt-assistant', title: 'EHBA — Office GPT Assistant', era: '2024', tools: ['Custom GPT'] },
+  { slug: 'zodiac-book-recommender', title: 'Zodiac Book Recommender', era: '2022–24', tools: ['Python', 'Literary frameworks'] },
+  { slug: 'interactive-story', title: 'Interactive Story (Branching Narrative)', era: '2022–24', tools: ['Python'] },
+];
+---
+<Layout title="Projects" description="Six projects across editorial, academic, and AI automation practice.">
+  <SectionHeader label="[§3] CASES" title="Projects" subtitle="From editorial experimentation through operations automation to AI-native workflows — arranged by era." />
+  <ul class="list">
+    {projects.map(({ slug, title, era, tools }) => (
+      <li>
+        <a href={`/projects/${slug}`}>
+          <p class="era marginalia">{era}</p>
+          <h3>{title}</h3>
+          <div class="tools">{tools.map((t) => <TagChip label={t} />)}</div>
+        </a>
+      </li>
+    ))}
+  </ul>
+</Layout>
+<style>
+  .list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--s-8); }
+  .list li { border-bottom: 1px dashed var(--divider); padding-bottom: var(--s-6); }
+  .list li a { text-decoration: none; display: block; }
+  .list h3 { margin: var(--s-2) 0 var(--s-3); }
+  .list li a:hover h3 { color: var(--red); }
+  .era { margin: 0; }
+</style>

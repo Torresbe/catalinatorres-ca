@@ -1,0 +1,20 @@
+---
+import Layout from '../components/Layout.astro';
+import ErrorMessage from '../components/ErrorMessage.astro';
+---
+<Layout title="404" description="You are looking in the wrong place.">
+  <section class="err-page">
+    <ErrorMessage code={404} />
+    <p class="marginalia"><a href="/">← back to home</a></p>
+  </section>
+</Layout>
+<style>
+  .err-page {
+    min-height: 50vh;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-6);
+    align-items: flex-start;
+    justify-content: center;
+  }
+</style>

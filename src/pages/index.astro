@@ -1,17 +1,58 @@
 ---
-
+import Layout from '../components/Layout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import TagChip from '../components/TagChip.astro';
 ---
+<Layout title="AI automation, built by an editor" description="Catalina Torres — AI automation and operations consulting from Edmonton, Canada.">
+  <section class="hero">
+    <p class="label">~/catalina-torres</p>
+    <h1>AI automation,<br/><em>built by an editor.</em></h1>
+    <p class="lede">
+      I build automation workflows for organizations that care about how information flows — not just that it moves.
+      Ten years as an editor taught me how to read a mess; six years of code taught me how to automate the reading.
+    </p>
+    <div class="tags">
+      <TagChip label="N8N" />
+      <TagChip label="Claude Code" />
+      <TagChip label="Python" />
+      <TagChip label="Omeka" />
+      <TagChip label="Bilingual EN/ES" />
+    </div>
+  </section>
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+  <hr />
+
+  <section>
+    <SectionHeader label="SELECTED WORK" title="Projects" />
+    <p class="marginalia">[DRAFT] Six projects will be listed here once the project pages exist (Task 11).</p>
+  </section>
+
+  <hr />
+
+  <section>
+    <SectionHeader label="OFFICE" title="What I do" />
+    <p class="marginalia">[DRAFT] Two featured services will be listed here once the services page exists (Step 2 below).</p>
+  </section>
+
+  <hr />
+
+  <section class="cta">
+    <h2>Try a live demo <a href="/lab">→</a></h2>
+    <p class="marginalia">Two Claude-powered tools live at <code>/lab</code>.</p>
+  </section>
+</Layout>
+<style>
+  .hero { padding: var(--s-12) 0 var(--s-8); }
+  .hero .label { margin-bottom: var(--s-6); }
+  .hero h1 { font-size: var(--text-5xl); line-height: 1.05; }
+  .hero h1 em { font-style: italic; font-weight: 400; }
+  .hero .lede {
+    max-width: 640px;
+    font-size: var(--text-lg);
+    line-height: 1.55;
+    color: var(--ink);
+    margin: var(--s-6) 0;
+  }
+  .tags { margin-top: var(--s-6); }
+  .cta h2 { margin-bottom: var(--s-2); }
+</style>
