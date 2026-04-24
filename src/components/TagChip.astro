@@ -1,0 +1,19 @@
+---
+interface Props { label: string; }
+const { label } = Astro.props;
+---
+<span class="chip">{label}</span>
+<style>
+  .chip {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    padding: 3px 8px;
+    background: rgba(160,130,90,0.06);
+    border: 1px solid var(--divider);
+    border-radius: 3px;
+    color: var(--marginalia);
+    margin: 0 4px 4px 0;
+    letter-spacing: 0.3px;
+  }
+</style>

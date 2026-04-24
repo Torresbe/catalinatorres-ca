@@ -1,0 +1,17 @@
+---
+interface Props { lang?: string; }
+const { lang } = Astro.props;
+---
+<pre class="code"><code data-lang={lang}><slot /></code></pre>
+<style>
+  .code {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    background: rgba(160,130,90,0.06);
+    border: 1px dashed var(--divider);
+    padding: var(--s-4);
+    overflow-x: auto;
+    margin: var(--s-4) 0;
+  }
+  .code code { color: var(--ink); }
+</style>

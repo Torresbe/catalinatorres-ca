@@ -1,0 +1,27 @@
+---
+import type { ErrorCode } from '../lib/errors';
+import { getErrorMessage } from '../lib/errors';
+import { getLangFromUrl } from '../i18n/util';
+
+interface Props { code: ErrorCode; }
+const { code } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const message = getErrorMessage(lang, code);
+---
+<div class="err">
+  <span class="code">ERROR {code}</span>
+  <span class="sep">—</span>
+  <span class="msg">{message}</span>
+</div>
+<style>
+  .err {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    display: inline-flex;
+    gap: var(--s-2);
+    flex-wrap: wrap;
+  }
+  .code { color: var(--red); font-weight: 700; letter-spacing: 1px; }
+  .sep { color: var(--marginalia); }
+  .msg { color: var(--ink); }
+</style>
