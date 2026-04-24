@@ -1,7 +1,67 @@
-<section class="demo">
-  <p class="label">[ TRY IT ]</p>
-  <p class="marginalia">[DRAFT — mini-demo comes in Task 7]</p>
+---
+const signs = [
+  { slug: 'aries', label: 'Aries (Mar 21 – Apr 19)', rec: { title: 'Rayuela', author: 'Julio Cortázar', why: 'You pick your own order. Aries needs a book that lets them run the engine.' }},
+  { slug: 'taurus', label: 'Taurus (Apr 20 – May 20)', rec: { title: 'The Lover', author: 'Marguerite Duras', why: 'Slow, sensory, confident in pleasure. Taurus reads the world through texture.' }},
+  { slug: 'gemini', label: 'Gemini (May 21 – Jun 20)', rec: { title: 'If on a winter\'s night a traveler', author: 'Italo Calvino', why: 'Ten novels inside one. Gemini keeps two minds at once.' }},
+  { slug: 'cancer', label: 'Cancer (Jun 21 – Jul 22)', rec: { title: 'Beloved', author: 'Toni Morrison', why: 'Family, memory, haunting as love. Cancer carries the house on their back.' }},
+  { slug: 'leo', label: 'Leo (Jul 23 – Aug 22)', rec: { title: 'Wide Sargasso Sea', author: 'Jean Rhys', why: 'Identity claimed back from someone else\'s story. Leo refuses to be a footnote.' }},
+  { slug: 'virgo', label: 'Virgo (Aug 23 – Sep 22)', rec: { title: 'The Remains of the Day', author: 'Kazuo Ishiguro', why: 'Precision of detail, pain of omission. Virgo will notice every missed gesture.' }},
+  { slug: 'libra', label: 'Libra (Sep 23 – Oct 22)', rec: { title: 'Pride and Prejudice', author: 'Jane Austen', why: 'Balance, manners, moral judgement negotiated in a drawing room. Libra\'s home turf.' }},
+  { slug: 'scorpio', label: 'Scorpio (Oct 23 – Nov 21)', rec: { title: 'Blood Meridian', author: 'Cormac McCarthy', why: 'Absolute in its darkness. Scorpio doesn\'t look away; they read closer.' }},
+  { slug: 'sagittarius', label: 'Sagittarius (Nov 22 – Dec 21)', rec: { title: 'The Master and Margarita', author: 'Mikhail Bulgakov', why: 'Big, wild, funny, blasphemous, humanist. Sagittarius expands or dies.' }},
+  { slug: 'capricorn', label: 'Capricorn (Dec 22 – Jan 19)', rec: { title: 'The Emperor of All Maladies', author: 'Siddhartha Mukherjee', why: 'Patient, disciplined, serious. Capricorn wants mastery and the long view.' }},
+  { slug: 'aquarius', label: 'Aquarius (Jan 20 – Feb 18)', rec: { title: 'Never Let Me Go', author: 'Kazuo Ishiguro', why: 'Unusual ethics, unusual kindness, the problem of designing people. Aquarius territory.' }},
+  { slug: 'pisces', label: 'Pisces (Feb 19 – Mar 20)', rec: { title: 'The Solitudes', author: 'Luis de Góngora', why: 'Oceanic, hallucinatory, undone by beauty. Pisces drifts on purpose.' }},
+];
+---
+<section class="demo" data-signs={JSON.stringify(signs)}>
+  <p class="label">[ TRY IT ] — reduced demo</p>
+  <h3>Pick a sign. Get a book.</h3>
+  <div class="pick">
+    <label for="sign">Sign</label>
+    <select id="sign">
+      <option value="">choose —</option>
+      {signs.map((s) => <option value={s.slug}>{s.label}</option>)}
+    </select>
+  </div>
+  <div class="out" id="sign-out" hidden>
+    <p class="label" id="out-label">RECOMMENDATION</p>
+    <h4 id="out-title"></h4>
+    <p class="attr" id="out-author"></p>
+    <p class="why" id="out-why"></p>
+  </div>
 </section>
+
+<script>
+  const section = document.querySelector('.demo') as HTMLElement;
+  const signs = JSON.parse(section.dataset.signs!);
+  const sel = document.getElementById('sign') as HTMLSelectElement;
+  const out = document.getElementById('sign-out')!;
+  sel.addEventListener('change', () => {
+    const s = signs.find((x: any) => x.slug === sel.value);
+    if (!s) { out.setAttribute('hidden', ''); return; }
+    (document.getElementById('out-title')!).textContent = s.rec.title;
+    (document.getElementById('out-author')!).textContent = '— ' + s.rec.author;
+    (document.getElementById('out-why')!).textContent = s.rec.why;
+    out.removeAttribute('hidden');
+  });
+</script>
+
 <style>
-  .demo { margin-top: var(--s-12); padding: var(--s-6); border: 1px dashed var(--divider); }
+  .demo { margin-top: var(--s-12); padding: var(--s-8); border: 1px dashed var(--divider); background: rgba(160,130,90,0.03); }
+  .demo h3 { margin: var(--s-3) 0 var(--s-6); }
+  .pick { display: flex; gap: var(--s-4); align-items: center; margin-bottom: var(--s-6); }
+  .pick label { font-family: var(--font-body); font-size: var(--text-sm); color: var(--marginalia); }
+  .pick select {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    padding: var(--s-2) var(--s-3);
+    background: var(--paper);
+    border: 1px solid var(--divider);
+    color: var(--ink);
+  }
+  .out { border-top: 1px dashed var(--divider); padding-top: var(--s-4); }
+  .out h4 { font-family: var(--font-display); font-size: var(--text-xl); margin: var(--s-2) 0; }
+  .attr { color: var(--marginalia); margin: 0 0 var(--s-3); font-size: var(--text-sm); }
+  .why { line-height: 1.6; }
 </style>

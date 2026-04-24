@@ -1,7 +1,94 @@
-<section class="demo">
-  <p class="label">[ TRY IT ]</p>
-  <p class="marginalia">[DRAFT — mini-demo comes in Task 7]</p>
+---
+type Node = { id: string; text: string; choices?: { label: string; next: string }[]; ending?: boolean };
+
+const nodes: Node[] = [
+  {
+    id: 'start',
+    text: 'The envelope on your desk is sealed with red wax. You did not put it there. It is already evening and your office is too quiet.',
+    choices: [
+      { label: 'open the envelope', next: 'open' },
+      { label: 'leave it and go home', next: 'leave' },
+    ],
+  },
+  {
+    id: 'open',
+    text: 'Inside is a single page. Your own handwriting, from twelve years ago: "If you are reading this, you did not forget." You do not remember writing it.',
+    choices: [
+      { label: 'read the whole page', next: 'read' },
+      { label: 'burn it', next: 'burn' },
+    ],
+  },
+  {
+    id: 'leave',
+    text: 'You walk home through a light snow. The letter stays on the desk. When you return the next morning, it is gone. Nobody admits to moving it. You tell yourself this is fine.',
+    ending: true,
+  },
+  {
+    id: 'read',
+    text: 'The page is a list of names. Some you know; most you do not. Your name is at the bottom, circled twice. This ending was written for a reader who chose to know.',
+    ending: true,
+  },
+  {
+    id: 'burn',
+    text: 'The wax melts first, then the paper. The smoke smells faintly of the ink you used in your twenties. You sleep well for the first time in months. This ending was written for a reader who chose to forget.',
+    ending: true,
+  },
+];
+---
+<section class="demo" data-nodes={JSON.stringify(nodes)}>
+  <p class="label">[ TRY IT ] — branching narrative demo</p>
+  <h3>A story, in three or four choices.</h3>
+  <div class="stage">
+    <p class="text" id="story-text"></p>
+    <div class="choices" id="story-choices"></div>
+    <button class="restart" id="story-restart" hidden>restart</button>
+  </div>
 </section>
+
+<script>
+  const container = document.querySelector('.demo') as HTMLElement;
+  const nodes = JSON.parse(container.dataset.nodes!);
+  const textEl = document.getElementById('story-text')!;
+  const choicesEl = document.getElementById('story-choices')!;
+  const restartEl = document.getElementById('story-restart') as HTMLButtonElement;
+
+  function render(id: string) {
+    const n = nodes.find((x: any) => x.id === id);
+    if (!n) return;
+    textEl.textContent = n.text;
+    choicesEl.innerHTML = '';
+    if (n.ending) {
+      restartEl.removeAttribute('hidden');
+    } else {
+      restartEl.setAttribute('hidden', '');
+      n.choices.forEach((c: any) => {
+        const btn = document.createElement('button');
+        btn.textContent = c.label;
+        btn.className = 'choice';
+        btn.addEventListener('click', () => render(c.next));
+        choicesEl.appendChild(btn);
+      });
+    }
+  }
+
+  restartEl.addEventListener('click', () => render('start'));
+  render('start');
+</script>
+
 <style>
-  .demo { margin-top: var(--s-12); padding: var(--s-6); border: 1px dashed var(--divider); }
+  .demo { margin-top: var(--s-12); padding: var(--s-8); border: 1px dashed var(--divider); background: rgba(160,130,90,0.03); }
+  .demo h3 { margin: var(--s-3) 0 var(--s-6); }
+  .stage { min-height: 180px; }
+  .text { font-size: var(--text-lg); line-height: 1.55; margin-bottom: var(--s-6); max-width: 640px; }
+  .choices { display: flex; flex-direction: column; gap: var(--s-3); align-items: flex-start; }
+  .choice, .restart {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    background: transparent;
+    border: 1px dashed var(--divider);
+    padding: var(--s-3) var(--s-4);
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .choice:hover, .restart:hover { border-style: solid; border-color: var(--red); color: var(--red); }
 </style>
