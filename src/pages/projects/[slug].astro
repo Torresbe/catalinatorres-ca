@@ -1,0 +1,61 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import Layout from '../../components/Layout.astro';
+import TagChip from '../../components/TagChip.astro';
+import Marginalia from '../../components/Marginalia.astro';
+import ZodiacMiniDemo from '../../components/ZodiacMiniDemo.astro';
+import StoryMiniDemo from '../../components/StoryMiniDemo.astro';
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const all = await getCollection('projects');
+  return all.map((entry) => ({ params: { slug: entry.id } }));
+}
+
+const { slug } = Astro.params as { slug: string };
+const entry = await getEntry('projects', slug);
+if (!entry) throw new Error(`Project not found: ${slug}`);
+const { Content } = await render(entry);
+---
+<Layout title={entry.data.title} description={entry.data.summary}>
+  <article class="project">
+    <header class="head">
+      <p class="label">PROJECT · {entry.data.era}</p>
+      <h1>{entry.data.title}</h1>
+      <Marginalia>{entry.data.summary}</Marginalia>
+      <div class="tools">{entry.data.tools.map((t) => <TagChip label={t} />)}</div>
+    </header>
+
+    <section class="prose">
+      <Content />
+    </section>
+
+    {slug === 'zodiac-book-recommender' && <ZodiacMiniDemo />}
+    {slug === 'interactive-story' && <StoryMiniDemo />}
+  </article>
+</Layout>
+<style>
+  .head { margin-bottom: var(--s-12); }
+  .head .label { margin-bottom: var(--s-3); }
+  .head h1 { font-size: var(--text-4xl); margin-bottom: var(--s-6); }
+  .tools { margin-top: var(--s-4); }
+  .prose h2 {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    margin-top: var(--s-8);
+    margin-bottom: var(--s-3);
+  }
+  .prose h3 {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    margin-top: var(--s-6);
+  }
+  .prose p, .prose li {
+    font-size: var(--text-base);
+    line-height: 1.7;
+  }
+  .prose ul { padding-left: var(--s-6); margin-bottom: var(--s-4); }
+  .prose strong { font-weight: 700; }
+  .prose em { font-style: italic; color: var(--ink); }
+</style>
