@@ -1,0 +1,19 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "services": "Servicios",
+    "projects": "Proyectos",
+    "lab": "Lab",
+    "about": "Sobre mí",
+    "contact": "Contacto"
+  },
+  "footer": {
+    "tagline": "Hecho por Catalina Torres — Edmonton, Canadá.",
+    "privacy": "Privacidad"
+  },
+  "langToggle": {
+    "label": "idioma",
+    "en": "EN",
+    "es": "ES"
+  }
+}

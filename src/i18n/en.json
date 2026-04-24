@@ -1,0 +1,19 @@
+{
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "projects": "Projects",
+    "lab": "Lab",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "footer": {
+    "tagline": "Built by Catalina Torres — Edmonton, Canada.",
+    "privacy": "Privacy"
+  },
+  "langToggle": {
+    "label": "language",
+    "en": "EN",
+    "es": "ES"
+  }
+}

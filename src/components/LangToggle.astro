@@ -1,0 +1,22 @@
+---
+import { getLangFromUrl, translatePath, t } from '../i18n/util';
+const lang = getLangFromUrl(Astro.url);
+const strings = t(lang);
+const otherLang = lang === 'en' ? 'es' : 'en';
+const otherPath = translatePath(Astro.url.pathname, otherLang);
+---
+<a href={otherPath} class="lang-toggle" aria-label={strings.langToggle.label}>
+  <span class:list={[lang === 'en' && 'active']}>EN</span>
+  <span> / </span>
+  <span class:list={[lang === 'es' && 'active']}>ES</span>
+</a>
+<style>
+  .lang-toggle {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    letter-spacing: 1px;
+    text-decoration: none;
+    color: var(--marginalia);
+  }
+  .lang-toggle .active { color: var(--red); font-weight: 700; }
+</style>

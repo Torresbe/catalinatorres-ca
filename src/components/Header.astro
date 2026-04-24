@@ -1,0 +1,61 @@
+---
+import { getLangFromUrl, t } from '../i18n/util';
+import LangToggle from './LangToggle.astro';
+
+const lang = getLangFromUrl(Astro.url);
+const strings = t(lang);
+const base = lang === 'es' ? '/es' : '';
+
+const navItems = [
+  { href: `${base}/`, label: strings.nav.home },
+  { href: `${base}${lang === 'es' ? '/servicios' : '/services'}`, label: strings.nav.services },
+  { href: `${base}${lang === 'es' ? '/proyectos' : '/projects'}`, label: strings.nav.projects },
+  { href: `${base}/lab`, label: strings.nav.lab },
+  { href: `${base}${lang === 'es' ? '/sobre-mi' : '/about'}`, label: strings.nav.about },
+  { href: `${base}${lang === 'es' ? '/contacto' : '/contact'}`, label: strings.nav.contact },
+];
+---
+<header>
+  <div class="wrap">
+    <a href={base || '/'} class="brand">catalina torres</a>
+    <nav>
+      {navItems.map(({ href, label }) => (
+        <a href={href} class="navlink">{label}</a>
+      ))}
+    </nav>
+    <LangToggle />
+  </div>
+</header>
+<style>
+  header {
+    border-bottom: 1px dashed var(--divider);
+    padding: var(--s-4) 0;
+  }
+  .wrap {
+    max-width: var(--hero-max);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--s-6);
+    flex-wrap: wrap;
+  }
+  .brand {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--text-lg);
+    text-decoration: none;
+    color: var(--ink);
+  }
+  nav { display: flex; gap: var(--s-6); flex-wrap: wrap; }
+  .navlink {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .navlink:hover { color: var(--red); }
+</style>

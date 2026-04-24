@@ -1,0 +1,39 @@
+---
+import { getLangFromUrl, t } from '../i18n/util';
+const lang = getLangFromUrl(Astro.url);
+const strings = t(lang);
+const privacyPath = lang === 'es' ? '/es/privacidad' : '/privacy';
+---
+<footer>
+  <div class="wrap">
+    <p class="marginalia">{strings.footer.tagline}</p>
+    <nav>
+      <a href="mailto:catalinatorres1000@gmail.com">catalinatorres1000@gmail.com</a>
+      <a href="https://www.linkedin.com/in/catalina-torres-benjumea-3a64a523/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href={privacyPath}>{strings.footer.privacy}</a>
+    </nav>
+  </div>
+</footer>
+<style>
+  footer {
+    border-top: 1px dashed var(--divider);
+    padding: var(--s-8) 0 var(--s-12);
+    margin-top: var(--s-16);
+  }
+  .wrap {
+    max-width: var(--hero-max);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--s-6);
+    flex-wrap: wrap;
+  }
+  nav { display: flex; gap: var(--s-6); }
+  nav a {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    letter-spacing: 1px;
+  }
+</style>
