@@ -1,0 +1,178 @@
+---
+import { getLangFromUrl } from '../i18n/util';
+const lang = getLangFromUrl(Astro.url);
+const privacyHref = lang === 'es' ? '/es/privacidad' : '/privacy';
+const labels = lang === 'es'
+  ? { name: 'nombre', email: 'email', company: 'empresa', companyOpt: '(opcional)', subject: 'asunto', message: 'mensaje', send: '[ enviar → ]', privacyAck: 'acepto los', privacyTerms: 'términos de privacidad' }
+  : { name: 'name', email: 'email', company: 'company', companyOpt: '(optional)', subject: 'subject', message: 'message', send: '[ send → ]', privacyAck: 'I accept the', privacyTerms: 'privacy terms' };
+---
+<section class="contact">
+  <p class="label">MS. folio ∞ — send a letter</p>
+  <form id="contact-form">
+    <input type="text" name="website" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true" />
+
+    <label>
+      <span>{labels.name}</span>
+      <input type="text" name="name" required maxlength="100" />
+    </label>
+    <label>
+      <span>{labels.email}</span>
+      <input type="email" name="email" required maxlength="200" />
+    </label>
+    <label>
+      <span>{labels.company} <em>{labels.companyOpt}</em></span>
+      <input type="text" name="company" maxlength="150" />
+    </label>
+    <label>
+      <span>{labels.subject}</span>
+      <input type="text" name="subject" required maxlength="200" />
+    </label>
+    <label>
+      <span>{labels.message}</span>
+      <textarea name="message" rows="8" required minlength="10" maxlength="3000"></textarea>
+    </label>
+
+    <label class="privacy-ack">
+      <input type="checkbox" name="privacyAck" required />
+      <span>{labels.privacyAck} <a href={privacyHref}>{labels.privacyTerms}</a>.</span>
+    </label>
+
+    <button type="submit">{labels.send}</button>
+  </form>
+  <div class="output" id="contact-output" hidden></div>
+</section>
+
+<script>
+  import { errorMessages, type ErrorCode } from '../lib/errors';
+
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const output = document.getElementById('contact-output')!;
+  const button = form.querySelector('button')!;
+  const lang: 'en' | 'es' = document.documentElement.lang === 'es' ? 'es' : 'en';
+  const loadedAt = Date.now();
+
+  const ui = {
+    en: {
+      sending: 'sending...',
+      transcribing: '[ transcribing your letter... ]',
+      send: '[ send → ]',
+      success: "letter received. you'll hear back within 48h.",
+      fieldInvalid: (field: string) => `${field}: missing or invalid.`,
+    },
+    es: {
+      sending: 'enviando...',
+      transcribing: '[ transcribiendo tu carta... ]',
+      send: '[ enviar → ]',
+      success: 'carta recibida. te respondo en 48h.',
+      fieldInvalid: (field: string) => `${field}: faltante o inválido.`,
+    },
+  }[lang];
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    button.disabled = true;
+    button.textContent = ui.transcribing;
+    output.removeAttribute('hidden');
+    output.innerHTML = `<p class="marginalia">${ui.sending}</p>`;
+
+    const fd = new FormData(form);
+    const submittedAfterMs = Date.now() - loadedAt;
+    const payload = {
+      name: fd.get('name'),
+      email: fd.get('email'),
+      company: fd.get('company'),
+      subject: fd.get('subject'),
+      message: fd.get('message'),
+      website: fd.get('website'),
+      submittedAfterMs,
+    };
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      if (data.ok) {
+        output.innerHTML = `<p class="success">${ui.success}</p>`;
+        form.reset();
+      } else {
+        output.innerHTML = renderError(data.code, data.field);
+      }
+    } catch {
+      output.innerHTML = renderError(504);
+    } finally {
+      button.disabled = false;
+      button.textContent = ui.send;
+    }
+  });
+
+  function renderError(code: number, field?: string): string {
+    const msg = (code === 400 && field)
+      ? ui.fieldInvalid(field)
+      : (errorMessages[lang][code as ErrorCode] ?? errorMessages[lang][500]);
+    return `<div class="err"><span class="code">ERROR ${code}</span> — <span>${msg}</span></div>`;
+  }
+</script>
+
+<style>
+  .contact { max-width: 640px; }
+  form { display: flex; flex-direction: column; gap: var(--s-4); margin-top: var(--s-4); }
+  label { display: flex; flex-direction: column; gap: var(--s-2); }
+  label span { font-family: var(--font-body); font-size: var(--text-xs); color: var(--marginalia); letter-spacing: 1px; text-transform: uppercase; }
+  label em { font-style: italic; text-transform: none; letter-spacing: 0; }
+  input[type=text], input[type=email], textarea {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    padding: var(--s-3);
+    border: 1px dashed var(--divider);
+    background: var(--paper);
+    color: var(--ink);
+    width: 100%;
+  }
+  textarea { resize: vertical; }
+  .hp {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+  button {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    letter-spacing: 0.3px;
+    background: rgba(160,130,90,0.06);
+    border: 1px solid var(--divider);
+    border-radius: 3px;
+    padding: 3px 8px;
+    color: var(--ink);
+    cursor: pointer;
+    align-self: flex-start;
+  }
+  button:hover:not(:disabled) { background: rgba(160,130,90,0.14); border-color: var(--ink); }
+  button:disabled { opacity: 0.5; cursor: wait; }
+  .privacy-ack {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--s-2);
+  }
+  .privacy-ack span {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    color: var(--ink);
+    letter-spacing: 0;
+    text-transform: none;
+  }
+  .privacy-ack input[type=checkbox] {
+    width: auto;
+    margin: 0;
+    accent-color: var(--ink);
+  }
+  .privacy-ack a { color: var(--red); }
+  .output { margin-top: var(--s-6); }
+  .success { color: var(--ink); font-family: var(--font-body); }
+  .err { font-family: var(--font-body); }
+  .err .code { color: var(--red); font-weight: 700; }
+</style>

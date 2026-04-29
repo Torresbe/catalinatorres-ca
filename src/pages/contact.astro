@@ -1,0 +1,16 @@
+---
+import Layout from '../components/Layout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import ContactForm from '../components/ContactForm.astro';
+---
+<Layout title="Contact" description="Drop a line — I read every letter and answer within 48 hours.">
+  <SectionHeader label="§5" title="Contact" subtitle="Drop a line — I read every letter and answer within 48 hours." />
+  <ContactForm />
+  <aside class="alt">
+    <p class="marginalia">or write directly to <a href="mailto:catalinatorres1000@gmail.com">catalinatorres1000@gmail.com</a>.</p>
+    <p class="marginalia">By sending a message, you accept the <a href="/privacy">privacy terms</a>.</p>
+  </aside>
+</Layout>
+<style>
+  .alt { margin-top: var(--s-12); padding-top: var(--s-6); border-top: 1px dashed var(--divider); max-width: 640px; }
+</style>
