@@ -1,32 +1,19 @@
 ---
-title: "Sol — AI-Assisted Literature Review"
+title: "AI-Assisted Literature Review"
 era: "2025"
-tools: ["Claude Code", "Python", "PDF parsing", "Structured prompting"]
-summary: "Two hundred academic articles on gender equity in higher education, classified across seven analytical fields, in English and Spanish."
+summary: "Two hundred academic articles on gender equity, classified across analytical fields, in English and Spanish."
 order: 2
 featured: true
 ---
 
 ## The work
 
-Sol was conducting a systematic literature review on gender equity in higher education — over 200 peer-reviewed articles in English and Spanish. Manually coding each one across multiple analytical dimensions was going to take months. I built a classification pipeline that compressed the work into hours without giving up rigor.
+A systematic literature review on gender equity in higher education — over 200 peer-reviewed articles in English and Spanish. Manually coding each one across multiple analytical dimensions was going to take months. I built a classification pipeline that compressed the work into hours without giving up rigor.
 
 ## Framework
 
-The seven analytical fields we designed together:
+A document analysis classified by themes, adapted to the specific topic of each research project. The analytical fields are designed to fit the research question — what counts as evidence, what gets compared, what gets left out — and applied consistently across the whole collection.
 
-- Institutional Logic
-- Gender Category
-- Higher Education Category
-- Theoretical Frameworks
-- Study Type
-- Data Collection & Analysis Method
-- Key Findings
+## What the client got
 
-## How
-
-A Claude Code pipeline processes each PDF: extracts abstract and conclusions, applies controlled vocabularies per field, uses fallback values for ambiguous cases, flags `[VERIFICAR]` when the article doesn't fit cleanly. Bilingual handling: articles in Spanish and English are both processed, with output consistently in Spanish as Sol required.
-
-## What Sol got
-
-A structured dataset with seven fields per article, ready for synthesis. A reusable framework — the same pipeline runs on any new literature review with minimal reconfiguration. Human review stays in the loop for flagged cases.
+A structured dataset, ready for synthesis. A reusable framework — the same pipeline runs on any new literature review with minimal reconfiguration. Bilingual articles in, consistent output in the language the researcher needs. Human review stays in the loop for flagged cases.

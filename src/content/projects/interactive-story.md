@@ -16,4 +16,4 @@ This project is the earliest version of the bridge I now work on every day: edit
 
 ## Try it
 
-A short version of the story lives on this page. Make two or three choices. Whichever ending you reach was written for you by a structure that decided in advance it would honor whichever choices you made.
+A small version of the structure runs on this page — not the original story, but the same idea, recast as a set of instructions for winding a clock. Read through. Make the one real decision the instructions ask you to make. Whichever ending you reach was written for you in advance.

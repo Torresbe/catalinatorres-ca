@@ -1,26 +1,28 @@
 ---
 import { getCollection, getEntry, render } from 'astro:content';
-import Layout from '../../components/Layout.astro';
-import Marginalia from '../../components/Marginalia.astro';
-import ZodiacMiniDemo from '../../components/ZodiacMiniDemo.astro';
-import StoryMiniDemo from '../../components/StoryMiniDemo.astro';
+import Layout from '../../../components/Layout.astro';
+import Marginalia from '../../../components/Marginalia.astro';
+import ZodiacMiniDemo from '../../../components/ZodiacMiniDemo.astro';
+import StoryMiniDemo from '../../../components/StoryMiniDemo.astro';
+import { projectSlugFromId } from '../../../i18n/util';
 
 export const prerender = true;
 
 export async function getStaticPaths() {
-  const all = await getCollection('projects', (e) => e.data.lang === 'en');
-  return all.map((entry) => ({ params: { slug: entry.id } }));
+  const all = await getCollection('projects', (e) => e.data.lang === 'es');
+  return all.map((entry) => ({ params: { slug: projectSlugFromId(entry.id) }, props: { entryId: entry.id } }));
 }
 
+const { entryId } = Astro.props as { entryId: string };
 const { slug } = Astro.params as { slug: string };
-const entry = await getEntry('projects', slug);
-if (!entry) throw new Error(`Project not found: ${slug}`);
+const entry = await getEntry('projects', entryId);
+if (!entry) throw new Error(`Project not found: ${entryId}`);
 const { Content } = await render(entry);
 ---
 <Layout title={entry.data.title} description={entry.data.summary}>
   <article class="project">
     <header class="head">
-      <p class="label">PROJECT · {entry.data.era}</p>
+      <p class="label">PROYECTO · {entry.data.era}</p>
       <h1>{entry.data.title}</h1>
       <Marginalia>{entry.data.summary}</Marginalia>
     </header>

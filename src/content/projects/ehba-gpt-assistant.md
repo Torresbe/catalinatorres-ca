@@ -1,19 +1,21 @@
 ---
-title: "EHBA — Office GPT Assistant"
+title: "Office Knowledge Assistant"
 era: "2024"
-tools: ["Custom GPT", "Internal documents", "OpenAI"]
-summary: "A private office assistant for the president and treasurer of a non-profit. Knew the procedures, the suppliers, the venues, the forms."
+summary: "A private bilingual assistant trained on the organization's procedures, suppliers, venues, and forms — so leadership stops asking each other twice a week."
 order: 4
 ---
 
 ## The work
 
-A non-profit office runs on institutional memory. EHBA's president and treasurer needed answers without re-reading a shared drive: where do we book classrooms, what's the supplier for printed materials, which form does a new student need, what's the email template for the fall-term refund request.
+Part of the same operations restructure. After the leadership change, institutional memory was scattered across drives, inboxes, and the heads of the two people who had been there longest. The brief was to consolidate it into something that answered questions instead of forcing someone to remember where to look.
 
-## How
+## Scope
 
-I built a custom GPT — with the office's procedures, venue contacts, supplier lists, policy documents, and FAQ answers in its instructions and attached files. The president and treasurer shared the assistant between them. They asked questions in plain language, in English or Spanish. The GPT answered from the documents it had, and said "I don't know" when it didn't.
+- Procedures, venue contacts, supplier lists, policy documents, and FAQ answers consolidated into a single private assistant
+- Bilingual question handling (English and Spanish), with editorial consistency across both
+- A trained refusal pattern: when the assistant doesn't know, it says so, instead of guessing
+- Shared between the office's leads without exposing private documents to anyone outside the organization
 
-## Why this mattered
+## What the client got
 
-A knowledge base is a document nobody reads. An assistant is a document that answers. Same information, different surface. The non-profit ran more smoothly; the treasurer didn't need to call the president twice a week to confirm which venue they'd booked.
+Renamed files, folders with meaning and clear hierarchy. Branded templates, a step-by-step with tasks and designs ready to use.

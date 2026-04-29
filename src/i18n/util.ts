@@ -13,6 +13,11 @@ export function t(lang: Lang) {
   return dictionaries[lang];
 }
 
+/** Strip the language prefix folder from a project entry id to get its shared slug. */
+export function projectSlugFromId(id: string): string {
+  return id.startsWith('es/') ? id.slice(3) : id;
+}
+
 /** Map an EN path to its ES counterpart (or vice versa). */
 export function translatePath(pathname: string, target: Lang): string {
   const routes: Record<string, string> = {
@@ -20,7 +25,7 @@ export function translatePath(pathname: string, target: Lang): string {
     '/services': '/es/servicios',
     '/projects': '/es/proyectos',
     '/lab': '/es/lab',
-    '/about': '/es/sobre-mi',
+    '/about': '/es/acerca-de',
     '/contact': '/es/contacto',
     '/privacy': '/es/privacidad',
   };

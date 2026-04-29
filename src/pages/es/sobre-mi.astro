@@ -1,0 +1,74 @@
+---
+import Layout from '../../components/Layout.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+---
+<Layout title="Sobre mí" description="Catalina Torres — editora que programa. Misión, visión y la forma en que sale el trabajo.">
+  <SectionHeader label="§2" title="Sobre mí" />
+  <article class="prose">
+    <h3>Visión</h3>
+    <p class="lede">
+      Eliminar "no tengo tiempo para eso" del vocabulario de trabajo.
+    </p>
+
+    <h3>Valores</h3>
+    <ul class="values">
+      <li><strong>Claridad</strong> — Si no se entiende, no sirve.</li>
+      <li><strong>Precisión</strong> — Cortar lo que sobra es tan importante como agregar lo que falta.</li>
+      <li><strong>Practicidad</strong> — La mejor solución es la que realmente se usa.</li>
+      <li><strong>Traducción</strong> — Entre tecnología y personas, siempre hay una brecha. Mi trabajo es cerrarla.</li>
+      <li><strong>Rescate</strong> — Ningún dato, proceso o idea útil debería perderse por falta de orden.</li>
+    </ul>
+
+    <h3>Misión</h3>
+    <p>
+      Hacer que el trabajo administrativo ocupe menos espacio. Edito procesos, automatizo lo repetitivo y digitalizo lo que todavía vive en papel — para que lo importante sea más visible y lo aburrido, más corto.
+    </p>
+
+    <h3>Propuesta de valor</h3>
+    <p>
+      No vendo software. Miro cómo trabajas, identifico lo que frena, lo que se repite y lo que se pierde — y lo rediseño. A veces la solución es una automatización. A veces es cambiar la pregunta.
+    </p>
+
+    <p>
+      La edición no es una sola habilidad: es traducción, paciencia, criterio, y el uso moderadamente honesto de eufemismos para que un escritor llegue a lo que la editora quiere <em>(necesita)</em> mientras está completamente convencido de que fue su idea.
+    </p>
+
+    <p>
+      El criterio editorial que vengo construyendo desde 2012 no es algo aparte del código que escribo ahora. Es la razón por la que el código funciona.
+    </p>
+
+    <p>
+      Hablo inglés y español con fluidez. Vivo en Edmonton, Alberta. Estoy disponible para consultoría freelance, contratos por proyecto y posiciones a tiempo completo en automatización de operaciones o implementación de IA.
+    </p>
+  </article>
+</Layout>
+<style>
+  .prose p {
+    font-size: var(--text-base);
+    line-height: 1.75;
+    margin-bottom: var(--s-6);
+    max-width: 680px;
+  }
+  .prose .lede {
+    font-size: var(--text-lg);
+    line-height: 1.6;
+    margin-bottom: var(--s-8);
+  }
+  .prose h3 {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    margin: var(--s-2) 0 var(--s-3);
+  }
+  .prose .values {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--s-8);
+    max-width: 680px;
+  }
+  .prose .values li {
+    font-size: var(--text-base);
+    line-height: 1.7;
+    margin-bottom: var(--s-2);
+  }
+  .prose .values strong { font-weight: 700; }
+</style>

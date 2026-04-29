@@ -1,52 +1,43 @@
 ---
 import Layout from '../components/Layout.astro';
 import SectionHeader from '../components/SectionHeader.astro';
-import TagChip from '../components/TagChip.astro';
 
 const services = [
   {
     label: 'I',
     title: 'AI Workflow Design',
-    body: 'I design and build automation pipelines using Claude, N8N, and Python. They connect your tools, process data, and eliminate repetitive work.',
-    tools: ['Claude API', 'N8N', 'Python', 'Zapier'],
+    body: "The repetitive things nobody should be doing by hand: downloading photos trapped in a social network you don't use anymore. Renaming documents in an office where everyone saves files their own way. Sending quotes before the lead goes cold. Finding each company's pain point and writing the kind of email where every recipient feels addressed by name, not blasted. An inbox that sorts itself, labels what matters, replies to the repetitive, and saves for you only what actually needs a human. I design the flows, test them inside your own context, and hand them over running.",
   },
   {
     label: 'II',
     title: 'Research Operations',
-    body: 'I turn piles of PDFs into structured data. Bilingual input, structured JSON out. Works at 200 documents or 2,000; the framework stays consistent.',
-    tools: ['Claude Code', 'Python', 'Omeka S', 'Pandas'],
+    body: "Research without spending weeks ordering before starting. A starting matrix of your whole bibliography — every paper classified, tagged, ready to synthesize. A consultation assistant trained on your sources that cites in whichever format the journal requires, without opening Word. Batch categorization of PDFs, pulling findings, methods, theoretical frameworks, whatever the research question needs. Side-by-side comparisons of what different authors say about the same thing. Duplicate detection across databases. Bilingual stays bilingual.",
   },
   {
     label: 'III',
     title: 'Digital Cataloging & Data Management',
-    body: 'I organize unstructured digital assets — libraries, archives, document collections — into queryable, maintainable systems that you can extend on your own.',
-    tools: ['Python', 'SQLite', 'CSV/RIS/JSON', 'LibraryThing API'],
+    body: "The library without a catalogue. The archive nobody opens because nobody knows what's in it. The decade of photographs with no dates and no names. The folder where the same document lives under three different file names because three different people saved it. The bibliographic database that exists only in someone's head. I turn unstructured collections — personal, institutional, scholarly — into systems you can search, cite, export, and extend without me. Duplicates collapsed. Metadata complete. The whole thing browsable in a format that survives whichever software comes next.",
   },
   {
     label: 'IV',
     title: 'Bilingual Content Automation',
-    body: 'Personalized email, website, and document workflows that handle English and Spanish with editorial consistency in both.',
-    tools: ['Google Apps Script', 'Claude API', 'N8N', 'Wix CMS'],
+    body: "Content that speaks English and Spanish without sounding translated. A newsletter that reaches each member in the language they actually use, not the language of the system. A website where neither version is a clumsy mirror of the other. Member emails, registration forms, term announcements, FAQ pages — written once, delivered twice, with the editorial voice intact in both languages. The Spanish keeps its grammar; the English keeps its rhythm. Built for organizations whose audience is genuinely bilingual, not whose website happens to have a language toggle.",
   },
   {
     label: 'V',
     title: 'Custom AI Assistants',
-    body: 'Internal knowledge bases and office GPTs that know your organization — policies, FAQs, procedures — and answer questions without exposing private data.',
-    tools: ['GPT custom instructions', 'Claude API', 'RAG'],
+    body: "An organization runs on the memory of whoever has been there longest. When that person leaves, the institutional knowledge leaves with them. The new volunteer asks the same five questions every Monday. The treasurer calls the president to confirm which venue was booked. The board member rereads the same procedural document because nobody made it findable. A private bilingual assistant trained on your procedures, your suppliers, your templates, your standard answers — with the judgment to say \"I don't know\" instead of guessing, and with no exposure of private documents to anyone outside the organization. An institutional memory that doesn't depend on any one person staying.",
   },
 ];
 ---
 <Layout title="Services" description="Five services Catalina Torres offers — AI workflows, research operations, digital cataloging, bilingual content, and custom AI assistants.">
   <SectionHeader label="§1" title="What I do" subtitle="Five ways I work with organizations and individuals who want AI to actually change how their operations run." />
   <div class="services">
-    {services.map(({ label, title, body, tools }) => (
+    {services.map(({ label, title, body }) => (
       <article class="service">
         <span class="label">§{label}</span>
         <h3>{title}</h3>
         <p>{body}</p>
-        <div class="tools">
-          {tools.map((t) => <TagChip label={t} />)}
-        </div>
       </article>
     ))}
   </div>
@@ -57,5 +48,4 @@ const services = [
   .service:last-child { border-bottom: 0; }
   .service .label { display: block; margin-bottom: var(--s-2); }
   .service h3 { margin-bottom: var(--s-3); }
-  .service .tools { margin-top: var(--s-4); }
 </style>

@@ -1,36 +1,36 @@
 ---
-import Layout from '../components/Layout.astro';
-import SectionHeader from '../components/SectionHeader.astro';
+import Layout from '../../components/Layout.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
 
 const capabilities = [
-  { verb: 'edit',      note: "what's dirty" },
-  { verb: 'automate',  note: "what's boring" },
-  { verb: 'digitize',  note: 'the past' },
-  { verb: 'sort',      note: 'what matters' },
-  { verb: 'translate', note: 'tech ↔ human' },
-  { verb: 'rescue',    note: 'from nothingness' },
+  { verb: 'editar',     note: 'lo desordenado' },
+  { verb: 'automatizar', note: 'lo aburrido' },
+  { verb: 'digitalizar', note: 'el pasado' },
+  { verb: 'ordenar',    note: 'lo que importa' },
+  { verb: 'traducir',   note: 'tech ↔ humano' },
+  { verb: 'rescatar',   note: 'de la nada' },
 ];
 
 const capacities = [
-  { name: 'Email agents',          desc: 'that read, sort, and reply to the usual questions with kind, automatic answers.' },
-  { name: 'Booking calendars',     desc: 'that say "this Thursday at 2" without three back-and-forths.' },
-  { name: 'Document organization', desc: "for the .zip on your desktop and the cabinet you haven't opened." },
-  { name: 'End-to-end digitization', desc: 'from scanned paper to a searchable database.' },
-  { name: 'Custom AI assistants',  desc: "that know the specific environment you're in and answer in your language — not with stray truths that have no context." },
-  { name: 'Tailored AI workflows', desc: "for the corner cases the off-the-shelf tools weren't built for." },
+  { name: 'Agentes de correo',         desc: 'que leen, ordenan y responden las preguntas de siempre con respuestas gentiles y automáticas.' },
+  { name: 'Calendarios de citas',       desc: 'que dicen "este jueves a las 2" sin tres rondas de mensajes.' },
+  { name: 'Organización documental',    desc: 'para el .zip en el escritorio y el cajón que llevas un año sin abrir.' },
+  { name: 'Digitalización de extremo a extremo', desc: 'del papel escaneado a una base de datos consultable.' },
+  { name: 'Asistentes de IA a la medida', desc: 'que conocen el entorno específico en el que estás y responden en tu lenguaje — no con verdades sueltas, sin contexto.' },
+  { name: 'Flujos de IA personalizados', desc: 'para los casos en los que las herramientas estándar se quedan cortas.' },
 ];
 ---
 <Layout
-  title="AI Solutions, built by an editor"
-  description="Catalina Torres — AI solutions and operations consulting from Edmonton, Canada."
+  title="Soluciones de IA, hechas por una editora"
+  description="Catalina Torres — soluciones de IA y consultoría en operaciones desde Edmonton, Canadá."
 >
   <section class="hero">
-    <h1>AI Solutions,<br/><em>built by an editor.</em></h1>
+    <h1>Soluciones de IA,<br/><em>hechas por una editora.</em></h1>
     <p class="lede">
-      The work here is to see workflows the way an editor reads a manuscript:
-      keep what works, change what repeats, rewrite what isn't clear. Whether the answer
-      is software, automation, or a quieter way of doing the same thing, the goal is
-      the same — make the boring parts shorter, the important parts visible.
+      Ver los flujos de trabajo como una editora lee un manuscrito:
+      dejar lo que funciona, cambiar lo que se repite, reescribir lo que no es claro.
+      Sea software, automatización o una manera más silenciosa de hacer lo mismo,
+      el objetivo es siempre acortar lo aburrido y dejar visible lo que importa.
     </p>
   </section>
 
@@ -45,7 +45,7 @@ const capacities = [
   <hr />
 
   <section class="capacities">
-    <SectionHeader label="OFFICE" title="What I do" />
+    <SectionHeader label="OFICINA" title="Lo que hago" />
     <dl>
       {capacities.map((c) => (
         <div>
@@ -59,8 +59,8 @@ const capacities = [
   <hr />
 
   <section class="cta">
-    <h2>Two demos live at <a href="/lab">/lab →</a></h2>
-    <p class="cta-note">classifier · workflow suggester · both bilingual</p>
+    <h2>Dos demos viven en <a href="/es/lab">/es/lab →</a></h2>
+    <p class="cta-note">clasificador · sugeridor de flujos · ambos bilingües</p>
   </section>
 </Layout>
 

@@ -4,40 +4,34 @@ type Node = { id: string; text: string; choices?: { label: string; next: string 
 const nodes: Node[] = [
   {
     id: 'start',
-    text: 'The envelope on your desk is sealed with red wax. You did not put it there. It is already evening and your office is too quiet.',
+    text: 'INSTRUCTIONS FOR WINDING THE CLOCK. The clock is small, on the table by the window, and it has stopped. You will turn the key three full turns to the right, gently. You will feel the spring tighten with each rotation. After the third turn, the mechanism is wound. Now read on — there is one decision to make.',
     choices: [
-      { label: 'open the envelope', next: 'open' },
-      { label: 'leave it and go home', next: 'leave' },
+      { label: 'continue reading', next: 'fork' },
     ],
   },
   {
-    id: 'open',
-    text: 'Inside is a single page. Your own handwriting, from twelve years ago: "If you are reading this, you did not forget." You do not remember writing it.',
+    id: 'fork',
+    text: 'Place the hour hand at the right time. The instructions allow two readings of "the right time" and the clock honours both. Choose one.',
     choices: [
-      { label: 'read the whole page', next: 'read' },
-      { label: 'burn it', next: 'burn' },
+      { label: 'set it to the time on your wrist', next: 'wrist' },
+      { label: 'set it to the time the previous owner kept', next: 'previous' },
     ],
   },
   {
-    id: 'leave',
-    text: 'You walk home through a light snow. The letter stays on the desk. When you return the next morning, it is gone. Nobody admits to moving it. You tell yourself this is fine.',
+    id: 'wrist',
+    text: 'The clock starts with a small click and ticks in time with the rest of the room. By morning you have stopped noticing it. This ending was written for a reader who synchronized.',
     ending: true,
   },
   {
-    id: 'read',
-    text: 'The page is a list of names. Some you know; most you do not. Your name is at the bottom, circled twice. This ending was written for a reader who chose to know.',
-    ending: true,
-  },
-  {
-    id: 'burn',
-    text: 'The wax melts first, then the paper. The smoke smells faintly of the ink you used in your twenties. You sleep well for the first time in months. This ending was written for a reader who chose to forget.',
+    id: 'previous',
+    text: 'The clock starts and runs four minutes ahead of every other clock in the house. You leave it that way. By the third night you find yourself trusting it more than the others. This ending was written for a reader who let the past decide.',
     ending: true,
   },
 ];
 ---
 <section class="demo" data-nodes={JSON.stringify(nodes)}>
   <p class="label">[ TRY IT ] — branching narrative demo</p>
-  <h3>A story, in three or four choices.</h3>
+  <h3>Instructions, in two readings.</h3>
   <div class="stage">
     <p class="text" id="story-text"></p>
     <div class="choices" id="story-choices"></div>

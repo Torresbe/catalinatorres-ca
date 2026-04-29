@@ -1,20 +1,23 @@
 ---
-title: "EHBA — Personalized Mass Email"
+title: "Personalized Communications"
 era: "2024"
-tools: ["Google Sheets", "Google Apps Script"]
-summary: "Personalized email automation for a Spanish-language school in Edmonton, built before Claude Code was in my toolkit."
+summary: "Welcome packages and term-by-term emails as part of an operations restructure after a leadership change."
 order: 3
 featured: true
 ---
 
 ## The work
 
-In 2024, before I had Claude Code, I automated personalized mass email for the Edmonton Hispanic Bilingual Association — a non-profit that teaches Spanish to adults in Edmonton. The problem was familiar: a Google Sheet full of students, a need to send each one a message specific to their level, their teacher, their next class, their payment status. The manual version took hours and made mistakes.
+A leadership change at the organization opened a window: rewrite how operations ran from end to end, not just patch what was broken. The communications layer was one slice of that rewrite — every member who walked in, registered, or asked a question had to feel addressed, not processed.
 
-## How
+## Scope
 
-Google Apps Script reads the sheet, builds each student's personalized email from a template, and sends via Gmail. Variables pulled from the sheet: name, Spanish level, class schedule, teacher name, payment reminder if applicable, registration link for the next term.
+- A personalized welcome package for every new member, generated and sent without manual assembly
+- Term-by-term promotional emails written once and personalized per recipient: level, schedule, instructor, payment status, registration link
+- Follow-up surveys for members who didn't return, with suggested courses for the next term
+- Follow-up for prospects who asked for information but didn't make it to registration, so no inquiry slipped through
+- Repetitive replies turned into structured templates that staff still controlled but no longer rewrote from scratch
 
-## Why this mattered
+## What the client got
 
-This is the pre-AI story. Automation doesn't require LLMs. It requires knowing what problem you have and picking the right tool. Sometimes the tool is Apps Script and a spreadsheet. The thinking — what varies per recipient, what stays the same, what gets flagged for human review — is the same work I do now with Claude, just with a smaller hammer.
+Hours of manual email work compressed into a routine the office can run on a Tuesday morning. Members who feel addressed, not blasted. A pattern the team extends to whichever term comes next, without rebuilding the system each time.

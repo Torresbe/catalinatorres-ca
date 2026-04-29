@@ -6,10 +6,11 @@ const projects = defineCollection({
   schema: z.object({
     title: z.string(),
     era: z.string(),
-    tools: z.array(z.string()),
+    tools: z.array(z.string()).optional(),
     summary: z.string(),
     order: z.number().default(0),
     featured: z.boolean().default(false),
+    lang: z.enum(['en', 'es']).default('en'),
   }),
 });
 

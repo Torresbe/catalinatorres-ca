@@ -1,0 +1,51 @@
+---
+import Layout from '../../components/Layout.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+
+const services = [
+  {
+    label: 'I',
+    title: 'Diseño de flujos con IA',
+    body: "Las cosas repetitivas que nadie debería estar haciendo a mano: descargar fotos atrapadas en una red social que ya no usas. Renombrar documentos en una oficina donde cada quien guarda los archivos a su manera. Mandar cotizaciones antes de que el cliente potencial se enfríe. Encontrar el punto de dolor de cada empresa y escribir el tipo de correo donde quien lo recibe se siente reconocido, no bombardeado. Una bandeja de entrada que se ordena sola, etiqueta lo importante, responde lo repetitivo y deja para ti solo lo que de verdad necesita un humano. Diseño los flujos, los pruebo en tu propio contexto, y te los entrego corriendo.",
+  },
+  {
+    label: 'II',
+    title: 'Operaciones de investigación',
+    body: "Investigar sin perder semanas ordenando antes de empezar. Una matriz inicial de toda tu bibliografía — cada paper clasificado, etiquetado, listo para sintetizar. Un asistente de consulta entrenado en tus fuentes que cita por ti en el formato que pide la revista, sin abrir Word. Categorización en lote de PDFs, extrayendo hallazgos, métodos, marcos teóricos, lo que tu pregunta de investigación necesite. Comparaciones lado a lado entre lo que dicen distintos autores sobre lo mismo. Detección de duplicados entre bases. Lo bilingüe se mantiene bilingüe.",
+  },
+  {
+    label: 'III',
+    title: 'Catalogación digital y gestión de datos',
+    body: "La biblioteca sin catálogo. El archivo que nadie abre porque nadie sabe qué hay. La década de fotografías sin fechas y sin nombres. La carpeta donde el mismo documento vive bajo tres nombres distintos porque tres personas distintas lo guardaron. La base bibliográfica que existe solo en la cabeza de alguien. Convierto colecciones desordenadas — personales, institucionales, académicas — en sistemas que podés buscar, citar, exportar y extender sin mí. Duplicados resueltos. Metadatos completos. Todo navegable en un formato que sobrevive al software que venga después.",
+  },
+  {
+    label: 'IV',
+    title: 'Automatización de contenido bilingüe',
+    body: "Contenido que habla inglés y español sin sonar traducido. Un newsletter que llega a cada miembro en el idioma que de verdad usa, no en el del sistema. Un sitio donde ninguna versión es un calco torpe de la otra. Correos a miembros, formularios de inscripción, anuncios de cada term, páginas de FAQ — escritos una vez, entregados dos veces, con la voz editorial intacta en ambos idiomas. El español conserva su gramática; el inglés conserva su ritmo. Hecho para organizaciones cuyo público es genuinamente bilingüe, no para webs que solo tienen un toggle de idioma.",
+  },
+  {
+    label: 'V',
+    title: 'Asistentes de IA personalizados',
+    body: "Una organización funciona con la memoria de quien lleva más tiempo. Cuando esa persona se va, el conocimiento institucional se va con ella. La voluntaria nueva hace las mismas cinco preguntas cada lunes. La tesorera llama a la presidenta para confirmar qué venue se reservó. La persona de la junta vuelve a leer el mismo procedimiento porque nadie lo dejó accesible. Un asistente bilingüe privado entrenado en tus procedimientos, tus proveedores, tus plantillas, tus respuestas estándar — con el criterio de decir \"no sé\" en vez de adivinar, y sin exponer documentos privados a nadie fuera de la organización. Una memoria institucional que no depende de que una persona se quede.",
+  },
+];
+---
+<Layout title="Servicios" description="Cinco servicios — flujos con IA, operaciones de investigación, catalogación digital, contenido bilingüe y asistentes a la medida.">
+  <SectionHeader label="§1" title="Lo que hago" subtitle="Cinco maneras de trabajar con organizaciones y personas que quieren que la IA cambie de verdad cómo funcionan sus operaciones." />
+  <div class="services">
+    {services.map(({ label, title, body }) => (
+      <article class="service">
+        <span class="label">§{label}</span>
+        <h3>{title}</h3>
+        <p>{body}</p>
+      </article>
+    ))}
+  </div>
+</Layout>
+<style>
+  .services { display: flex; flex-direction: column; gap: var(--s-12); }
+  .service { padding-bottom: var(--s-8); border-bottom: 1px dashed var(--divider); }
+  .service:last-child { border-bottom: 0; }
+  .service .label { display: block; margin-bottom: var(--s-2); }
+  .service h3 { margin-bottom: var(--s-3); }
+</style>

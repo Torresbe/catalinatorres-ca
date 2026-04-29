@@ -1,16 +1,17 @@
 ---
 import { getCollection } from 'astro:content';
-import Layout from '../../components/Layout.astro';
-import SectionHeader from '../../components/SectionHeader.astro';
+import Layout from '../../../components/Layout.astro';
+import SectionHeader from '../../../components/SectionHeader.astro';
+import { projectSlugFromId } from '../../../i18n/util';
 
-const projects = (await getCollection('projects', (e) => e.data.lang === 'en')).sort((a, b) => a.data.order - b.data.order);
+const projects = (await getCollection('projects', (e) => e.data.lang === 'es')).sort((a, b) => a.data.order - b.data.order);
 ---
-<Layout title="Projects" description="Six projects across editorial, academic, and AI automation practice.">
-  <SectionHeader label="[§3] CASES" title="Projects" subtitle="From editorial experimentation to operations design and AI-native workflows — arranged by year." />
+<Layout title="Proyectos" description="Seis proyectos entre práctica editorial, académica y automatización con IA.">
+  <SectionHeader label="[§3] CASOS" title="Proyectos" subtitle="De la experimentación editorial al diseño de operaciones y flujos nativos de IA — ordenados por años." />
   <ul class="list">
     {projects.map((p) => (
       <li>
-        <a href={`/projects/${p.id}`}>
+        <a href={`/es/proyectos/${projectSlugFromId(p.id)}`}>
           <p class="era marginalia">{p.data.era}</p>
           <h3>{p.data.title}</h3>
           <p class="summary">{p.data.summary}</p>

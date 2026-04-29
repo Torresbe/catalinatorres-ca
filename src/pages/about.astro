@@ -2,25 +2,39 @@
 import Layout from '../components/Layout.astro';
 import SectionHeader from '../components/SectionHeader.astro';
 ---
-<Layout title="About" description="Catalina Torres — editor who codes. From Planeta to Digital Humanities to AI automation.">
+<Layout title="About" description="Catalina Torres — editor who codes. Mission, vision, and the way the work gets done.">
   <SectionHeader label="§2" title="About" />
   <article class="prose">
-    <p class="label">[DRAFT — to be finalized with Catalina]</p>
+    <h3>Vision</h3>
+    <p class="lede">
+      Remove "I don't have time for that" from the working vocabulary.
+    </p>
 
+    <h3>Values</h3>
+    <ul class="values">
+      <li><strong>Clarity</strong> — If it isn't understood, it doesn't work.</li>
+      <li><strong>Precision</strong> — Cutting what's extra is as important as adding what's missing.</li>
+      <li><strong>Practicality</strong> — The best solution is the one that actually gets used.</li>
+      <li><strong>Translation</strong> — Between technology and people there's always a gap. My job is to close it.</li>
+      <li><strong>Rescue</strong> — No useful data, process, or idea should be lost for lack of order.</li>
+    </ul>
+
+    <h3>Mission</h3>
     <p>
-      I'm Catalina Torres Benjumea. I spent ten years as an editor in Colombian publishing — first at Círculo de Lectores, then at Editorial Planeta — building books and catalogues for imprints like Seix Barral, Planeta, and Diana. The first lesson I learned is that editing is not a single skill: it's translation, patience, judgment, and the moderately honest use of euphemisms to make a writer arrive at what the editor wants <em>(needs)</em> while being completely convinced it was their idea.
+      Make administrative work take up less room. I edit processes, automate the repetitive, and digitize what still lives on paper — so the important becomes more visible and the boring, shorter.
+    </p>
+
+    <h3>Value proposition</h3>
+    <p>
+      I don't sell software. I look at how you work, find what slows things down, what repeats, what gets lost — and redesign it. Sometimes the solution is an automation. Sometimes it's about changing the question.
     </p>
 
     <p>
-      In 2022 I moved to Edmonton to do a Master of Arts in Digital Humanities at the University of Alberta. The degree gave me the vocabulary and the infrastructure for something I had been doing informally for years — organizing information, thinking about how it flows, and designing systems that help other people find what they need. During the MA I worked on three research projects: SpokenWeb (where I was the web content master), Bridging Divides (a database of literature and a study of immigration processes), and the YEG Police Violence Archive (Omeka S, algorithmic description, ethical data analysis).
+      Editing is not a single skill: it's translation, patience, judgment, and the moderately honest use of euphemisms to make a writer arrive at what the editor wants <em>(needs)</em> while being completely convinced it was their idea.
     </p>
 
     <p>
-      Since then I've built automation systems in Python, N8N, and Claude Code: a digital library from a lifetime of scattered documents and photographs; an AI-assisted literature review for 200 academic articles in English and Spanish; custom GPT assistants for small non-profits; personalized email automation from Google Sheets before I knew what Claude Code was. I teach minimal computing — low-cost web publishing with the smallest viable technical footprint — at public libraries in Edmonton.
-    </p>
-
-    <p>
-      If there is a through-line, it's this: the same taste that lets you read a messy manuscript and know what it wants to become also lets you read a messy archive or a messy inbox and know what <em>it</em> wants to become. Ten years of editorial judgment is not separate from the code I write now. It's the reason the code works.
+      The editorial judgment I've built since 2012 is not separate from the code I write now. It's the reason the code works.
     </p>
 
     <p>
@@ -35,5 +49,26 @@ import SectionHeader from '../components/SectionHeader.astro';
     margin-bottom: var(--s-6);
     max-width: 680px;
   }
-  .prose .label { margin-bottom: var(--s-6); }
+  .prose .lede {
+    font-size: var(--text-lg);
+    line-height: 1.6;
+    margin-bottom: var(--s-8);
+  }
+  .prose h3 {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    margin: var(--s-2) 0 var(--s-3);
+  }
+  .prose .values {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--s-8);
+    max-width: 680px;
+  }
+  .prose .values li {
+    font-size: var(--text-base);
+    line-height: 1.7;
+    margin-bottom: var(--s-2);
+  }
+  .prose .values strong { font-weight: 700; }
 </style>
