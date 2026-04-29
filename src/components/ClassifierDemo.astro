@@ -1,0 +1,109 @@
+---
+---
+<section class="demo" id="classifier">
+  <p class="label">MS. folio 1 — classifier</p>
+  <h3>Paste text. Get a structured classification.</h3>
+  <p class="marginalia">Project taxonomy: type, complexity, tools, timeline, tags. Input in English or Spanish.</p>
+  <form id="classify-form">
+    <textarea name="input" rows="6" placeholder="Paste an abstract, a project description, or a job posting..." maxlength="3000" required></textarea>
+    <button type="submit">[ Classify → ]</button>
+  </form>
+  <div class="output" id="classify-output" hidden></div>
+</section>
+
+<script>
+  import { errorMessages, type ErrorCode } from '../lib/errors';
+
+  const form = document.getElementById('classify-form') as HTMLFormElement;
+  const output = document.getElementById('classify-output')!;
+  const button = form.querySelector('button')!;
+  const lang: 'en' | 'es' = document.documentElement.lang === 'es' ? 'es' : 'en';
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const input = (form.elements.namedItem('input') as HTMLTextAreaElement).value;
+    button.disabled = true;
+    button.textContent = '[ transcribing... ]';
+    output.removeAttribute('hidden');
+    output.innerHTML = '<p class="marginalia">analyzing...</p>';
+
+    try {
+      const res = await fetch('/api/classify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ input }),
+      });
+      const data = await res.json();
+      if (!data.ok) {
+        output.innerHTML = renderError(data.code);
+      } else {
+        output.innerHTML = renderFields(data.fields);
+      }
+    } catch {
+      output.innerHTML = renderError(504);
+    } finally {
+      button.disabled = false;
+      button.textContent = '[ Classify → ]';
+    }
+  });
+
+  function renderError(code: number): string {
+    const msg = errorMessages[lang][code as ErrorCode] ?? errorMessages[lang][500];
+    return `<div class="err"><span class="code">ERROR ${code}</span> — <span>${msg}</span></div>`;
+  }
+
+  function renderFields(f: any): string {
+    return `
+      <dl class="fields">
+        <div><dt>§1 type</dt><dd>${escapeHtml(f.type)}</dd></div>
+        <div><dt>§2 complexity</dt><dd>${escapeHtml(f.complexity)}</dd></div>
+        <div><dt>§3 tools</dt><dd>${f.tools.map(escapeHtml).join(' · ')}</dd></div>
+        <div><dt>§4 timeline</dt><dd>${escapeHtml(f.timeline)}</dd></div>
+        <div><dt>§5 tags</dt><dd>${f.tags.map(escapeHtml).join(' · ')}</dd></div>
+      </dl>
+    `;
+  }
+
+  function escapeHtml(s: any): string {
+    return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
+  }
+</script>
+
+<style>
+  .demo { margin-bottom: var(--s-16); }
+  .demo h3 { margin: var(--s-3) 0 var(--s-3); }
+  form { margin-top: var(--s-4); }
+  textarea {
+    width: 100%;
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    background: var(--paper);
+    border: 1px dashed var(--divider);
+    padding: var(--s-4);
+    color: var(--ink);
+    resize: vertical;
+  }
+  button {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    background: transparent;
+    border: 1px solid var(--ink);
+    padding: var(--s-3) var(--s-4);
+    margin-top: var(--s-3);
+    color: var(--ink);
+    cursor: pointer;
+  }
+  button:hover:not(:disabled) { background: var(--ink); color: var(--paper); }
+  button:disabled { opacity: 0.6; cursor: wait; }
+  .output {
+    margin-top: var(--s-6);
+    padding-top: var(--s-4);
+    border-top: 1px dashed var(--divider);
+  }
+  .fields { display: flex; flex-direction: column; gap: var(--s-3); margin: 0; }
+  .fields > div { display: flex; gap: var(--s-4); font-family: var(--font-body); font-size: var(--text-sm); }
+  .fields dt { color: var(--red); min-width: 140px; font-weight: 700; }
+  .fields dd { margin: 0; color: var(--ink); }
+  .err { font-family: var(--font-body); font-size: var(--text-sm); }
+  .err .code { color: var(--red); font-weight: 700; }
+</style>
