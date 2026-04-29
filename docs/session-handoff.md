@@ -1,45 +1,47 @@
 ---
-**Última sesión:** 2026-04-28
-**Próxima sesión:** arrancar Tarea 8 (rate limiter, TDD).
+**Última sesión:** 2026-04-29
+**Próxima sesión:** arrancar Tarea 10 (Claude API wrapper, TDD).
 ---
 
 # Session handoff — Portfolio
 
 ## Estado en una línea
 
-Bloque de copy review **CERRADO**. Tarea 8 (Lab backend) lista para arrancar mañana.
+Tareas 8–9 **CERRADAS** (rate limiter + validation), 15/15 tests passing. Tarea 10 (Claude API wrapper) lista para arrancar.
 
 ## Cómo retomar
 
 1. Leer `CLAUDE.md` y este archivo.
 2. `npm run dev` (puerto 4321).
-3. Abrir el plan: `docs/superpowers/plans/2026-04-23-portfolio-implementation.md` → **Tarea 8** (línea 1774).
+3. Abrir el plan: `docs/superpowers/plans/2026-04-23-portfolio-implementation.md` → **Tarea 10** (`classifyText` + `suggestWorkflow`).
 
-## Lo aprobado en la sesión 2026-04-28
+## Lo cerrado en la sesión 2026-04-29
 
-Detalle completo en `docs/decisions.md § Copy review — bloque cerrado`. Resumen:
+Cuatro commits limpios sobre `main`:
 
-- **HOME** limpia (sin proyectos ni tech stack), en primera persona ("What I do" / "Lo que hago").
-- **About** renombrado a "Sobre mí" (`/es/sobre-mi`), copy en primera persona singular en EN+ES.
-- **Privacy ES** creada (`/es/privacidad`).
-- **Header** corregido para apuntar a `/es/sobre-mi`.
-- Sin "we / hacemos / nuestros" residuales en páginas.
+- `ce00c5f` — `feat: copy review — first-person voice, ES pages, About rename` (bloque pendiente de la sesión anterior, 36 archivos).
+- `5b1f6c4` — `fix: decode URL spaces in vitest @lib alias` (bug de config: `URL.pathname` no decodifica `%20` por el espacio en "CLAUDE CODE", `@lib/*` no resolvía. Cambio a `fileURLToPath`).
+- `4a5110a` — `feat: Vercel KV-backed rate limiter with IP hashing (TDD)` (Tarea 8).
+- `a3d8581` — `feat: input validation for contact form and demos (TDD)` (Tarea 9).
 
-## Cambios sin commitear
+Tarea 8 entregó:
+- `src/lib/ratelimit.ts` — `checkAndIncrement(ip, bucket, limit)`, IP hasheada SHA-256 (16 chars), `kv.incr` con TTL 24h en el primer hit.
+- `tests/unit/ratelimit.test.ts` — 5 casos (primer request, hasta el límite, después del límite, separación por bucket, separación por IP).
 
-Trabajo de la sesión, **no committeado todavía**. Decidir mañana si committear antes de arrancar Tarea 8 o después del bloque del Lab:
+Tarea 9 entregó:
+- `src/lib/validation.ts` — `validateContact` (honeypot, timing >=2s, name/email/subject/message, 10–3000 chars) + `validateDemoInput` (no vacío, max chars). Devuelve `{ ok, code, field?, message? }` con `ErrorCode` 400/403/413.
+- `tests/unit/validation.test.ts` — 10 casos (happy path + cada modo de fallo).
 
-- HOME (EN+ES), About EN, About ES (renombrado), Header, Services, Privacy ES, demás docs de la reorganización.
-- Recomendación: commit ahora para tener un punto limpio antes de entrar a TDD.
+## Pendiente para Tarea 10
 
-## Pendiente para Tarea 8
+Crea `src/lib/claude.ts` + `tests/unit/claude.test.ts` (TDD). Funciones:
 
-Dependencias ya instaladas (`@vercel/kv`, `vitest`, alias `@lib/*`, `vitest.config.ts` ✓). Tarea 8 crea:
+- `classifyText(input)` — llama a Claude Haiku 4.5 (`claude-haiku-4-5-20251001`), parsea JSON `{ type, complexity, tools, timeline, tags }`. Devuelve `{ ok, fields? }` con códigos 500 (JSON malformado) y 503 (API error).
+- `suggestWorkflow(input)` — devuelve texto libre (markdown con headings tipo `§`).
 
-- `src/lib/ratelimit.ts` — `checkAndIncrement(ip, bucket, limit)` con Vercel KV
-- `tests/unit/ratelimit.test.ts` — 5 casos: primer request, hasta el límite, después del límite, separación por bucket, separación por IP
+Mock de `@anthropic-ai/sdk` en el test (constructor + `messages.create`).
 
-Después siguen Tareas 9–14 (Claude wrapper → Resend wrapper → APIs Lab → ContactForm → Contact page). Checkpoint de review de Catalina **después de Tarea 14**.
+Después siguen Tareas 11–14 (Resend wrapper → APIs Lab → ContactForm → Contact page). Checkpoint de review de Catalina **después de Tarea 14**.
 
 ## Diferido (no tocar todavía)
 
