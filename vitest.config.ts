@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitest/config';
+import { fileURLToPath } from 'url';
 
 export default defineConfig({
   test: {
@@ -8,7 +9,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@lib': new URL('./src/lib', import.meta.url).pathname,
+      '@lib': fileURLToPath(new URL('./src/lib', import.meta.url)),
     },
   },
 });
