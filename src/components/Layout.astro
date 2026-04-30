@@ -2,7 +2,7 @@
 import '../styles/global.css';
 import Header from './Header.astro';
 import Footer from './Footer.astro';
-import { getLangFromUrl } from '../i18n/util';
+import { getLangFromUrl, translatePath } from '../i18n/util';
 
 interface Props {
   title: string;
@@ -13,6 +13,8 @@ interface Props {
 const { title, description = 'AI automation workflows, built by an editor.', ogImage = '/og-default.png' } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const altPath = translatePath(Astro.url.pathname, lang === 'en' ? 'es' : 'en');
+const altUrl = new URL(altPath, Astro.site).toString();
 ---
 <!DOCTYPE html>
 <html lang={lang}>
@@ -22,6 +24,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
   <title>{title} — Catalina Torres</title>
   <meta name="description" content={description} />
   <link rel="canonical" href={canonical} />
+  <link rel="alternate" hreflang={lang === 'en' ? 'es' : 'en'} href={altUrl} />
+  <link rel="alternate" hreflang="x-default" href={Astro.site!.toString()} />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:image" content={new URL(ogImage, Astro.site).toString()} />

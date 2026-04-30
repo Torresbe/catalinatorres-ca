@@ -24,6 +24,15 @@ const capacities = [
   title="AI Solutions, built by an editor"
   description="Catalina Torres — AI solutions and operations consulting from Edmonton, Canada."
 >
+  <script is:inline type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: 'Catalina Torres Benjumea',
+    jobTitle: 'AI Automation Consultant',
+    email: 'mailto:catalinatorres1000@gmail.com',
+    url: Astro.site!.toString(),
+    address: { '@type': 'PostalAddress', addressLocality: 'Edmonton', addressRegion: 'AB', addressCountry: 'CA' },
+  })} />
   <section class="hero">
     <h1>AI Solutions,<br/><em>built by an editor.</em></h1>
     <p class="lede">

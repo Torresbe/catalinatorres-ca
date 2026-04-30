@@ -20,16 +20,24 @@ export function projectSlugFromId(id: string): string {
 
 /** Map an EN path to its ES counterpart (or vice versa). */
 export function translatePath(pathname: string, target: Lang): string {
+  const clean = pathname.replace(/\/$/, '') || '/';
   const routes: Record<string, string> = {
     '/': '/es',
     '/services': '/es/servicios',
     '/projects': '/es/proyectos',
     '/lab': '/es/lab',
-    '/about': '/es/acerca-de',
+    '/about': '/es/sobre-mi',
     '/contact': '/es/contacto',
     '/privacy': '/es/privacidad',
   };
   const reverse = Object.fromEntries(Object.entries(routes).map(([en, es]) => [es, en]));
-  if (target === 'es') return routes[pathname] ?? '/es';
-  return reverse[pathname] ?? '/';
+
+  // Dynamic project pages share a slug across languages.
+  const enProjectMatch = clean.match(/^\/projects\/(.+)$/);
+  if (enProjectMatch) return target === 'es' ? `/es/proyectos/${enProjectMatch[1]}` : clean;
+  const esProjectMatch = clean.match(/^\/es\/proyectos\/(.+)$/);
+  if (esProjectMatch) return target === 'en' ? `/projects/${esProjectMatch[1]}` : clean;
+
+  if (target === 'es') return routes[clean] ?? '/es';
+  return reverse[clean] ?? '/';
 }

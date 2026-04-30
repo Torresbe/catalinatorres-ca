@@ -24,6 +24,15 @@ const capacities = [
   title="Soluciones de IA, hechas por una editora"
   description="Catalina Torres — soluciones de IA y consultoría en operaciones desde Edmonton, Canadá."
 >
+  <script is:inline type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: 'Catalina Torres Benjumea',
+    jobTitle: 'Consultora en automatización con IA',
+    email: 'mailto:catalinatorres1000@gmail.com',
+    url: new URL('/es', Astro.site!).toString(),
+    address: { '@type': 'PostalAddress', addressLocality: 'Edmonton', addressRegion: 'AB', addressCountry: 'CA' },
+  })} />
   <section class="hero">
     <h1>Soluciones de IA,<br/><em>hechas por una editora.</em></h1>
     <p class="lede">
