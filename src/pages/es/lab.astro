@@ -1,0 +1,14 @@
+---
+import Layout from '../../components/Layout.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import ClassifierDemo from '../../components/ClassifierDemo.astro';
+import WorkflowDemo from '../../components/WorkflowDemo.astro';
+---
+<Layout title="Lab" description="Dos demos con Claude — un clasificador de texto y un sugeridor de flujos. Prueba las herramientas antes de contratar a quien las construye.">
+  <SectionHeader label="[§4] LAB" title="Prueba las herramientas" subtitle="Dos herramientas pequeñas con Claude. Escribe un texto, recibe salida estructurada. Limitado a dos peticiones por herramienta cada 24 horas — suficiente para ver cómo funcionan." />
+  <ClassifierDemo />
+  <WorkflowDemo />
+  <p class="marginalia">
+    Límite: 2 peticiones por herramienta cada 24h por IP. Si lo alcanzas, vuelve mañana o <a href="/es/contacto">envía una carta →</a>.
+  </p>
+</Layout>

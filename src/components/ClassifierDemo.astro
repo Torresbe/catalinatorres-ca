@@ -1,12 +1,29 @@
 ---
+import { getLangFromUrl } from '../i18n/util';
+const lang = getLangFromUrl(Astro.url);
+const labels = lang === 'es'
+  ? {
+      folio: 'MS. folio 1 — clasificador',
+      heading: 'Pega un texto. Recibe una clasificación estructurada.',
+      marginalia: 'Taxonomía de proyectos: tipo, complejidad, herramientas, tiempo, tags. Acepta inglés o español.',
+      placeholder: 'Pega un abstract, una descripción de proyecto o una oferta de trabajo…',
+      button: '[ Clasificar → ]',
+    }
+  : {
+      folio: 'MS. folio 1 — classifier',
+      heading: 'Paste text. Get a structured classification.',
+      marginalia: 'Project taxonomy: type, complexity, tools, timeline, tags. Input in English or Spanish.',
+      placeholder: 'Paste an abstract, a project description, or a job posting…',
+      button: '[ Classify → ]',
+    };
 ---
 <section class="demo" id="classifier">
-  <p class="label">MS. folio 1 — classifier</p>
-  <h3>Paste text. Get a structured classification.</h3>
-  <p class="marginalia">Project taxonomy: type, complexity, tools, timeline, tags. Input in English or Spanish.</p>
+  <p class="label">{labels.folio}</p>
+  <h3>{labels.heading}</h3>
+  <p class="marginalia">{labels.marginalia}</p>
   <form id="classify-form">
-    <textarea name="input" rows="6" placeholder="Paste an abstract, a project description, or a job posting..." maxlength="3000" required></textarea>
-    <button type="submit">[ Classify → ]</button>
+    <textarea name="input" rows="6" placeholder={labels.placeholder} maxlength="3000" required></textarea>
+    <button type="submit">{labels.button}</button>
   </form>
   <div class="output" id="classify-output" hidden></div>
 </section>
@@ -19,13 +36,28 @@
   const button = form.querySelector('button')!;
   const lang: 'en' | 'es' = document.documentElement.lang === 'es' ? 'es' : 'en';
 
+  const ui = {
+    en: {
+      transcribing: '[ transcribing… ]',
+      analyzing: 'analyzing…',
+      send: '[ Classify → ]',
+      fields: { type: 'type', complexity: 'complexity', tools: 'tools', timeline: 'timeline', tags: 'tags' },
+    },
+    es: {
+      transcribing: '[ transcribiendo… ]',
+      analyzing: 'analizando…',
+      send: '[ Clasificar → ]',
+      fields: { type: 'tipo', complexity: 'complejidad', tools: 'herramientas', timeline: 'tiempo', tags: 'tags' },
+    },
+  }[lang];
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const input = (form.elements.namedItem('input') as HTMLTextAreaElement).value;
     button.disabled = true;
-    button.textContent = '[ transcribing... ]';
+    button.textContent = ui.transcribing;
     output.removeAttribute('hidden');
-    output.innerHTML = '<p class="marginalia">analyzing...</p>';
+    output.innerHTML = `<p class="marginalia">${ui.analyzing}</p>`;
 
     try {
       const res = await fetch('/api/classify', {
@@ -43,7 +75,7 @@
       output.innerHTML = renderError(504);
     } finally {
       button.disabled = false;
-      button.textContent = '[ Classify → ]';
+      button.textContent = ui.send;
     }
   });
 
@@ -55,11 +87,11 @@
   function renderFields(f: any): string {
     return `
       <dl class="fields">
-        <div><dt>§1 type</dt><dd>${escapeHtml(f.type)}</dd></div>
-        <div><dt>§2 complexity</dt><dd>${escapeHtml(f.complexity)}</dd></div>
-        <div><dt>§3 tools</dt><dd>${f.tools.map(escapeHtml).join(' · ')}</dd></div>
-        <div><dt>§4 timeline</dt><dd>${escapeHtml(f.timeline)}</dd></div>
-        <div><dt>§5 tags</dt><dd>${f.tags.map(escapeHtml).join(' · ')}</dd></div>
+        <div><dt>§1 ${ui.fields.type}</dt><dd>${escapeHtml(f.type)}</dd></div>
+        <div><dt>§2 ${ui.fields.complexity}</dt><dd>${escapeHtml(f.complexity)}</dd></div>
+        <div><dt>§3 ${ui.fields.tools}</dt><dd>${f.tools.map(escapeHtml).join(' · ')}</dd></div>
+        <div><dt>§4 ${ui.fields.timeline}</dt><dd>${escapeHtml(f.timeline)}</dd></div>
+        <div><dt>§5 ${ui.fields.tags}</dt><dd>${f.tags.map(escapeHtml).join(' · ')}</dd></div>
       </dl>
     `;
   }

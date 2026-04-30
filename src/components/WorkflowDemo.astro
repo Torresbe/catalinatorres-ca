@@ -1,12 +1,29 @@
 ---
+import { getLangFromUrl } from '../i18n/util';
+const lang = getLangFromUrl(Astro.url);
+const labels = lang === 'es'
+  ? {
+      folio: 'MS. folio 2 — sugerencia de flujos',
+      heading: 'Describe un problema. Recibe un flujo sugerido.',
+      marginalia: 'Describe tu problema operativo en 1–3 frases. Inglés o español.',
+      placeholder: 'Ejemplo: tengo 500 PDFs académicos en inglés y español que necesito clasificar por tema y de los que hay que extraer hallazgos clave.',
+      button: '[ Sugerir flujo → ]',
+    }
+  : {
+      folio: 'MS. folio 2 — workflow suggester',
+      heading: 'Describe a problem. Get a suggested workflow.',
+      marginalia: 'Describe your operational problem in 1–3 sentences. English or Spanish.',
+      placeholder: 'Example: I have 500 academic PDFs in English and Spanish that I need to classify by topic and extract key findings from.',
+      button: '[ Suggest workflow → ]',
+    };
 ---
 <section class="demo" id="suggest">
-  <p class="label">MS. folio 2 — workflow suggester</p>
-  <h3>Describe a problem. Get a suggested workflow.</h3>
-  <p class="marginalia">Describe your operational problem in 1–3 sentences. English or Spanish.</p>
+  <p class="label">{labels.folio}</p>
+  <h3>{labels.heading}</h3>
+  <p class="marginalia">{labels.marginalia}</p>
   <form id="suggest-form">
-    <textarea name="input" rows="5" placeholder="Example: I have 500 academic PDFs in English and Spanish that I need to classify by topic and extract key findings from." maxlength="2000" required></textarea>
-    <button type="submit">[ Suggest workflow → ]</button>
+    <textarea name="input" rows="5" placeholder={labels.placeholder} maxlength="2000" required></textarea>
+    <button type="submit">{labels.button}</button>
   </form>
   <div class="output" id="suggest-output" hidden></div>
 </section>
@@ -19,13 +36,26 @@
   const button = form.querySelector('button')!;
   const lang: 'en' | 'es' = document.documentElement.lang === 'es' ? 'es' : 'en';
 
+  const ui = {
+    en: {
+      drafting: '[ drafting… ]',
+      progress: 'drafting workflow…',
+      send: '[ Suggest workflow → ]',
+    },
+    es: {
+      drafting: '[ redactando… ]',
+      progress: 'redactando flujo…',
+      send: '[ Sugerir flujo → ]',
+    },
+  }[lang];
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const input = (form.elements.namedItem('input') as HTMLTextAreaElement).value;
     button.disabled = true;
-    button.textContent = '[ drafting... ]';
+    button.textContent = ui.drafting;
     output.removeAttribute('hidden');
-    output.innerHTML = '<p class="marginalia">drafting workflow...</p>';
+    output.innerHTML = `<p class="marginalia">${ui.progress}</p>`;
 
     try {
       const res = await fetch('/api/suggest-workflow', {
@@ -43,7 +73,7 @@
       output.innerHTML = renderError(504);
     } finally {
       button.disabled = false;
-      button.textContent = '[ Suggest workflow → ]';
+      button.textContent = ui.send;
     }
   });
 
