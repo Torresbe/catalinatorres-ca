@@ -21,6 +21,17 @@ export interface ClassifyResult {
 
 const CLASSIFY_SYSTEM = `You are a project taxonomist. Given a description of a project or problem, classify it into five fixed fields. Return ONLY a JSON object with these keys: type (string), complexity (string: "Small" | "Medium" | "Large"), tools (string[]), timeline (string: rough estimate like "2-4 weeks"), tags (string[]: 2-5 short tags). No commentary, no markdown, only JSON. If input is in Spanish, output values in Spanish except for tool names.`;
 
+function extractJSON(text: string): unknown {
+  const trimmed = text.trim();
+  try { return JSON.parse(trimmed); } catch {}
+  const fence = trimmed.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
+  if (fence) return JSON.parse(fence[1].trim());
+  const start = trimmed.indexOf('{');
+  const end = trimmed.lastIndexOf('}');
+  if (start !== -1 && end > start) return JSON.parse(trimmed.slice(start, end + 1));
+  throw new SyntaxError('No JSON found in response');
+}
+
 export async function classifyText(input: string): Promise<ClassifyResult> {
   try {
     const res = await client().messages.create({
@@ -31,8 +42,8 @@ export async function classifyText(input: string): Promise<ClassifyResult> {
     });
     const block = res.content[0];
     if (block.type !== 'text') return { ok: false, code: 500 };
-    const parsed = JSON.parse(block.text);
-    return { ok: true, fields: parsed };
+    const parsed = extractJSON(block.text);
+    return { ok: true, fields: parsed as ClassifyResult['fields'] };
   } catch (err) {
     if (err instanceof SyntaxError) return { ok: false, code: 500 };
     return { ok: false, code: 503 };
