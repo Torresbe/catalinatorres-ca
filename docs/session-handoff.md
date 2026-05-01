@@ -1,65 +1,84 @@
 ---
 **Última sesión:** 2026-05-01
-**Próxima sesión:** arrancar Tarea 18 (deploy a Vercel + dominio + env vars).
+**Próxima sesión:** Tarea 19 (QA final). Sitio en producción y funcional, falta validación.
 ---
 
 # Session handoff — Portfolio
 
 ## Estado en una línea
 
-Tareas 8–17 + logo **CERRADAS**. 22/22 vitest + 14/14 Playwright passing, build OK. Sitio bilingüe completo, SEO listo, smoke tests cubren navegación, i18n, demos y formulario. Tarea 18 (deploy) lista para arrancar.
+Sitio en producción en `https://catatorres.ca` (+ `www.catatorres.ca`). Tareas 1–18 cerradas. Solo queda **Tarea 19** (QA final).
 
 ## Cómo retomar
 
-1. Leer `CLAUDE.md`, este archivo, y verificar que el plan en `docs/superpowers/plans/2026-04-23-portfolio-implementation.md` Tarea 18 sigue siendo correcto.
-2. Tarea 18 toca infraestructura: cuenta Vercel, repo GitHub, Vercel KV, env vars en el dashboard, cambio de dominio (`torresautomatizations.com` → `catatorres.ca`) en `astro.config.mjs` y `.env.example`, DNS en Namecheap.
-3. Decidir LinkedIn antes/durante el deploy — si va, añadir a `sameAs` en JSON-LD (`src/pages/index.astro` y `src/pages/es/index.astro`) y a la aside de `/contact` y `/es/contacto`.
+1. Leer `CLAUDE.md` y este archivo
+2. Abrir `docs/superpowers/plans/2026-04-23-portfolio-implementation.md` → Tarea 19 (línea 3446)
+3. Empezar con un browser limpio en `https://catatorres.ca` y trabajar el checklist de QA
 
 ## Lo cerrado en la sesión 2026-05-01
 
-1 tarea cerrada (17 — Playwright smoke tests):
+3 commits sobre `main` desde el handoff anterior. Highlights:
 
-- `playwright.config.ts` con `baseURL: localhost:4321`, `webServer: npm run dev`, `reuseExistingServer` en local.
-- `tests/e2e/smoke.spec.ts` con 14 tests cubriendo:
-  - **Core nav EN:** home con h1, las 6 páginas top-level (services, projects, lab, about, contact, privacy) responden 200 y muestran su h2 (SectionHeader); 404 custom.
-  - **i18n:** home ES, lang toggle de `/` → `/es`, mapeo asimétrico `/about` ↔ `/es/sobre-mi` ida y vuelta.
-  - **Projects:** lista de 6 items, demos client-side (zodiac + story con branching y ending).
-  - **Contact form:** render de todos los campos requeridos (name, email, subject, message, privacyAck), HTML5 `required` bloquea submit vacío, submit completo con APIs muertas localmente renderiza badge `ERROR`.
-  - **Lab demos:** classifier y suggester también renderizan `ERROR` (en lugar de crashear) cuando `/api/classify` y `/api/suggest-workflow` fallan por falta de env vars.
+- **Tarea 17 (Playwright):** `playwright.config.ts` + `tests/e2e/smoke.spec.ts` con 14 tests cubriendo nav, i18n, demos client-side, contact form, Lab error path
+- **Domain decisions:** dominio comprado en Hostinger (no Namecheap como decía el plan). Inicialmente con typo `catalinatorres.ca` → corregido a `catatorres.ca` en commit `ea30e81`
+- **LinkedIn:** ahora visible en JSON-LD `sameAs` y aside de `/contact` y `/es/contacto`
+- **Tarea 18 (deploy):** repo en GitHub `Torresbe/catalinatorres-ca`, proyecto Vercel `catalinatorres-ca` (los nombres conservan el typo viejo — son labels internos, no afectan funcionalidad), Upstash Redis (`upstash-kv-fuchsia-kettle`) en Portland conectado, env vars cargadas (Anthropic, Resend, KV pack, CONTACT_EMAIL, SITE_URL), Resend domain verificado para `catatorres.ca` con DKIM+SPF+DMARC en Hostinger DNS, custom domain `catatorres.ca` apuntando a Vercel via A record `76.76.21.21` y www CNAME a apex
 
-## Pendiente para Tarea 18
+## Pendiente para Tarea 19 (QA final)
 
-Plan: línea 3372 del implementation plan.
+Plan en `docs/superpowers/plans/2026-04-23-portfolio-implementation.md` línea 3446. Resumen:
 
-- Crear cuenta Vercel + conectar repo GitHub.
-- Vercel KV: crear instancia, las env vars `KV_REST_API_URL` y `KV_REST_API_TOKEN` se inyectan automáticamente.
-- Env vars manuales en Vercel dashboard: `ANTHROPIC_API_KEY` (Claude Haiku 4.5), `RESEND_API_KEY`, `CONTACT_EMAIL=catalinatorres1000@gmail.com`.
-- **Dominio:** cambiar `astro.config.mjs` `site:` de `torresautomatizations.com` a `catatorres.ca`. Actualizar `.env.example` y `docs/setup.md` si aplica. `robots.txt` ya apunta al nuevo (no tocar).
-- DNS Namecheap → Vercel.
-- Después Tarea 19: QA final, probar demos end-to-end con env vars vivas, optionally re-correr Playwright contra producción.
+### Page-by-page QA
+Para cada ruta (las 13 EN + 13 ES + ruta dinámica de proyectos): heading correcto, imágenes cargan, links internos/externos funcionan, mobile responsive (375px). Lista completa de rutas en el plan línea 3459.
+
+### Funcional
+- [ ] Contact form: enviar mensaje real → llega a `catalinatorres1000@gmail.com` con subject `[catatorres] ...`
+- [ ] Contact form: éxito UI muestra "letter received. you'll hear back within 48h."
+- [ ] Contact form: 3 envíos seguidos desde misma IP → 4to devuelve 429 (usar incognito tabs)
+- [ ] Honeypot: rellenar `website` field vía devtools → debería rechazar
+- [ ] Classifier (lab): input EN devuelve type/complexity/tools/timeline/tags estructurado
+- [ ] Classifier: input ES idem (output en español)
+- [ ] Classifier: 3a request desde misma IP → 429
+- [ ] Workflow suggester: input válido devuelve workflow estructurado
+- [ ] Workflow suggester: 3a request → 429
+- [ ] Zodiac demo (project page): seleccionar signo → recommendation aparece
+- [ ] Story demo: choices ramifican, restart funciona
+- [ ] Lang toggle: bidireccional desde cada página
+- [ ] 404 custom: `/nonexistent` muestra "ERROR 404 — ..."
+
+### Lighthouse audits
+Targets: Performance ≥95, A11y =100, Best Practices ≥95, SEO =100. Routes: `/`, `/projects`, `/lab`. Common fixes: alt text, color contrast (improbable dado tokens), lang attr (ya).
+
+### Cross-browser
+Safari desktop, Chrome desktop, Firefox desktop, Safari iOS, Chrome Android.
+
+### Misc
+- [ ] Verificar que `torresautomatizations.com` (dominio viejo, Namecheap) ya no recibe tráfico (DNS apunta a Vercel viejo o se puede dejar morir)
 
 ## Decisiones / contexto crítico que NO está en el código
 
-- **Dominio nuevo:** `catatorres.ca` reemplaza `torresautomatizations.com`. `astro.config.mjs` todavía tiene el viejo (cambia en Tarea 18). `robots.txt` ya apunta al nuevo desde Tarea 16.
-- **LinkedIn:** decisión sigue pendiente. NO está en JSON-LD Person ni en `/contact`/`/es/contacto`. Cuando Catalina decida (cerca del deploy), añadir a `sameAs` en JSON-LD y a la aside del contact page.
-- **Email:** `catalinatorres1000@gmail.com` (no su email del sistema `fractalshoot@gmail.com`). Hardcoded en `src/pages/contact.astro` y `src/pages/es/contacto.astro`.
-- **Resend SDK:** plan tenía `reply_to` (snake_case) pero Resend v6 sólo tipea `replyTo` (camelCase). El test y la implementación usan `replyTo`.
-- **Vitest alias bug:** `URL.pathname` no decodifica `%20` por el espacio en "CLAUDE CODE". `vitest.config.ts` usa `fileURLToPath(new URL(...))`. No revertir.
-- **Demos no funcionan localmente:** `/api/classify`, `/api/suggest-workflow`, `/api/contact` requieren `KV_REST_API_URL`, `KV_REST_API_TOKEN`, `ANTHROPIC_API_KEY`, `RESEND_API_KEY`, `CONTACT_EMAIL`. Sin esas vars devuelven 500. Los Playwright tests de error path validan precisamente eso (que el front renderiza el badge `ERROR` en lugar de crashear).
-- **Playwright tests del plan tenían bugs:** el plan tenía `getByRole('heading', { level: 1, level: 2 })` (clave duplicada inválida) y asumía que todas las páginas tienen h1 — sólo home tiene h1, el resto usa SectionHeader (h2). El spec corrige eso. También verifica los nombres reales de los h2 (e.g. `/services` muestra "What I do", no "Services").
-- **Logo source de verdad:** `LOGO/trex1.jpg` (Canva, sin moño). `scripts/trace-logo.py` la convierte a SVG. Si Catalina cambia la fuente, re-correr el script.
-- **OG image:** `scripts/generate-og.py` genera `public/og-default.png`. Re-corre si cambias copy/colors.
+- **Dominio:** `catatorres.ca` (NO `catalinatorres.ca`). El typo se descubrió a mitad del deploy. GitHub repo y Vercel project siguen con el nombre viejo `catalinatorres-ca` porque renombrarlos no aporta valor — son labels internos. El sitio en producción usa el dominio correcto.
+- **Resend:** dominio `catatorres.ca` registrado, DKIM+SPF+DMARC verificados. From address: `notify@catatorres.ca`. Subject prefix: `[catatorres]`.
+- **DNS host:** Hostinger (no Namecheap). El panel está en `hpanel.hostinger.com`. Records actuales: A `@ → 76.76.21.21`, CNAME `www → catatorres.ca`, TXT/MX para Resend (DKIM, SPF, DMARC).
+- **GitHub auth:** PAT cacheada en macOS keychain (osxkeychain helper). `git push` funciona sin prompt.
+- **Vercel CLI:** instalada globalmente (`/Users/catalinatorresbenjumea/.nvm/versions/node/v22.22.2/bin/vercel`), autenticada como `torresbe-1700`, scope `torresbes-projects`. `vercel env ls/add/rm` y `vercel domains add` funcionan sin login.
+- **Email:** `catalinatorres1000@gmail.com` para contact (NO `fractalshoot@gmail.com` ni `torresbe@ualberta.ca`).
+- **Playwright tests del plan tenían bugs:** `getByRole('heading', { level: 1, level: 2 })` (clave duplicada inválida) y asumía h1 en todas las páginas. El spec corregido verifica los nombres reales de los h2.
+- **API keys:** ANTHROPIC + RESEND viven en Vercel env vars (Production env). NO están commiteadas. `hostinger-recovery-codes.txt` quedó untracked en el repo — Catalina debe moverlo fuera del repo o añadirlo a `.gitignore`.
 
-## Diferido (no tocar todavía)
+## Diferido / seguimiento opcional
 
-- **Dominio:** `astro.config.mjs` → `catatorres.ca` (Tarea 18). Actualizar `.env.example` y `docs/setup.md` en el mismo commit.
-- **LinkedIn:** decisión pendiente, evaluar cerca del deploy. Si va, añadir a JSON-LD `sameAs` + aside de contact pages.
-- **Demos end-to-end:** sólo después de conectar Vercel KV en deploy.
+- **`hostinger-recovery-codes.txt`:** mover fuera del repo (riesgo bajo pero buena higiene)
+- **Vercel deployment alias `catalinatorres-ca.vercel.app`:** Catalina lo borró por error en algún momento. Devuelve `DEPLOYMENT_NOT_FOUND`. No importa porque el dominio real `catatorres.ca` funciona. Se puede recrear si se necesita.
+- **Análisis de tráfico:** Vercel Web Analytics está activado en `astro.config.mjs`. Empezar a revisarlo después de que el sitio reciba tráfico real.
+- **Renombrar repo + proyecto Vercel** de `catalinatorres-ca` a `catatorres-ca` — opcional, solo cosmético.
 
 ## Recordatorios operacionales
 
-- Dev server: `npm run dev` (puerto 4321). Si `EADDRINUSE`: `lsof -ti:4321 | xargs kill -9`.
-- Playwright: `npm run test:e2e` (arranca su propio dev server con `reuseExistingServer` si hay uno corriendo). Browser ya instalado en `~/Library/Caches/ms-playwright/chromium-1217` y `chromium_headless_shell-1217`.
-- TDD obligatorio en `src/lib/*` — test que falla primero, después implementación.
-- Commits atómicos por tipo: `feat:`, `fix:`, `test:`, `docs:`. NO mezclar concerns.
-- Restricciones críticas en `CLAUDE.md` — re-leer si hay duda de estilo/copy.
+- Dev server local: `npm run dev` (puerto 4321). Demos siguen sin funcionar localmente sin env vars (es lo esperado, los Playwright tests validan el path de error).
+- Producción: `vercel --prod` desde el project root. Auto-deploy también ocurre en cada `git push origin main`.
+- Tests:
+  - Vitest unit: `npm run test`
+  - Playwright local: `npm run test:e2e` (corre contra dev server local)
+  - Playwright contra producción: cambiar `baseURL` en `playwright.config.ts` a `https://catatorres.ca` temporalmente (no commitear ese cambio)
+- Commits atómicos por tipo: `feat:`, `fix:`, `chore:`, `docs:`, `test:`. NO mezclar concerns.

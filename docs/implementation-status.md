@@ -2,7 +2,7 @@
 
 **Modo de ejecución:** INLINE (Catalina ejecuta con Claude en sesión, checkpoints de review).
 
-**Estado actual (2026-05-01):** Tareas 8–17 + logo **CERRADAS**. 22/22 vitest + 14/14 Playwright passing, build OK. Próxima sesión arranca con **Tarea 18** (deploy a Vercel + dominio + env vars).
+**Estado actual (2026-05-01):** Tareas 1–18 + logo **CERRADAS**. Sitio en producción en `https://catatorres.ca` (+ `www.catatorres.ca`). 22/22 vitest + 14/14 Playwright local passing. Solo queda **Tarea 19** (QA final + Lighthouse + cross-browser).
 
 ## Plan
 
@@ -14,15 +14,16 @@
 - **Día 2 ✓** — Tareas 5–6: páginas estáticas + content collection de proyectos
 - **Día 3 ✓** — Tarea 7: mini-demos zodiac recommender + interactive story
 - **Día 4 ✓** — Tareas 8–14: rate limiter, validation, Claude wrapper, APIs, Lab, Resend, /contact (todas TDD las libs)
-- **Día 5 ←** — Tareas 15 ✓ (mirror ES) + 16 ✓ (SEO) + logo dino + 17 ✓ (Playwright). Tareas 18–19 pendientes: deploy, QA.
+- **Día 5 ←** — Tareas 15 ✓ (mirror ES) + 16 ✓ (SEO) + logo dino + 17 ✓ (Playwright) + 18 ✓ (deploy + dominio). Solo queda Tarea 19 (QA final).
 
 ## Checkpoints de review
 
 - Después de Tarea 4 ✓
 - Después de Tarea 6 ✓
 - Después de Tarea 7 ✓
-- Después de Tarea 14 ✓ (saltado por Catalina — quería seguir en racha)
-- **Antes de Tarea 18 (deploy)** ← próximo natural
+- Después de Tarea 14 ✓ (saltado — racha)
+- Antes de Tarea 18 ✓ (saltado — Catalina decidió ir directo al deploy)
+- **Después de Tarea 19** ← último review antes de cerrar el proyecto
 
 ## Tests
 
@@ -32,6 +33,5 @@
 ## Al retomar
 
 1. Leer `CLAUDE.md` y `docs/session-handoff.md`
-2. Abrir el plan: `docs/superpowers/plans/2026-04-23-portfolio-implementation.md` → Tarea 18 (deploy)
-3. Tarea 18: crear Vercel account + GitHub repo, conectar Vercel KV, configurar env vars (`ANTHROPIC_API_KEY`, `RESEND_API_KEY`, `CONTACT_EMAIL`), apuntar `astro.config.mjs` y `.env.example` a `catatorres.ca`, configurar DNS en Namecheap
-4. Tarea 19: QA final (probar demos end-to-end con env vars vivas, smoke test Playwright contra producción)
+2. Abrir el plan: `docs/superpowers/plans/2026-04-23-portfolio-implementation.md` → Tarea 19 (QA final, línea 3446)
+3. Tarea 19: page-by-page QA en producción, contact form end-to-end, demos del lab con texto real, rate limiting (3 envíos/IP/24h del form, 2/IP/24h por demo), Lighthouse audits (Performance ≥95, A11y =100, SEO =100), cross-browser (Safari/Chrome/Firefox/iOS/Android), confirmar que `torresautomatizations.com` ya no recibe tráfico
