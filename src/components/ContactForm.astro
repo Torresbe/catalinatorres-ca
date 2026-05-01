@@ -172,7 +172,8 @@ const labels = lang === 'es'
   }
   .privacy-ack a { color: var(--red); }
   .output { margin-top: var(--s-6); }
-  .success { color: var(--ink); font-family: var(--font-body); }
-  .err { font-family: var(--font-body); }
-  .err .code { color: var(--red); font-weight: 700; }
+  /* Dynamic elements via innerHTML lack data-astro-cid; use :global() */
+  :global(#contact-output .success) { color: var(--ink); font-family: var(--font-body); }
+  :global(#contact-output .err) { font-family: var(--font-body); }
+  :global(#contact-output .err .code) { color: var(--red); font-weight: 700; }
 </style>

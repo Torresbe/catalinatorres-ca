@@ -132,10 +132,11 @@ const labels = lang === 'es'
     padding-top: var(--s-4);
     border-top: 1px dashed var(--divider);
   }
-  .fields { display: flex; flex-direction: column; gap: var(--s-3); margin: 0; }
-  .fields > div { display: flex; gap: var(--s-4); font-family: var(--font-body); font-size: var(--text-sm); }
-  .fields dt { color: var(--red); min-width: 140px; font-weight: 700; }
-  .fields dd { margin: 0; color: var(--ink); }
-  .err { font-family: var(--font-body); font-size: var(--text-sm); }
-  .err .code { color: var(--red); font-weight: 700; }
+  /* Dynamic elements via innerHTML lack data-astro-cid; use :global() */
+  :global(#classify-output .fields) { display: flex; flex-direction: column; gap: var(--s-3); margin: 0; }
+  :global(#classify-output .fields > div) { display: flex; gap: var(--s-4); font-family: var(--font-body); font-size: var(--text-sm); }
+  :global(#classify-output .fields dt) { color: var(--red); min-width: 140px; font-weight: 700; margin: 0; }
+  :global(#classify-output .fields dd) { margin: 0; color: var(--ink); }
+  :global(#classify-output .err) { font-family: var(--font-body); font-size: var(--text-sm); }
+  :global(#classify-output .err .code) { color: var(--red); font-weight: 700; }
 </style>

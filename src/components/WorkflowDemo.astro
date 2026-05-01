@@ -118,7 +118,10 @@ const labels = lang === 'es'
     padding-top: var(--s-4);
     border-top: 1px dashed var(--divider);
   }
-  .suggestion {
+  /* Dynamic elements created via innerHTML lack Astro's data-astro-cid
+     attribute, so scoped selectors don't match. Use :global() so the
+     CSS reaches them. */
+  :global(#suggest-output .suggestion) {
     font-family: var(--font-body);
     font-size: var(--text-sm);
     line-height: 1.6;
@@ -128,6 +131,6 @@ const labels = lang === 'es'
     max-width: 100%;
     margin: 0;
   }
-  .err { font-family: var(--font-body); font-size: var(--text-sm); }
-  .err .code { color: var(--red); font-weight: 700; }
+  :global(#suggest-output .err) { font-family: var(--font-body); font-size: var(--text-sm); }
+  :global(#suggest-output .err .code) { color: var(--red); font-weight: 700; }
 </style>
