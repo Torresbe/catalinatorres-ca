@@ -22,7 +22,7 @@ export const errorMessages: Record<'en' | 'es', Messages> = {
     404: 'estás buscando en el lugar equivocado.',
     413: 'esto es un libro, no una nota. recórtalo.',
     415: 'solo palabras. nada de runas.',
-    429: 'love not found. intenta en 24h o envía una carta →',
+    429: 'amor no encontrado. intenta en 24h o envía una carta →',
     500: 'este borrador necesita revisión. espera.',
     503: 'la oficina está cerrada ahora. intenta mejor.',
     504: 'la paloma no regresó. intenta de nuevo.',
