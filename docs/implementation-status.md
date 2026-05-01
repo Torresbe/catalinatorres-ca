@@ -33,5 +33,5 @@
 
 1. Leer `CLAUDE.md` y `docs/session-handoff.md`
 2. Abrir el plan: `docs/superpowers/plans/2026-04-23-portfolio-implementation.md` → Tarea 18 (deploy)
-3. Tarea 18: crear Vercel account + GitHub repo, conectar Vercel KV, configurar env vars (`ANTHROPIC_API_KEY`, `RESEND_API_KEY`, `CONTACT_EMAIL`), apuntar `astro.config.mjs` y `.env.example` a `catalinatorres.ca`, configurar DNS en Namecheap
+3. Tarea 18: crear Vercel account + GitHub repo, conectar Vercel KV, configurar env vars (`ANTHROPIC_API_KEY`, `RESEND_API_KEY`, `CONTACT_EMAIL`), apuntar `astro.config.mjs` y `.env.example` a `catatorres.ca`, configurar DNS en Namecheap
 4. Tarea 19: QA final (probar demos end-to-end con env vars vivas, smoke test Playwright contra producción)

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://catalinatorres.ca/sitemap-index.xml
+Sitemap: https://catatorres.ca/sitemap-index.xml

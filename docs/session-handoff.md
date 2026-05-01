@@ -12,7 +12,7 @@ Tareas 8–17 + logo **CERRADAS**. 22/22 vitest + 14/14 Playwright passing, buil
 ## Cómo retomar
 
 1. Leer `CLAUDE.md`, este archivo, y verificar que el plan en `docs/superpowers/plans/2026-04-23-portfolio-implementation.md` Tarea 18 sigue siendo correcto.
-2. Tarea 18 toca infraestructura: cuenta Vercel, repo GitHub, Vercel KV, env vars en el dashboard, cambio de dominio (`torresautomatizations.com` → `catalinatorres.ca`) en `astro.config.mjs` y `.env.example`, DNS en Namecheap.
+2. Tarea 18 toca infraestructura: cuenta Vercel, repo GitHub, Vercel KV, env vars en el dashboard, cambio de dominio (`torresautomatizations.com` → `catatorres.ca`) en `astro.config.mjs` y `.env.example`, DNS en Namecheap.
 3. Decidir LinkedIn antes/durante el deploy — si va, añadir a `sameAs` en JSON-LD (`src/pages/index.astro` y `src/pages/es/index.astro`) y a la aside de `/contact` y `/es/contacto`.
 
 ## Lo cerrado en la sesión 2026-05-01
@@ -34,13 +34,13 @@ Plan: línea 3372 del implementation plan.
 - Crear cuenta Vercel + conectar repo GitHub.
 - Vercel KV: crear instancia, las env vars `KV_REST_API_URL` y `KV_REST_API_TOKEN` se inyectan automáticamente.
 - Env vars manuales en Vercel dashboard: `ANTHROPIC_API_KEY` (Claude Haiku 4.5), `RESEND_API_KEY`, `CONTACT_EMAIL=catalinatorres1000@gmail.com`.
-- **Dominio:** cambiar `astro.config.mjs` `site:` de `torresautomatizations.com` a `catalinatorres.ca`. Actualizar `.env.example` y `docs/setup.md` si aplica. `robots.txt` ya apunta al nuevo (no tocar).
+- **Dominio:** cambiar `astro.config.mjs` `site:` de `torresautomatizations.com` a `catatorres.ca`. Actualizar `.env.example` y `docs/setup.md` si aplica. `robots.txt` ya apunta al nuevo (no tocar).
 - DNS Namecheap → Vercel.
 - Después Tarea 19: QA final, probar demos end-to-end con env vars vivas, optionally re-correr Playwright contra producción.
 
 ## Decisiones / contexto crítico que NO está en el código
 
-- **Dominio nuevo:** `catalinatorres.ca` reemplaza `torresautomatizations.com`. `astro.config.mjs` todavía tiene el viejo (cambia en Tarea 18). `robots.txt` ya apunta al nuevo desde Tarea 16.
+- **Dominio nuevo:** `catatorres.ca` reemplaza `torresautomatizations.com`. `astro.config.mjs` todavía tiene el viejo (cambia en Tarea 18). `robots.txt` ya apunta al nuevo desde Tarea 16.
 - **LinkedIn:** decisión sigue pendiente. NO está en JSON-LD Person ni en `/contact`/`/es/contacto`. Cuando Catalina decida (cerca del deploy), añadir a `sameAs` en JSON-LD y a la aside del contact page.
 - **Email:** `catalinatorres1000@gmail.com` (no su email del sistema `fractalshoot@gmail.com`). Hardcoded en `src/pages/contact.astro` y `src/pages/es/contacto.astro`.
 - **Resend SDK:** plan tenía `reply_to` (snake_case) pero Resend v6 sólo tipea `replyTo` (camelCase). El test y la implementación usan `replyTo`.
@@ -52,7 +52,7 @@ Plan: línea 3372 del implementation plan.
 
 ## Diferido (no tocar todavía)
 
-- **Dominio:** `astro.config.mjs` → `catalinatorres.ca` (Tarea 18). Actualizar `.env.example` y `docs/setup.md` en el mismo commit.
+- **Dominio:** `astro.config.mjs` → `catatorres.ca` (Tarea 18). Actualizar `.env.example` y `docs/setup.md` en el mismo commit.
 - **LinkedIn:** decisión pendiente, evaluar cerca del deploy. Si va, añadir a JSON-LD `sameAs` + aside de contact pages.
 - **Demos end-to-end:** sólo después de conectar Vercel KV en deploy.
 

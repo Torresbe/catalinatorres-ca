@@ -73,7 +73,7 @@ def main() -> None:
         draw.rectangle([(x, dash_y), (x + 6, dash_y + 1)], fill=DIVIDER)
 
     url_font = font(COURIER, 24, 0)
-    draw.text((80, H - 80), "catalinatorres.ca", fill=INK, font=url_font)
+    draw.text((80, H - 80), "catatorres.ca", fill=INK, font=url_font)
 
     # Bottom right: pixel-art dino sitting just above the dashed divider
     dino_w, dino_h = 120, 60

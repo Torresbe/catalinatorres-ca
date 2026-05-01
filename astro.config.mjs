@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://catalinatorres.ca',
+  site: 'https://catatorres.ca',
   output: 'server',
   adapter: vercel({ webAnalytics: { enabled: true } }),
   integrations: [sitemap()],

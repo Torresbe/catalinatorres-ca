@@ -46,7 +46,7 @@ Catalina todavía no tiene entidad legal. El site se posiciona como **ella como 
 
 ## Dominio
 
-- **Definitivo:** `catalinatorres.ca` (Hostinger).
+- **Definitivo:** `catatorres.ca` (Hostinger).
 - **Antiguo (abandonado, no migrado):** `torresautomatizations.com` (Namecheap). El swap se aplicó 2026-05-01 en `astro.config.mjs`, `.env.example`, `docs/setup.md`, `src/lib/resend.ts` (`from`, subject prefix, footer) y descripción de `/privacy`.
 
 ## Copy review — bloque cerrado (2026-04-28)

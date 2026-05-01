@@ -26,14 +26,14 @@ export async function sendContactEmail(input: ContactEmailInput): Promise<SendRe
     input.message,
     '',
     '───',
-    'sent via catalinatorres.ca/contact',
+    'sent via catatorres.ca/contact',
   ].join('\n');
 
   const { error } = await client.emails.send({
-    from: 'notify@catalinatorres.ca',
+    from: 'notify@catatorres.ca',
     to,
     replyTo: input.email,
-    subject: `[catalinatorres] ${input.subject}`,
+    subject: `[catatorres] ${input.subject}`,
     text: body,
   });
 

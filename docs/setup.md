@@ -4,7 +4,7 @@
 
 - Node.js ≥ 22.12.0
 - Cuenta Vercel (email: `catalinatorres1000@gmail.com`)
-- Dominio: `catalinatorres.ca` (ya propiedad vía Hostinger)
+- Dominio: `catatorres.ca` (ya propiedad vía Hostinger)
 
 ## Instalación
 
@@ -24,13 +24,13 @@ Dev server arranca en `http://localhost:4321`.
 | `ANTHROPIC_API_KEY` | Claude Haiku 4.5 para demos del Lab |
 | `RESEND_API_KEY` | Email transaccional (tier gratis 3000/mes) |
 | `CONTACT_EMAIL` | Destino de mensajes del form |
-| `SITE_URL` | `https://catalinatorres.ca` |
+| `SITE_URL` | `https://catatorres.ca` |
 | `KV_REST_API_URL` | Vercel KV (rate limiting) |
 | `KV_REST_API_TOKEN` | Vercel KV token |
 
 ## Migración de dominio
 
-`catalinatorres.ca` está registrado en **Hostinger**. DNS records (A para apex, CNAME para www) se añaden en el panel de Hostinger durante el deploy. El dominio viejo `torresautomatizations.com` (Namecheap) se abandona — no se migra.
+`catatorres.ca` está registrado en **Hostinger**. DNS records (A para apex, CNAME para www) se añaden en el panel de Hostinger durante el deploy. El dominio viejo `torresautomatizations.com` (Namecheap) se abandona — no se migra.
 
 ## Rate limits configurados
 
