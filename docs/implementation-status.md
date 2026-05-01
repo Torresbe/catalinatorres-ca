@@ -2,7 +2,7 @@
 
 **Modo de ejecución:** INLINE (Catalina ejecuta con Claude en sesión, checkpoints de review).
 
-**Estado actual (2026-04-30):** Tareas 8–16 + logo **CERRADAS**. 22/22 tests passing, build OK. Próxima sesión arranca con **Tarea 17** (Playwright smoke tests).
+**Estado actual (2026-05-01):** Tareas 8–17 + logo **CERRADAS**. 22/22 vitest + 14/14 Playwright passing, build OK. Próxima sesión arranca con **Tarea 18** (deploy a Vercel + dominio + env vars).
 
 ## Plan
 
@@ -14,7 +14,7 @@
 - **Día 2 ✓** — Tareas 5–6: páginas estáticas + content collection de proyectos
 - **Día 3 ✓** — Tarea 7: mini-demos zodiac recommender + interactive story
 - **Día 4 ✓** — Tareas 8–14: rate limiter, validation, Claude wrapper, APIs, Lab, Resend, /contact (todas TDD las libs)
-- **Día 5 ←** — Tarea 15 ✓ (mirror ES) + 16 ✓ (SEO) + logo dino. Tareas 17–19 pendientes: Playwright, deploy, QA.
+- **Día 5 ←** — Tareas 15 ✓ (mirror ES) + 16 ✓ (SEO) + logo dino + 17 ✓ (Playwright). Tareas 18–19 pendientes: deploy, QA.
 
 ## Checkpoints de review
 
@@ -27,12 +27,11 @@
 ## Tests
 
 - **Vitest unit:** 22/22 passing — ratelimit (5), validation (10), claude (5), resend (2)
-- **Playwright smoke:** pendiente (Tarea 17)
+- **Playwright smoke:** 14/14 passing — navegación EN, i18n + path mapping asimétrico, 404, lista de proyectos, demos client-side (zodiac + story), contact form (render + HTML5 required + error path), classifier + workflow demos (error path)
 
 ## Al retomar
 
 1. Leer `CLAUDE.md` y `docs/session-handoff.md`
-2. Abrir el plan: `docs/superpowers/plans/2026-04-23-portfolio-implementation.md` → Tarea 17 (Playwright, línea 3245)
-3. Arrancar el dev server: `npm run dev`
-4. Escribir tests Playwright: navegación, contact form, demos (path de error porque demos requieren env vars)
-5. Después seguir con Tarea 18 (deploy + dominio + env vars)
+2. Abrir el plan: `docs/superpowers/plans/2026-04-23-portfolio-implementation.md` → Tarea 18 (deploy)
+3. Tarea 18: crear Vercel account + GitHub repo, conectar Vercel KV, configurar env vars (`ANTHROPIC_API_KEY`, `RESEND_API_KEY`, `CONTACT_EMAIL`), apuntar `astro.config.mjs` y `.env.example` a `catalinatorres.ca`, configurar DNS en Namecheap
+4. Tarea 19: QA final (probar demos end-to-end con env vars vivas, smoke test Playwright contra producción)

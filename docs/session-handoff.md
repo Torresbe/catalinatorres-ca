@@ -1,60 +1,65 @@
 ---
-**Última sesión:** 2026-04-30
-**Próxima sesión:** arrancar Tarea 17 (Playwright smoke tests).
+**Última sesión:** 2026-05-01
+**Próxima sesión:** arrancar Tarea 18 (deploy a Vercel + dominio + env vars).
 ---
 
 # Session handoff — Portfolio
 
 ## Estado en una línea
 
-Tareas 8–16 + logo **CERRADAS**. 22/22 vitest passing, build OK. Sitio bilingüe completo, SEO listo, dino-logo en favicon + header + OG image. Tarea 17 (Playwright) lista para arrancar.
+Tareas 8–17 + logo **CERRADAS**. 22/22 vitest + 14/14 Playwright passing, build OK. Sitio bilingüe completo, SEO listo, smoke tests cubren navegación, i18n, demos y formulario. Tarea 18 (deploy) lista para arrancar.
 
 ## Cómo retomar
 
-1. Leer `CLAUDE.md`, este archivo, y verificar que el plan en `docs/superpowers/plans/2026-04-23-portfolio-implementation.md` Tarea 17 sigue siendo correcto.
-2. `npm run dev` (puerto 4321).
-3. Tarea 17 crea `playwright.config.ts` y `tests/e2e/smoke.spec.ts` — empieza por instalar Playwright si no está.
+1. Leer `CLAUDE.md`, este archivo, y verificar que el plan en `docs/superpowers/plans/2026-04-23-portfolio-implementation.md` Tarea 18 sigue siendo correcto.
+2. Tarea 18 toca infraestructura: cuenta Vercel, repo GitHub, Vercel KV, env vars en el dashboard, cambio de dominio (`torresautomatizations.com` → `catalinatorres.ca`) en `astro.config.mjs` y `.env.example`, DNS en Namecheap.
+3. Decidir LinkedIn antes/durante el deploy — si va, añadir a `sameAs` en JSON-LD (`src/pages/index.astro` y `src/pages/es/index.astro`) y a la aside de `/contact` y `/es/contacto`.
 
-## Lo cerrado en la sesión 2026-04-29 / 2026-04-30
+## Lo cerrado en la sesión 2026-05-01
 
-13 commits sobre `main` desde el último handoff. Highlights:
+1 tarea cerrada (17 — Playwright smoke tests):
 
-- **8–14 (TDD libs + APIs + UI):** rate limiter (Vercel KV, IP hasheada), validation (honeypot + timing + campos), Claude wrapper (Haiku 4.5, classifyText/suggestWorkflow), APIs `/api/classify` y `/api/suggest-workflow`, Lab page con dos demos client-side, Resend wrapper, `/api/contact`, ContactForm + página `/contact`.
-- **Logo:** T-rex pixel-art trazado de `LOGO/trex1.jpg` (Canva) via `scripts/trace-logo.py`. Vive en `public/favicon.svg` (128×64) y se reusa como brand mark en el header (centrado arriba del wordmark) y en la OG image abajo a la derecha.
-- **15 (mirror ES):** `/es/lab.astro` y `/es/contacto.astro` añadidas. `ClassifierDemo`, `WorkflowDemo`, y `ContactForm` ahora son lang-aware (igual que ContactForm desde Tarea 14).
-- **Fix:** nav ES decía "Acerca de", ahora "Sobre mí" (la página se renombró antes pero el dictionary se quedó atrás).
-- **16 (SEO):** sitemap auto, robots.txt apuntando a `catalinatorres.ca/sitemap-index.xml`, hreflang alternates con manejo correcto de paths asimétricos (`/about` ↔ `/es/sobre-mi`, `/projects/foo` ↔ `/es/proyectos/foo`), JSON-LD Person en home EN+ES (sin LinkedIn — diferido), OG image 1200×630 generada con `scripts/generate-og.py` (parsea favicon.svg para incluir el dino).
+- `playwright.config.ts` con `baseURL: localhost:4321`, `webServer: npm run dev`, `reuseExistingServer` en local.
+- `tests/e2e/smoke.spec.ts` con 14 tests cubriendo:
+  - **Core nav EN:** home con h1, las 6 páginas top-level (services, projects, lab, about, contact, privacy) responden 200 y muestran su h2 (SectionHeader); 404 custom.
+  - **i18n:** home ES, lang toggle de `/` → `/es`, mapeo asimétrico `/about` ↔ `/es/sobre-mi` ida y vuelta.
+  - **Projects:** lista de 6 items, demos client-side (zodiac + story con branching y ending).
+  - **Contact form:** render de todos los campos requeridos (name, email, subject, message, privacyAck), HTML5 `required` bloquea submit vacío, submit completo con APIs muertas localmente renderiza badge `ERROR`.
+  - **Lab demos:** classifier y suggester también renderizan `ERROR` (en lugar de crashear) cuando `/api/classify` y `/api/suggest-workflow` fallan por falta de env vars.
 
-## Pendiente para Tarea 17
+## Pendiente para Tarea 18
 
-Playwright smoke tests:
-- `playwright.config.ts` — configurar `baseURL: http://localhost:4321`, browser chromium, retries.
-- `tests/e2e/smoke.spec.ts` — casos: cargar home EN/ES, navegar entre páginas, enviar contact form (debería 500 sin env vars, valida path de error), submit en demos (idem), lang toggle funciona.
-- Cuidado: las APIs no funcionan localmente sin env vars (ver "Diferido" abajo). Los tests de demos/contact deberían validar el path de error 500, no el happy path.
+Plan: línea 3372 del implementation plan.
 
-Después siguen Tareas 18 (deploy a Vercel + dominio) y 19 (QA final).
+- Crear cuenta Vercel + conectar repo GitHub.
+- Vercel KV: crear instancia, las env vars `KV_REST_API_URL` y `KV_REST_API_TOKEN` se inyectan automáticamente.
+- Env vars manuales en Vercel dashboard: `ANTHROPIC_API_KEY` (Claude Haiku 4.5), `RESEND_API_KEY`, `CONTACT_EMAIL=catalinatorres1000@gmail.com`.
+- **Dominio:** cambiar `astro.config.mjs` `site:` de `torresautomatizations.com` a `catalinatorres.ca`. Actualizar `.env.example` y `docs/setup.md` si aplica. `robots.txt` ya apunta al nuevo (no tocar).
+- DNS Namecheap → Vercel.
+- Después Tarea 19: QA final, probar demos end-to-end con env vars vivas, optionally re-correr Playwright contra producción.
 
 ## Decisiones / contexto crítico que NO está en el código
 
-- **Dominio nuevo:** `catalinatorres.ca` reemplaza `torresautomatizations.com`. `astro.config.mjs` todavía tiene el viejo (cambia en Tarea 18 junto con env vars). `robots.txt` ya apunta al nuevo (decisión consciente — robots es estático, mejor tener el correcto desde ya).
-- **LinkedIn:** decisión sobre publicar el perfil sigue pendiente. Por eso NO aparece en JSON-LD Person ni en `/contact`/`/es/contacto`. Cuando Catalina decida (cerca del deploy), añadir a `sameAs` en JSON-LD y a la aside del contact page.
+- **Dominio nuevo:** `catalinatorres.ca` reemplaza `torresautomatizations.com`. `astro.config.mjs` todavía tiene el viejo (cambia en Tarea 18). `robots.txt` ya apunta al nuevo desde Tarea 16.
+- **LinkedIn:** decisión sigue pendiente. NO está en JSON-LD Person ni en `/contact`/`/es/contacto`. Cuando Catalina decida (cerca del deploy), añadir a `sameAs` en JSON-LD y a la aside del contact page.
 - **Email:** `catalinatorres1000@gmail.com` (no su email del sistema `fractalshoot@gmail.com`). Hardcoded en `src/pages/contact.astro` y `src/pages/es/contacto.astro`.
-- **Resend SDK:** plan tenía `reply_to` (snake_case) pero Resend v6 sólo tipea `replyTo` (camelCase). El test y la implementación usan `replyTo`. Si copias del plan, ajustar.
-- **Vitest alias bug:** `URL.pathname` no decodifica `%20` por el espacio en "CLAUDE CODE". `vitest.config.ts` usa `fileURLToPath(new URL(...))` ahora. No revertir.
-- **Demos no funcionan localmente:** `/api/classify`, `/api/suggest-workflow`, `/api/contact` requieren `KV_REST_API_URL`, `KV_REST_API_TOKEN`, `ANTHROPIC_API_KEY`, `RESEND_API_KEY`, `CONTACT_EMAIL`. Sin esas vars devuelven 500. Se conectan en Tarea 18 (Vercel KV auto-set, las otras manuales en el dashboard).
-- **Logo source de verdad:** `LOGO/trex1.jpg` (Canva, sin moño). `scripts/trace-logo.py` la convierte a SVG aplicando threshold + morfología + nearest-neighbor downscaling a 128×64. Si Catalina cambia la fuente, re-correr el script.
-- **OG image:** `scripts/generate-og.py` genera `public/og-default.png`. Re-corre si cambias copy/colors. Renderiza el dino parsing los `<rect>` de favicon.svg directamente — no necesita cairosvg.
+- **Resend SDK:** plan tenía `reply_to` (snake_case) pero Resend v6 sólo tipea `replyTo` (camelCase). El test y la implementación usan `replyTo`.
+- **Vitest alias bug:** `URL.pathname` no decodifica `%20` por el espacio en "CLAUDE CODE". `vitest.config.ts` usa `fileURLToPath(new URL(...))`. No revertir.
+- **Demos no funcionan localmente:** `/api/classify`, `/api/suggest-workflow`, `/api/contact` requieren `KV_REST_API_URL`, `KV_REST_API_TOKEN`, `ANTHROPIC_API_KEY`, `RESEND_API_KEY`, `CONTACT_EMAIL`. Sin esas vars devuelven 500. Los Playwright tests de error path validan precisamente eso (que el front renderiza el badge `ERROR` en lugar de crashear).
+- **Playwright tests del plan tenían bugs:** el plan tenía `getByRole('heading', { level: 1, level: 2 })` (clave duplicada inválida) y asumía que todas las páginas tienen h1 — sólo home tiene h1, el resto usa SectionHeader (h2). El spec corrige eso. También verifica los nombres reales de los h2 (e.g. `/services` muestra "What I do", no "Services").
+- **Logo source de verdad:** `LOGO/trex1.jpg` (Canva, sin moño). `scripts/trace-logo.py` la convierte a SVG. Si Catalina cambia la fuente, re-correr el script.
+- **OG image:** `scripts/generate-og.py` genera `public/og-default.png`. Re-corre si cambias copy/colors.
 
 ## Diferido (no tocar todavía)
 
-- **Dominio:** `astro.config.mjs` → `catalinatorres.ca` (Tarea 18). No tocar `.env.example` ni `docs/setup.md` antes.
+- **Dominio:** `astro.config.mjs` → `catalinatorres.ca` (Tarea 18). Actualizar `.env.example` y `docs/setup.md` en el mismo commit.
 - **LinkedIn:** decisión pendiente, evaluar cerca del deploy. Si va, añadir a JSON-LD `sameAs` + aside de contact pages.
 - **Demos end-to-end:** sólo después de conectar Vercel KV en deploy.
 
 ## Recordatorios operacionales
 
 - Dev server: `npm run dev` (puerto 4321). Si `EADDRINUSE`: `lsof -ti:4321 | xargs kill -9`.
+- Playwright: `npm run test:e2e` (arranca su propio dev server con `reuseExistingServer` si hay uno corriendo). Browser ya instalado en `~/Library/Caches/ms-playwright/chromium-1217` y `chromium_headless_shell-1217`.
 - TDD obligatorio en `src/lib/*` — test que falla primero, después implementación.
-- Commits atómicos por tipo: `feat:` para features, `fix:` para fixes de bugs/config, `docs:` para docs. NO mezclar concerns.
+- Commits atómicos por tipo: `feat:`, `fix:`, `test:`, `docs:`. NO mezclar concerns.
 - Restricciones críticas en `CLAUDE.md` — re-leer si hay duda de estilo/copy.
-- Logo workflow: si el dino necesita ajustes, edita `scripts/trace-logo.py` (TARGET_W/TARGET_H, threshold) y re-corre. La OG image se actualiza con `python3 scripts/generate-og.py`.
