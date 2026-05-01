@@ -2,7 +2,7 @@
 
 **Modo de ejecución:** INLINE (Catalina ejecuta con Claude en sesión, checkpoints de review).
 
-**Estado actual (2026-05-01):** Tareas 1–18 + logo **CERRADAS**. Sitio en producción en `https://catatorres.ca` (+ `www.catatorres.ca`). 22/22 vitest + 14/14 Playwright local passing. Solo queda **Tarea 19** (QA final + Lighthouse + cross-browser).
+**Estado actual (2026-05-01):** Tareas 1–18 **CERRADAS**. Tarea 19 (QA) **parcialmente verificada** — Classifier + Workflow Suggester + Zodiac ES verificados; quedan 4 chequeos funcionales + Lighthouse + cross-browser + page-by-page. Sitio en producción en `https://catatorres.ca` (+ `www.catatorres.ca`). 25/25 vitest + 14/14 Playwright local passing.
 
 ## Plan
 
