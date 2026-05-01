@@ -1,13 +1,14 @@
 ---
+import { getLangFromUrl } from '../i18n/util';
+const lang = getLangFromUrl(Astro.url);
+
 type Node = { id: string; text: string; choices?: { label: string; next: string }[]; ending?: boolean };
 
-const nodes: Node[] = [
+const nodesEN: Node[] = [
   {
     id: 'start',
     text: 'INSTRUCTIONS FOR WINDING THE CLOCK. The clock is small, on the table by the window, and it has stopped. You will turn the key three full turns to the right, gently. You will feel the spring tighten with each rotation. After the third turn, the mechanism is wound. Now read on — there is one decision to make.',
-    choices: [
-      { label: 'continue reading', next: 'fork' },
-    ],
+    choices: [{ label: 'continue reading', next: 'fork' }],
   },
   {
     id: 'fork',
@@ -28,14 +29,46 @@ const nodes: Node[] = [
     ending: true,
   },
 ];
+
+const nodesES: Node[] = [
+  {
+    id: 'start',
+    text: 'INSTRUCCIONES PARA DARLE CUERDA AL RELOJ. El reloj es pequeño, sobre la mesa junto a la ventana, y se ha detenido. Darás tres vueltas completas a la llave hacia la derecha, con suavidad. Sentirás el resorte tensarse con cada rotación. Después de la tercera vuelta, el mecanismo está cargado. Sigue leyendo — hay una sola decisión que tomar.',
+    choices: [{ label: 'seguir leyendo', next: 'fork' }],
+  },
+  {
+    id: 'fork',
+    text: 'Coloca la aguja horaria en la hora correcta. Las instrucciones admiten dos lecturas de "la hora correcta" y el reloj honra las dos. Elige una.',
+    choices: [
+      { label: 'ponla en la hora que marca tu muñeca', next: 'wrist' },
+      { label: 'ponla en la hora que tenía el dueño anterior', next: 'previous' },
+    ],
+  },
+  {
+    id: 'wrist',
+    text: 'El reloj arranca con un pequeño clic y comienza a marcar el tiempo al unísono con el resto del cuarto. Por la mañana ya has dejado de notarlo. Este final fue escrito para un lector que sincronizó.',
+    ending: true,
+  },
+  {
+    id: 'previous',
+    text: 'El reloj arranca y avanza cuatro minutos por delante de los demás relojes de la casa. Lo dejas así. Para la tercera noche te encuentras confiando en él más que en los otros. Este final fue escrito para un lector que dejó que decidiera el pasado.',
+    ending: true,
+  },
+];
+
+const nodes = lang === 'es' ? nodesES : nodesEN;
+
+const labels = lang === 'es'
+  ? { tryIt: '[ PRUÉBALO ] — demo de narrativa con bifurcaciones', heading: 'Instrucciones, en dos lecturas.', restart: 'reiniciar' }
+  : { tryIt: '[ TRY IT ] — branching narrative demo', heading: 'Instructions, in two readings.', restart: 'restart' };
 ---
 <section class="demo" data-nodes={JSON.stringify(nodes)}>
-  <p class="label">[ TRY IT ] — branching narrative demo</p>
-  <h3>Instructions, in two readings.</h3>
+  <p class="label">{labels.tryIt}</p>
+  <h3>{labels.heading}</h3>
   <div class="stage">
     <p class="text" id="story-text"></p>
     <div class="choices" id="story-choices"></div>
-    <button class="restart" id="story-restart" hidden>restart</button>
+    <button class="restart" id="story-restart" hidden>{labels.restart}</button>
   </div>
 </section>
 
