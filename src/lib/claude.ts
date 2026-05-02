@@ -50,7 +50,7 @@ export async function classifyText(input: string): Promise<ClassifyResult> {
   }
 }
 
-export type FlowNodeType = 'trigger' | 'ai' | 'action' | 'data' | 'condition' | 'output';
+export type FlowNodeType = 'trigger' | 'action' | 'result';
 
 export interface FlowNode {
   id: string;
@@ -65,10 +65,11 @@ export interface FlowEdge {
 }
 
 export interface Flow {
-  summary: string;
+  hook: string;
+  steps: string[];
+  closer: string;
   nodes: FlowNode[];
   edges: FlowEdge[];
-  estimate: string;
 }
 
 export interface WorkflowResult {
@@ -77,34 +78,56 @@ export interface WorkflowResult {
   code?: ErrorCode;
 }
 
-const NODE_TYPES: ReadonlySet<string> = new Set([
-  'trigger', 'ai', 'action', 'data', 'condition', 'output',
-]);
+const NODE_TYPES: ReadonlySet<string> = new Set(['trigger', 'action', 'result']);
 
-const WORKFLOW_SYSTEM = `You are a workflow consultant for AI-assisted automation. Given an operational problem, design a concrete n8n-style workflow as a directed graph.
+const FORBIDDEN_BRANDS = /\b(claude|chatgpt|chat-?gpt|gpt-?\d?|perplexity|openai|anthropic|gemini|bard|copilot|llama|mistral|cohere)\b/i;
+
+const WORKFLOW_SYSTEM = `You are a sales-savvy automation consultant writing for non-technical decision-makers. Given an operational problem, design a workflow and pitch it in a persuasive, plain-spoken voice.
 
 Return ONLY a JSON object matching this schema:
 {
-  "summary": string (1-2 sentence overview, plain text),
-  "nodes": Array<{ "id": string, "type": "trigger"|"ai"|"action"|"data"|"condition"|"output", "label": string (≤40 chars, format like "Service: brief action") }>,
-  "edges": Array<{ "from": string (node id), "to": string (node id), "label"?: string (≤20 chars, only for branches) }>,
-  "estimate": string (effort range, e.g. "2-4 hours setup")
+  "hook": string,
+  "steps": string[],
+  "closer": string,
+  "nodes": Array<{ "id": string, "type": "trigger"|"action"|"result", "label": string }>,
+  "edges": Array<{ "from": string, "to": string }>
 }
 
-Rules:
-- 3 to 7 nodes. Always start with a trigger node and end with an output node.
-- Node ids: "n1", "n2", "n3"… Edges connect existing ids only (no orphans).
-- Prefer linear flows. Use branches only when truly conditional (then add edge labels like "yes"/"no").
-- Tool examples: trigger(webhook, schedule, folder watch), ai(Claude, embeddings), action(HTTP request, transform), data(read DB, write sheet), condition(if/switch), output(send email, notify slack, write file).
-- If the user writes in Spanish, write summary, labels, estimate and edge labels in Spanish (keep tool/service names in English).
-- No commentary, no markdown, only the JSON object.`;
+Field rules:
+- hook (Spanish): "Mira, puedes ahorrar [N horas] por semana para [problema reformulado del usuario] haciendo esto:"
+  hook (English): "Look, you can save [N hours] per week on [restated user problem] by doing this:"
+  Estimate hours/week realistically based on the described volume and frequency.
+- steps: 3 to 5 plain-language steps. No tool names, no jargon, no acronyms. Use phrases like "asistente inteligente" / "smart assistant", "automatización" / "automation", "un sistema que analiza y genera" / "a system that analyzes and produces". Each step ≤ 28 words. Sound like a friend explaining, not a product page.
+- closer: one short sentence. What concretely changes day-to-day if this is implemented. Vivid, not abstract.
+- nodes: 3 to 5 nodes. Always exactly 1 "trigger" first, 1+ "result" last, "action" in between. Labels ≤ 32 chars, plain language, NO brand names.
+- edges: connect node ids ("n1" → "n2" → "n3"...) to form a linear DAG. Reference existing ids only.
+
+Language: detect the input language. If Spanish, ALL string fields in Spanish. If English, ALL in English.
+
+ABSOLUTELY FORBIDDEN in any field — even as examples: the words "Claude", "ChatGPT", "GPT", "Perplexity", "OpenAI", "Anthropic", "Gemini", "Copilot", "LLM", or any AI brand or model name. Use generic terms only.
+
+No commentary, no markdown, only the JSON object.`;
+
+function ensureClean(value: string, where: string): void {
+  if (FORBIDDEN_BRANDS.test(value)) throw new SyntaxError(`forbidden brand in ${where}`);
+}
 
 function validateFlow(raw: unknown): Flow {
   if (!raw || typeof raw !== 'object') throw new SyntaxError('flow not an object');
   const f = raw as Record<string, unknown>;
-  if (typeof f.summary !== 'string' || typeof f.estimate !== 'string') throw new SyntaxError('summary/estimate missing');
+  if (typeof f.hook !== 'string' || typeof f.closer !== 'string') throw new SyntaxError('hook/closer missing');
+  if (!Array.isArray(f.steps) || f.steps.length === 0) throw new SyntaxError('steps missing/empty');
   if (!Array.isArray(f.nodes) || f.nodes.length === 0) throw new SyntaxError('nodes missing/empty');
   if (!Array.isArray(f.edges)) throw new SyntaxError('edges missing');
+
+  ensureClean(f.hook, 'hook');
+  ensureClean(f.closer, 'closer');
+
+  const steps: string[] = f.steps.map((s, i) => {
+    if (typeof s !== 'string') throw new SyntaxError(`step ${i} not a string`);
+    ensureClean(s, `step ${i}`);
+    return s;
+  });
 
   const ids = new Set<string>();
   const nodes: FlowNode[] = f.nodes.map((n) => {
@@ -115,6 +138,7 @@ function validateFlow(raw: unknown): Flow {
     }
     if (!NODE_TYPES.has(node.type)) throw new SyntaxError(`unknown node type: ${node.type}`);
     if (ids.has(node.id)) throw new SyntaxError(`duplicate node id: ${node.id}`);
+    ensureClean(node.label, `node ${node.id} label`);
     ids.add(node.id);
     return { id: node.id, type: node.type as FlowNodeType, label: node.label };
   });
@@ -125,11 +149,14 @@ function validateFlow(raw: unknown): Flow {
     if (typeof edge.from !== 'string' || typeof edge.to !== 'string') throw new SyntaxError('edge missing from/to');
     if (!ids.has(edge.from) || !ids.has(edge.to)) throw new SyntaxError('edge references unknown node');
     const out: FlowEdge = { from: edge.from, to: edge.to };
-    if (typeof edge.label === 'string') out.label = edge.label;
+    if (typeof edge.label === 'string') {
+      ensureClean(edge.label, 'edge label');
+      out.label = edge.label;
+    }
     return out;
   });
 
-  return { summary: f.summary, nodes, edges, estimate: f.estimate };
+  return { hook: f.hook, steps, closer: f.closer, nodes, edges };
 }
 
 export async function suggestWorkflow(input: string): Promise<WorkflowResult> {

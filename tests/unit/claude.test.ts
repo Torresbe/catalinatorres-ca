@@ -68,27 +68,34 @@ describe('classifyText', () => {
 
 describe('suggestWorkflow', () => {
   const validFlow = {
-    summary: 'Classify PDFs and extract findings.',
+    hook: 'Mira, puedes ahorrar 5 horas por semana clasificando PDFs académicos haciendo esto:',
+    steps: [
+      'Pones todos los PDFs en una carpeta y un sistema los detecta automáticamente.',
+      'Un asistente inteligente lee cada documento y extrae los hallazgos clave.',
+      'Los resultados aparecen en una hoja de cálculo lista para revisar.',
+    ],
+    closer: 'Pasas de leer 500 PDFs uno por uno a revisar una sola tabla con todo lo importante.',
     nodes: [
-      { id: 'n1', type: 'trigger', label: 'Folder watch: PDFs' },
-      { id: 'n2', type: 'ai', label: 'Claude: extract findings' },
-      { id: 'n3', type: 'output', label: 'Write to spreadsheet' },
+      { id: 'n1', type: 'trigger', label: 'Carpeta con PDFs' },
+      { id: 'n2', type: 'action', label: 'Asistente extrae hallazgos' },
+      { id: 'n3', type: 'result', label: 'Hoja de cálculo lista' },
     ],
     edges: [
       { from: 'n1', to: 'n2' },
       { from: 'n2', to: 'n3' },
     ],
-    estimate: '4-8 hours setup',
   };
 
   it('returns parsed flow on valid JSON response', async () => {
     mockCreate.mockResolvedValue({ content: [{ type: 'text', text: JSON.stringify(validFlow) }] });
-    const result = await suggestWorkflow('I have 500 PDFs to classify.');
+    const result = await suggestWorkflow('Tengo 500 PDFs para clasificar.');
     expect(result.ok).toBe(true);
+    expect(result.flow!.hook).toContain('ahorrar');
+    expect(result.flow!.steps).toHaveLength(3);
+    expect(result.flow!.closer).toContain('revisar');
     expect(result.flow!.nodes).toHaveLength(3);
-    expect(result.flow!.edges).toHaveLength(2);
-    expect(result.flow!.summary).toContain('Classify');
-    expect(result.flow!.estimate).toBe('4-8 hours setup');
+    expect(result.flow!.nodes[0].type).toBe('trigger');
+    expect(result.flow!.nodes[2].type).toBe('result');
   });
 
   it('parses flow wrapped in markdown fences', async () => {
@@ -97,7 +104,6 @@ describe('suggestWorkflow', () => {
     });
     const result = await suggestWorkflow('input');
     expect(result.ok).toBe(true);
-    expect(result.flow!.nodes[0].type).toBe('trigger');
   });
 
   it('returns error 500 on malformed JSON', async () => {
@@ -107,7 +113,24 @@ describe('suggestWorkflow', () => {
     expect(result.code).toBe(500);
   });
 
-  it('returns error 500 when nodes array is missing or empty', async () => {
+  it('returns error 500 when hook is missing', async () => {
+    const { hook: _hook, ...rest } = validFlow;
+    mockCreate.mockResolvedValue({ content: [{ type: 'text', text: JSON.stringify(rest) }] });
+    const result = await suggestWorkflow('input');
+    expect(result.ok).toBe(false);
+    expect(result.code).toBe(500);
+  });
+
+  it('returns error 500 when steps is empty', async () => {
+    mockCreate.mockResolvedValue({
+      content: [{ type: 'text', text: JSON.stringify({ ...validFlow, steps: [] }) }],
+    });
+    const result = await suggestWorkflow('input');
+    expect(result.ok).toBe(false);
+    expect(result.code).toBe(500);
+  });
+
+  it('returns error 500 when nodes array is empty', async () => {
     mockCreate.mockResolvedValue({
       content: [{ type: 'text', text: JSON.stringify({ ...validFlow, nodes: [] }) }],
     });
@@ -120,6 +143,25 @@ describe('suggestWorkflow', () => {
     mockCreate.mockResolvedValue({
       content: [{ type: 'text', text: JSON.stringify({ ...validFlow, edges: [{ from: 'n1', to: 'nX' }] }) }],
     });
+    const result = await suggestWorkflow('input');
+    expect(result.ok).toBe(false);
+    expect(result.code).toBe(500);
+  });
+
+  it('returns error 500 when output mentions a forbidden AI brand (Claude)', async () => {
+    const polluted = { ...validFlow, steps: [...validFlow.steps, 'Claude lee los PDFs.'] };
+    mockCreate.mockResolvedValue({ content: [{ type: 'text', text: JSON.stringify(polluted) }] });
+    const result = await suggestWorkflow('input');
+    expect(result.ok).toBe(false);
+    expect(result.code).toBe(500);
+  });
+
+  it('returns error 500 when a node label mentions ChatGPT', async () => {
+    const polluted = {
+      ...validFlow,
+      nodes: [...validFlow.nodes.slice(0, 2), { id: 'n3', type: 'result', label: 'ChatGPT writes summary' }],
+    };
+    mockCreate.mockResolvedValue({ content: [{ type: 'text', text: JSON.stringify(polluted) }] });
     const result = await suggestWorkflow('input');
     expect(result.ok).toBe(false);
     expect(result.code).toBe(500);
