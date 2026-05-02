@@ -29,7 +29,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       return Response.json({ ok: false, code: result.code }, { status: result.code! });
     }
 
-    return Response.json({ ok: true, text: result.text });
+    return Response.json({ ok: true, flow: result.flow });
   } catch {
     return Response.json({ ok: false, code: 500 }, { status: 500 });
   }

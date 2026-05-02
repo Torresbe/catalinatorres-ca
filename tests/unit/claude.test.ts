@@ -67,16 +67,68 @@ describe('classifyText', () => {
 });
 
 describe('suggestWorkflow', () => {
-  it('returns text response', async () => {
-    mockCreate.mockResolvedValue({ content: [{ type: 'text', text: '§ Recommended approach\n...\n' }] });
+  const validFlow = {
+    summary: 'Classify PDFs and extract findings.',
+    nodes: [
+      { id: 'n1', type: 'trigger', label: 'Folder watch: PDFs' },
+      { id: 'n2', type: 'ai', label: 'Claude: extract findings' },
+      { id: 'n3', type: 'output', label: 'Write to spreadsheet' },
+    ],
+    edges: [
+      { from: 'n1', to: 'n2' },
+      { from: 'n2', to: 'n3' },
+    ],
+    estimate: '4-8 hours setup',
+  };
+
+  it('returns parsed flow on valid JSON response', async () => {
+    mockCreate.mockResolvedValue({ content: [{ type: 'text', text: JSON.stringify(validFlow) }] });
     const result = await suggestWorkflow('I have 500 PDFs to classify.');
     expect(result.ok).toBe(true);
-    expect(result.text).toContain('Recommended approach');
+    expect(result.flow!.nodes).toHaveLength(3);
+    expect(result.flow!.edges).toHaveLength(2);
+    expect(result.flow!.summary).toContain('Classify');
+    expect(result.flow!.estimate).toBe('4-8 hours setup');
+  });
+
+  it('parses flow wrapped in markdown fences', async () => {
+    mockCreate.mockResolvedValue({
+      content: [{ type: 'text', text: '```json\n' + JSON.stringify(validFlow) + '\n```' }],
+    });
+    const result = await suggestWorkflow('input');
+    expect(result.ok).toBe(true);
+    expect(result.flow!.nodes[0].type).toBe('trigger');
+  });
+
+  it('returns error 500 on malformed JSON', async () => {
+    mockCreate.mockResolvedValue({ content: [{ type: 'text', text: 'not valid json' }] });
+    const result = await suggestWorkflow('input');
+    expect(result.ok).toBe(false);
+    expect(result.code).toBe(500);
+  });
+
+  it('returns error 500 when nodes array is missing or empty', async () => {
+    mockCreate.mockResolvedValue({
+      content: [{ type: 'text', text: JSON.stringify({ ...validFlow, nodes: [] }) }],
+    });
+    const result = await suggestWorkflow('input');
+    expect(result.ok).toBe(false);
+    expect(result.code).toBe(500);
+  });
+
+  it('returns error 500 when edge references unknown node id', async () => {
+    mockCreate.mockResolvedValue({
+      content: [{ type: 'text', text: JSON.stringify({ ...validFlow, edges: [{ from: 'n1', to: 'nX' }] }) }],
+    });
+    const result = await suggestWorkflow('input');
+    expect(result.ok).toBe(false);
+    expect(result.code).toBe(500);
   });
 
   it('handles API errors', async () => {
     mockCreate.mockRejectedValue(new Error('timeout'));
     const result = await suggestWorkflow('some input');
     expect(result.ok).toBe(false);
+    expect(result.code).toBe(503);
   });
 });
