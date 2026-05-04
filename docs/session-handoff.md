@@ -1,64 +1,55 @@
 ---
 **Última sesión:** 2026-05-04
-**Próxima sesión:** cerrar Tarea 19 (page-by-page QA, Lighthouse, cross-browser). Sitio en producción y funcional.
+**Próxima sesión:** Lighthouse + cross-browser. Mobile responsive ya verificado. Sitio en producción y funcional.
 ---
 
 # Session handoff — Portfolio
 
 ## Estado en una línea
 
-Sitio en producción en `https://catatorres.ca` (+ `www.catatorres.ca`). Tareas 1–18 cerradas. Tarea 19: **4/4 chequeos funcionales verde**, quedan QA por ruta + Lighthouse + cross-browser.
+Sitio en producción en `https://catatorres.ca` (+ `www.catatorres.ca`). Tareas 1–18 cerradas. Tarea 19: 4/4 chequeos funcionales verde, mobile responsive verificado en 14 rutas × 2 viewports vía Playwright. Quedan Lighthouse + cross-browser.
 
 ## Cómo retomar
 
 1. Leer `CLAUDE.md` y este archivo
-2. Continuar el checklist de QA abajo en browser limpio (incognito o hard-refresh)
-3. Cuando los 4 chequeos pendientes estén verdes, cerrar Tarea 19 y el proyecto
-
-## Lo cerrado en la sesión 2026-05-01 (full-day deploy + QA)
-
-8 commits sobre `main`. Highlights:
-
-- **Tarea 17 (Playwright):** `playwright.config.ts` + 14 tests cubriendo nav, i18n, demos, contact, error path
-- **Domain typo descubierto + corregido:** real `catatorres.ca`, no `catalinatorres.ca`. Sweep en commit `ea30e81`
-- **LinkedIn:** JSON-LD `sameAs` y aside de `/contact` y `/es/contacto`
-- **Tarea 18 (deploy):** repo GitHub `Torresbe/catalinatorres-ca`, proyecto Vercel `catalinatorres-ca` (los nombres conservan typo viejo — son labels internos), Upstash KV (`upstash-kv-fuchsia-kettle`) en Portland, env vars vivas, Resend domain `catatorres.ca` con DKIM+SPF+DMARC en Hostinger DNS, dominio apuntando a Vercel via A `76.76.21.21` + CNAME `www → catatorres.ca`
-- **QA pass — bugs encontrados y arreglados (commits `47ad2cc` → `e84761c`):**
-  - Classifier 500-eaba en producción porque Haiku envuelve JSON en markdown fences. Fix: extractor tolerante a fences ```` ```json ```` / ```` ``` ```` / preamble (`fix: tolerate markdown-wrapped JSON in classifier`)
-  - Workflow output overflowing horizontal por user-agent default `<pre> { white-space: pre }` ganándole a la regla scoped. Fix: scoping global con `:global()` para elementos creados via innerHTML
-  - 429 ES estaba en inglés ("love not found") → "amor no encontrado"
-  - Zodiac demo en /es mostraba títulos en inglés → bilingüe (Hopscotch / Rayuela, Si una noche de invierno un viajero, etc.)
-  - Story demo lang-aware con narrativa traducida ("INSTRUCCIONES PARA DARLE CUERDA AL RELOJ")
+2. Correr `npm run test` y `npm run test:e2e` (asegurar 33 unit + 30 e2e verde antes de tocar código)
+3. Atacar Lighthouse o cross-browser (lo que esté arriba en la lista pendiente)
 
 ## Verificado en QA
 
-### Sesión 2026-05-01
-- [x] Site cargando en `https://catatorres.ca` y `www.catatorres.ca` (SSL OK)
-- [x] Páginas estáticas EN navegando bien
-- [x] Classifier en `/lab` (EN): input real → fields estructurados
-- [x] Workflow Suggester: output con wrap correcto (long lines no overflow)
-- [x] Zodiac demo en `/es/proyectos/zodiac-book-recommender`: ES + títulos en español
-
-### Sesión 2026-05-04
+### Funcional (4/4)
 - [x] Story demo en `/es/proyectos/interactive-story`: narrativa traducida (Cortázar)
 - [x] Contact form end-to-end: mensaje real recibido en `catalinatorres1000@gmail.com`
 - [x] 429 ES en `/es/lab`: mensaje "amor no encontrado" en español
-- [x] Honeypot: verificado vía código (validation.ts:24 + ContactForm.astro:12 + test). Endpoint retorna 403 si campo `website` está rellenado. Bonus: timing check de 2s mín. en validation.ts:25
-- [x] Workflow Suggester rediseñado con copy persuasivo (hook + steps + closer) y diagrama horizontal HTML/CSS con cards reducidas (max-width 180px). Labels INICIO/ACCIÓN/RESULTADO en /es/lab. Filtro de marcas de IA prohibidas en validación
+- [x] Honeypot: verificado vía código ([src/lib/validation.ts:24](../src/lib/validation.ts) + [src/components/ContactForm.astro:12](../src/components/ContactForm.astro) + test). Endpoint retorna 403 si campo `website` está rellenado. Bonus: timing check 2s mín en validation.ts:25.
+
+### Demos
+- [x] Site cargando en `https://catatorres.ca` y `www.catatorres.ca` (SSL OK)
+- [x] Páginas estáticas EN y ES navegando
+- [x] Classifier en `/lab` (EN): input real → fields estructurados
+- [x] Workflow Suggester rediseñado: copy persuasivo (hook + steps + closer) + diagrama horizontal HTML/CSS. Labels INICIO/ACCIÓN/RESULTADO en /es/lab. Filtro de marcas de IA prohibidas en validación.
+- [x] Zodiac demo en `/es/proyectos/zodiac-book-recommender`: ES + títulos en español
+
+### Mobile responsive (sesión 2026-05-04)
+- [x] Viewport meta tag presente en Layout
+- [x] Header mobile (<768px): barra fija con `[☰] [logo centrado] [EN/ES]`. Menú abierto: HOME · SERVICES · PROJECTS · LAB · ABOUT · CONTACT centrados, full-width, 16px font.
+- [x] Header desktop: grid 3-col `1fr auto 1fr` (logo · nav centrado · lang). Font del nav 13px (subido desde 11px).
+- [x] Header sticky (`position: sticky; top: 0; z-index: 100`) tanto en desktop como mobile.
+- [x] Footer apila vertical en mobile (antes desbordaba 93px por el email).
+- [x] Tokens font-size en mobile: body 16px, h1 ≤ 32px, h2 ≤ 24px, mín 14px en cualquier texto visible.
+- [x] **Suite e2e `mobile-audit.spec.ts`**: 14 rutas × 2 viewports (375px iPhone SE + 390px iPhone 14) + hamburger toggle + desktop-no-hamburger = **30/30 pass**. Asserts: 0 horizontal scroll, 0 texto < 14px, 0 errores JS.
 
 ## Pendiente para cerrar Tarea 19
-
-### Page-by-page QA (todavía pendiente)
-Para cada ruta (13 EN + 13 ES + ruta dinámica de proyectos): heading correcto, imágenes cargan, links internos/externos funcionan, mobile responsive (375px). Lista en plan línea 3459.
 
 ### Lighthouse audits
 Targets: Performance ≥95, A11y =100, Best Practices ≥95, SEO =100. Rutas: `/`, `/projects`, `/lab`. Common fixes: alt text, color contrast, lang attr (ya cubierto).
 
 ### Cross-browser
-Safari desktop, Chrome desktop, Firefox desktop, Safari iOS, Chrome Android.
+Safari desktop, Chrome desktop, Firefox desktop, Safari iOS, Chrome Android. (mobile-audit.spec.ts ya corre en chromium; iOS Safari + Firefox desktop son los que faltan).
 
 ### Misc
 - [ ] Confirmar que `torresautomatizations.com` (dominio viejo) ya no recibe tráfico
+- [ ] `hostinger-recovery-codes.txt`: ya en `.gitignore` (commit 2026-05-04). Catalina debería moverlo fuera del repo a un password manager o `~/Documents/credentials/`.
 
 ## Decisiones / contexto crítico que NO está en el código
 
@@ -68,12 +59,14 @@ Safari desktop, Chrome desktop, Firefox desktop, Safari iOS, Chrome Android.
 - **GitHub auth:** PAT cacheada en macOS keychain. `git push` funciona sin prompt.
 - **Vercel CLI:** global, autenticada como `torresbe-1700`, scope `torresbes-projects`. Linkado al proyecto via `.vercel/project.json`. `vercel env ls/add/rm` y `vercel domains add` funcionan sin login. **NO** puede pullar las KV credentials de Upstash con `vercel env pull` — son inyectadas solo en runtime.
 - **Email:** público `catalinatorres1000@gmail.com`. NO `fractalshoot@gmail.com` (sistema) ni `torresbe@ualberta.ca` (GitHub/Vercel auth).
-- **Astro CSS scoping gotcha:** elementos creados via `innerHTML` no llevan el atributo `data-astro-cid-XXX` que Astro usa para scoping → reglas scoped no matchean. Fix establecido: `:global()` con prefix de container ID (e.g. `:global(#suggest-output .suggestion)`). Mantener este patrón al añadir nuevos componentes con output dinámico.
-- **API keys:** ANTHROPIC + RESEND en Vercel env vars (Production). NO commiteadas. `hostinger-recovery-codes.txt` untracked en el repo — Catalina debe moverlo fuera del repo o añadirlo a `.gitignore`.
+- **Astro CSS scoping gotcha:** elementos creados via `innerHTML` no llevan el atributo `data-astro-cid-XXX` que Astro usa para scoping → reglas scoped no matchean. Fix establecido: `:global()` con prefix de container ID (e.g. `:global(#suggest-output .flow-card)`). Mantener este patrón al añadir nuevos componentes con output dinámico.
+- **Sticky + overflow gotcha:** `overflow-x: hidden` en html/body rompe `position: sticky` en algunos browsers. La suite e2e `mobile-audit` ya garantiza que no haya scroll horizontal, así que el guard es innecesario. Si se necesita reintroducir un guard, aplicarlo a un wrapper específico, no al body.
+- **Workflow Suggester schema:** `Flow = { hook, steps[], closer, nodes[], edges[] }`. Tipos de nodo: `trigger | action | result`. Validación rechaza marcas de IA (Claude, ChatGPT, GPT, Perplexity, OpenAI, Anthropic, Gemini, Bard, Copilot, LLM, Llama, Mistral, Cohere). Ver [src/lib/claude.ts:62](../src/lib/claude.ts).
+- **API keys:** ANTHROPIC + RESEND en Vercel env vars (Production). NO commiteadas.
 
 ## Diferido / seguimiento opcional
 
-- **`hostinger-recovery-codes.txt`:** mover fuera del repo
+- **`hostinger-recovery-codes.txt`:** mover fuera del repo a password manager o `~/Documents/credentials/`. Ya en `.gitignore`.
 - **Vercel deployment alias `catalinatorres-ca.vercel.app`:** borrado por error, devuelve `DEPLOYMENT_NOT_FOUND`. No importa — `catatorres.ca` funciona. Se puede recrear si necesario.
 - **Vercel Web Analytics:** activo en `astro.config.mjs`. Revisar después de que el sitio reciba tráfico.
 - **Renombrar repo + Vercel project:** de `catalinatorres-ca` → `catatorres-ca`. Opcional, solo cosmético.
@@ -84,6 +77,6 @@ Safari desktop, Chrome desktop, Firefox desktop, Safari iOS, Chrome Android.
 - Producción: `vercel --prod` o auto-deploy en cada `git push origin main`.
 - Para limpiar rate limits durante QA: Upstash dashboard → Data Browser/CLI → comando `FLUSHDB`. (Vercel CLI no expone estas credentials.)
 - Tests:
-  - Vitest unit: `npm run test`
-  - Playwright local: `npm run test:e2e`
+  - Vitest unit: `npm run test` (33 tests)
+  - Playwright local: `npm run test:e2e` (smoke + mobile-audit, ~44 tests total)
 - Commits atómicos por tipo: `feat:`, `fix:`, `chore:`, `docs:`, `test:`. Separar concerns.

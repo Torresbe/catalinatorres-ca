@@ -31,3 +31,6 @@ pnpm-debug.log*
 playwright-report
 test-results
 .env*.local
+
+# secrets / credentials accidentally dropped in the repo
+hostinger-recovery-codes.txt
