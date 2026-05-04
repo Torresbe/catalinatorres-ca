@@ -1,13 +1,13 @@
 ---
-**Última sesión:** 2026-05-01 (cont.)
-**Próxima sesión:** terminar Tarea 19 (QA pendiente listado abajo). Sitio en producción y funcional.
+**Última sesión:** 2026-05-04
+**Próxima sesión:** cerrar Tarea 19 (page-by-page QA, Lighthouse, cross-browser). Sitio en producción y funcional.
 ---
 
 # Session handoff — Portfolio
 
 ## Estado en una línea
 
-Sitio en producción en `https://catatorres.ca` (+ `www.catatorres.ca`). Tareas 1–18 cerradas. Tarea 19 (QA) **parcialmente verificada** — quedan 4 chequeos manuales.
+Sitio en producción en `https://catatorres.ca` (+ `www.catatorres.ca`). Tareas 1–18 cerradas. Tarea 19: **4/4 chequeos funcionales verde**, quedan QA por ruta + Lighthouse + cross-browser.
 
 ## Cómo retomar
 
@@ -30,21 +30,23 @@ Sitio en producción en `https://catatorres.ca` (+ `www.catatorres.ca`). Tareas 
   - Zodiac demo en /es mostraba títulos en inglés → bilingüe (Hopscotch / Rayuela, Si una noche de invierno un viajero, etc.)
   - Story demo lang-aware con narrativa traducida ("INSTRUCCIONES PARA DARLE CUERDA AL RELOJ")
 
-## Verificado en QA hoy
+## Verificado en QA
 
+### Sesión 2026-05-01
 - [x] Site cargando en `https://catatorres.ca` y `www.catatorres.ca` (SSL OK)
 - [x] Páginas estáticas EN navegando bien
 - [x] Classifier en `/lab` (EN): input real → fields estructurados
 - [x] Workflow Suggester: output con wrap correcto (long lines no overflow)
 - [x] Zodiac demo en `/es/proyectos/zodiac-book-recommender`: ES + títulos en español
 
-## Pendiente para cerrar Tarea 19
+### Sesión 2026-05-04
+- [x] Story demo en `/es/proyectos/interactive-story`: narrativa traducida (Cortázar)
+- [x] Contact form end-to-end: mensaje real recibido en `catalinatorres1000@gmail.com`
+- [x] 429 ES en `/es/lab`: mensaje "amor no encontrado" en español
+- [x] Honeypot: verificado vía código (validation.ts:24 + ContactForm.astro:12 + test). Endpoint retorna 403 si campo `website` está rellenado. Bonus: timing check de 2s mín. en validation.ts:25
+- [x] Workflow Suggester rediseñado con copy persuasivo (hook + steps + closer) y diagrama horizontal HTML/CSS con cards reducidas (max-width 180px). Labels INICIO/ACCIÓN/RESULTADO en /es/lab. Filtro de marcas de IA prohibidas en validación
 
-### Funcional (4 chequeos restantes)
-- [ ] **Story demo en `/es/proyectos/interactive-story`:** abre con "INSTRUCCIONES PARA DARLE CUERDA AL RELOJ", choices "seguir leyendo" / "ponla en la hora que marca tu muñeca" / "ponla en la hora que tenía el dueño anterior", botón restart "reiniciar" al llegar a un final
-- [ ] **Contact form end-to-end:** desde `/contact` enviar mensaje real → debe llegar a `catalinatorres1000@gmail.com` con subject `[catatorres] ...`. Verificar UI éxito muestra "letter received. you'll hear back within 48h."
-- [ ] **429 ES en `/es/lab`:** después de 2 attempts del mismo demo, el 3er debe dar `ERROR 429 — amor no encontrado...` (en español, confirmar)
-- [ ] **Honeypot:** rellenar campo `website` vía devtools en el contact form → submit debería rechazar (probable code 403)
+## Pendiente para cerrar Tarea 19
 
 ### Page-by-page QA (todavía pendiente)
 Para cada ruta (13 EN + 13 ES + ruta dinámica de proyectos): heading correcto, imágenes cargan, links internos/externos funcionan, mobile responsive (375px). Lista en plan línea 3459.
