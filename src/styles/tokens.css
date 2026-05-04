@@ -44,8 +44,17 @@
   --gutter-mobile: 16px;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   :root {
     --gutter: 16px;
+    --text-xs: 14px;
+    --text-sm: 14px;
+    --text-base: 16px;
+    --text-lg: 17px;
+    --text-xl: 20px;
+    --text-2xl: 24px;
+    --text-3xl: 24px;  /* h2 = 1.5rem */
+    --text-4xl: 32px;  /* h1 = 2rem */
+    --text-5xl: 32px;  /* hero h1 caps at 2rem on mobile */
   }
 }

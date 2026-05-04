@@ -5,6 +5,7 @@ import LangToggle from './LangToggle.astro';
 const lang = getLangFromUrl(Astro.url);
 const strings = t(lang);
 const base = lang === 'es' ? '/es' : '';
+const menuLabel = lang === 'es' ? 'Menú' : 'Menu';
 
 const navItems = [
   { href: `${base}/`, label: strings.nav.home },
@@ -15,20 +16,48 @@ const navItems = [
   { href: `${base}${lang === 'es' ? '/contacto' : '/contact'}`, label: strings.nav.contact },
 ];
 ---
-<header>
+<header id="site-header">
   <div class="wrap">
+    <button
+      type="button"
+      class="hamburger"
+      id="nav-toggle"
+      aria-controls="main-nav"
+      aria-expanded="false"
+      aria-label={menuLabel}
+    >
+      <span aria-hidden="true">☰</span>
+    </button>
     <a href={base || '/'} class="brand">
       <img src="/favicon.svg" alt="" class="brand-mark" width="72" height="36" />
       <span class="brand-text">catalina torres</span>
     </a>
-    <nav>
+    <div class="lang-slot"><LangToggle /></div>
+    <nav id="main-nav">
       {navItems.map(({ href, label }) => (
         <a href={href} class="navlink">{label}</a>
       ))}
+      <div class="nav-lang"><LangToggle /></div>
     </nav>
-    <LangToggle />
   </div>
 </header>
+<script>
+  const btn = document.getElementById('nav-toggle');
+  const nav = document.getElementById('main-nav');
+  const header = document.getElementById('site-header');
+  if (btn && nav && header) {
+    btn.addEventListener('click', () => {
+      const open = header.classList.toggle('nav-open');
+      btn.setAttribute('aria-expanded', String(open));
+    });
+    nav.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).tagName === 'A') {
+        header.classList.remove('nav-open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+</script>
 <style>
   header {
     border-bottom: 1px dashed var(--divider);
@@ -44,6 +73,20 @@ const navItems = [
     gap: var(--s-6);
     flex-wrap: wrap;
   }
+  .hamburger {
+    display: none;
+    background: transparent;
+    border: 1px solid var(--divider);
+    border-radius: 3px;
+    padding: 4px 10px;
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 1;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .hamburger:hover { border-color: var(--ink); }
+  .nav-lang { display: none; }
   .brand {
     display: inline-flex;
     flex-direction: column;
@@ -71,4 +114,32 @@ const navItems = [
     color: var(--ink);
   }
   .navlink:hover { color: var(--red); }
+
+  @media (max-width: 768px) {
+    .wrap {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: var(--s-3);
+      flex-wrap: nowrap;
+    }
+    .hamburger { display: inline-flex; align-items: center; justify-content: center; min-width: 40px; min-height: 40px; }
+    .brand { justify-self: center; }
+    .lang-slot { display: none; }
+    nav {
+      display: none;
+      grid-column: 1 / -1;
+      flex-direction: column;
+      gap: var(--s-2);
+      padding-top: var(--s-4);
+      width: 100%;
+    }
+    .navlink {
+      padding: var(--s-2) 0;
+      font-size: var(--text-sm);
+      border-bottom: 1px dashed var(--divider);
+    }
+    .nav-lang { display: block; padding-top: var(--s-2); }
+    header.nav-open nav { display: flex; }
+  }
 </style>
