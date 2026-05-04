@@ -38,8 +38,14 @@ const labels = lang === 'es'
   const lang: 'en' | 'es' = document.documentElement.lang === 'es' ? 'es' : 'en';
 
   const ui = {
-    en: { drafting: '[ drafting… ]', progress: 'drafting workflow…', send: '[ Suggest workflow → ]' },
-    es: { drafting: '[ redactando… ]', progress: 'redactando flujo…', send: '[ Sugerir flujo → ]' },
+    en: {
+      drafting: '[ drafting… ]', progress: 'drafting workflow…', send: '[ Suggest workflow → ]',
+      typeLabels: { trigger: 'TRIGGER', action: 'ACTION', result: 'RESULT' },
+    },
+    es: {
+      drafting: '[ redactando… ]', progress: 'redactando flujo…', send: '[ Sugerir flujo → ]',
+      typeLabels: { trigger: 'INICIO', action: 'ACCIÓN', result: 'RESULTADO' },
+    },
   }[lang];
 
   form.addEventListener('submit', async (e) => {
@@ -92,12 +98,11 @@ const labels = lang === 'es'
   }
 
   function renderDiagram(nodes: FlowNode[]): string {
-    const typeLabels = { trigger: 'TRIGGER', action: 'ACTION', result: 'RESULT' };
     return nodes
       .map((n, i) => {
         const card = `
           <div class="flow-card flow-card-${n.type}">
-            <span class="flow-card-type">${typeLabels[n.type]}</span>
+            <span class="flow-card-type">${ui.typeLabels[n.type]}</span>
             <span class="flow-card-label">${escapeHtml(n.label)}</span>
           </div>
         `;
