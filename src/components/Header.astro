@@ -62,6 +62,10 @@ const navItems = [
   header {
     border-bottom: 1px dashed var(--divider);
     padding: var(--s-4) 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--paper);
   }
   .wrap {
     max-width: var(--hero-max);
@@ -133,6 +137,8 @@ const navItems = [
       gap: var(--s-2);
       padding-top: var(--s-4);
       width: 100%;
+      max-height: calc(100vh - 80px);
+      overflow-y: auto;
     }
     .navlink {
       padding: var(--s-2) 0;

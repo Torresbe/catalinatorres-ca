@@ -13,10 +13,9 @@ html {
   font-size: var(--text-base);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
 }
 
-body { margin: 0; max-width: 100%; overflow-x: hidden; }
+body { margin: 0; max-width: 100%; }
 
 img, svg, video { max-width: 100%; height: auto; }
 
