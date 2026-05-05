@@ -1,18 +1,32 @@
 ---
-**Última sesión:** 2026-05-04
-**Próxima sesión:** Lighthouse + cross-browser. Mobile responsive ya verificado. Sitio en producción y funcional.
+**Última sesión:** 2026-05-04 (iteración post-launch)
+**Próxima sesión:** Verificar 429 real en producción tras 3 envíos. Lighthouse + cross-browser todavía pendientes.
 ---
 
 # Session handoff — Portfolio
 
 ## Estado en una línea
 
-Sitio en producción en `https://catatorres.ca` (+ `www.catatorres.ca`). Tareas 1–18 cerradas. Tarea 19: 4/4 chequeos funcionales verde, mobile responsive verificado en 14 rutas × 2 viewports vía Playwright. Quedan Lighthouse + cross-browser.
+Sitio en producción en `https://catatorres.ca`. Iteración 2026-05-04 ejecutada: menú mobile sin hamburguesa, /contact con chips linkedin+email, /lab con un solo demo y copy nuevo, ERROR 429 reescrito, classifier eliminado, credenciales académicas en about. Todo verde local: 30 unit + 55 e2e.
+
+## Iteración 2026-05-04 — qué cambió
+
+Spec: [`docs/superpowers/specs/2026-05-04-portfolio-iteration-design.md`](./superpowers/specs/2026-05-04-portfolio-iteration-design.md)
+Plan: [`docs/superpowers/plans/2026-05-04-portfolio-iteration-implementation.md`](./superpowers/plans/2026-05-04-portfolio-iteration-implementation.md)
+
+- **Header mobile:** sin hamburguesa. Ahora muestra brand izquierda + lang derecha en row 1, y una franja con scroll horizontal de las 6 secciones en row 2. Página actual marcada en rojo
+- **/contact y /es/contacto:** título solo "contact"/"contacto", 2 chips estilo home (linkedin → · email ↓), form abajo, sin la marginalia inferior
+- **/lab y /es/lab:** un solo demo (workflow). Título nuevo ("let's run an experiment" / "Hagamos un experimento") con lede personal cerrado con un corazón pixel SVG ink. Cero menciones a Claude. Texto de rate limit eliminado. Chips linkedin+email al cierre
+- **ERROR 429:** "i gave you everything. linkedin → or email → for more" / "te di todo lo que tenía. linkedin → o email → para más" — links activos
+- **Rate limit:** workflow demo sube de 2 a 3 intentos por IP por 24h
+- **/about y /es/sobre-mi:** último párrafo abre con credenciales (BA Comunicación Social + MA Digital Humanities U de Alberta)
+- **Eliminado:** ClassifierDemo, /api/classify, classifyText en src/lib/claude.ts, sus tests
+- **Nuevo guard:** `tests/e2e/no-brand-mentions.spec.ts` falla si reaparece "claude/anthropic/chatgpt/openai/perplexity" en páginas públicas (excepto /privacy)
 
 ## Cómo retomar
 
 1. Leer `CLAUDE.md` y este archivo
-2. Correr `npm run test` y `npm run test:e2e` (asegurar 33 unit + 30 e2e verde antes de tocar código)
+2. Correr `npm run test` y `npm run test:e2e` (asegurar 30 unit + 55 e2e verde antes de tocar código)
 3. Atacar Lighthouse o cross-browser (lo que esté arriba en la lista pendiente)
 
 ## Verificado en QA
