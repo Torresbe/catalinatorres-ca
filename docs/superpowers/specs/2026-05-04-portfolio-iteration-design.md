@@ -13,6 +13,7 @@ Tras dos semanas en producción Catalina recibió feedback que apunta a 4 proble
 - G — Página `/contact` con dos canales (LinkedIn DM + email) en estilo chip del home
 - E — `/lab` con un solo demo (workflow), copy reescrito, sin marca, 3 intentos
 - F — Eliminación del texto de rate limit
+- About — credenciales académicas al cierre
 - ERROR 429 reescrito (depende de G)
 
 **Fuera:**
@@ -182,7 +183,24 @@ Bajo el WorkflowDemo, mismo patrón que `/contact`:
 - `src/lib/ratelimit.ts` — bump de `2` a `3` requests por IP por 24h para los endpoints del lab
 - El endpoint `/api/classify` se elimina, así que solo aplica a `/api/suggest-workflow`. El form de contacto tiene su propio límite (3/IP/24h en el spec original) — sin cambio
 
-### 3.4. ERROR 429 (depende de G)
+### 3.4. /about y /es/sobre-mi — credenciales académicas
+
+Catalina pidió añadir su formación académica al cierre del about. Se reescribe el último párrafo de ambas páginas: empieza con la educación, mantiene el resto del cierre actual (idiomas, ubicación, disponibilidad).
+
+**ES — `src/pages/es/sobre-mi.astro`** (último `<p>` reescrito):
+
+> Tengo un pregrado en comunicación social con énfasis en producción editorial y maestría en humanidades digitales en la U de Alberta. Hablo inglés y español con fluidez. Vivo en Edmonton, Alberta. Estoy disponible para consultoría freelance, contratos por proyecto y posiciones a tiempo completo en automatización de operaciones o implementación de IA.
+
+**EN — `src/pages/about.astro`** (último `<p>` reescrito, espejo del ES):
+
+> I hold a BA in Social Communication with a focus on editorial production, and an MA in Digital Humanities from the University of Alberta. I am fluent in English and Spanish. I live in Edmonton, Alberta. I am available for freelance consulting, short-term contracts, and full-time roles in operations automation or AI implementation.
+
+**Detalles:**
+- Reemplazo simple del último `<p>` en ambas páginas. No cambian estilos, jerarquía, ni longitudes máximas.
+- "U de Alberta" en ES (informal, igual que lo escribió Catalina) / "University of Alberta" en EN (formal, estándar para audiencia internacional).
+- "comunicación social" / "Social Communication" — se preserva la traducción literal del título de pregrado colombiano. Capitalización en EN sigue convención de títulos de grado.
+
+### 3.5. ERROR 429 (depende de G)
 
 Mensaje actualizado en `src/lib/errors.ts`:
 
@@ -248,6 +266,7 @@ Cada cambio aplica espejo EN/ES. Strings nuevos a agregar en `src/i18n/` (la est
 - [ ] El ERROR 429 dice "i gave you everything…" / "te di todo lo que tenía…" con LinkedIn y email como links activos
 - [ ] El pixel heart aparece al final del lede de `/lab` y `/es/lab`, color ink, tamaño 14×14px
 - [ ] La traducción al EN del lede mantiene el lowercase y el mismo registro emocional del ES
+- [ ] El último párrafo de `/about` y `/es/sobre-mi` empieza con las credenciales académicas (BA + MA U de Alberta) y mantiene idiomas/ubicación/disponibilidad
 - [ ] Tests Playwright (mobile-audit + smoke + cualquier nuevo) pasan en chromium
 - [ ] Build (`npm run build`) sin errores ni warnings nuevos
 - [ ] Lighthouse en `/`, `/lab`, `/contact` mantiene Performance ≥95, A11y =100, SEO =100 (Tarea 19 pendiente del spec original)
