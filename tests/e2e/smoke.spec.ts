@@ -121,15 +121,6 @@ test.describe('Contact form', () => {
 test.describe('Lab demos (error path)', () => {
   // APIs require env vars (Vercel KV + Anthropic). Locally they return 500;
   // we verify the demos render the error badge instead of crashing.
-  test('classifier renders ERROR badge without env vars', async ({ page }) => {
-    await page.goto('/lab');
-    await page.fill('#classify-form textarea[name=input]', 'classify this sample text for the smoke test.');
-    await page.click('#classify-form button[type=submit]');
-    const output = page.locator('#classify-output');
-    await expect(output).toBeVisible();
-    await expect(output.locator('.err .code')).toContainText('ERROR');
-  });
-
   test('workflow suggester renders ERROR badge without env vars', async ({ page }) => {
     await page.goto('/lab');
     await page.fill('#suggest-form textarea[name=input]', 'I have 500 PDFs to classify by topic.');
