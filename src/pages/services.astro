@@ -31,7 +31,12 @@ const services = [
 ];
 ---
 <Layout title="Services" description="Five services Catalina Torres offers — AI workflows, research operations, digital cataloging, bilingual content, and custom AI assistants.">
-  <SectionHeader label="§1" title="What I do" subtitle="Five ways I work with organizations and individuals who want AI to actually change how their operations run." />
+  <SectionHeader
+    label="§1"
+    title="What I do"
+    subtitle="Five ways I work with organizations and individuals who want AI to actually change how their operations run."
+    icon={{ src: '/dinos/servicios.png', alt: '', width: 240, height: 190 }}
+  />
   <div class="services">
     {services.map(({ label, title, body }) => (
       <article class="service">

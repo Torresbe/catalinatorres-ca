@@ -3,7 +3,11 @@ import Layout from '../components/Layout.astro';
 import SectionHeader from '../components/SectionHeader.astro';
 ---
 <Layout title="About" description="Catalina Torres — editor who codes. Mission, vision, and the way the work gets done.">
-  <SectionHeader label="§2" title="About" />
+  <SectionHeader
+    label="§2"
+    title="About"
+    icon={{ src: '/dinos/sobre-mi.png', alt: '', width: 320, height: 400 }}
+  />
   <article class="prose">
     <h3>Vision</h3>
     <p class="lede">

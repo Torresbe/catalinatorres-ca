@@ -37,3 +37,6 @@ hostinger-recovery-codes.txt
 
 # brainstorming visual companion
 .superpowers/
+
+# raw icon source files (optimized copies live in public/dinos/)
+/DINOS/

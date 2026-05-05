@@ -7,7 +7,12 @@ import { projectSlugFromId } from '../../../i18n/util';
 const projects = (await getCollection('projects', (e) => e.data.lang === 'es')).sort((a, b) => a.data.order - b.data.order);
 ---
 <Layout title="Proyectos" description="Seis proyectos entre práctica editorial, académica y automatización con IA.">
-  <SectionHeader label="[§3] CASOS" title="Proyectos" subtitle="De la experimentación editorial al diseño de operaciones y flujos nativos de IA — ordenados por años." />
+  <SectionHeader
+    label="[§3] CASOS"
+    title="Proyectos"
+    subtitle="De la experimentación editorial al diseño de operaciones y flujos nativos de IA — ordenados por años."
+    icon={{ src: '/dinos/proyectos.png', alt: '', width: 161, height: 118 }}
+  />
   <ul class="list">
     {projects.map((p) => (
       <li>

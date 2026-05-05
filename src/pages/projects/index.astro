@@ -6,7 +6,12 @@ import SectionHeader from '../../components/SectionHeader.astro';
 const projects = (await getCollection('projects', (e) => e.data.lang === 'en')).sort((a, b) => a.data.order - b.data.order);
 ---
 <Layout title="Projects" description="Six projects across editorial, academic, and AI automation practice.">
-  <SectionHeader label="[§3] CASES" title="Projects" subtitle="From editorial experimentation to operations design and AI-native workflows — arranged by year." />
+  <SectionHeader
+    label="[§3] CASES"
+    title="Projects"
+    subtitle="From editorial experimentation to operations design and AI-native workflows — arranged by year."
+    icon={{ src: '/dinos/proyectos.png', alt: '', width: 161, height: 118 }}
+  />
   <ul class="list">
     {projects.map((p) => (
       <li>
