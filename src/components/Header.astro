@@ -5,8 +5,8 @@ import LangToggle from './LangToggle.astro';
 const lang = getLangFromUrl(Astro.url);
 const strings = t(lang);
 const base = lang === 'es' ? '/es' : '';
-const menuLabel = lang === 'es' ? 'Menú' : 'Menu';
 const homeHref = base || '/';
+const sectionsLabel = lang === 'es' ? 'secciones' : 'sections';
 
 const navItems = [
   { href: `${base}/`, label: strings.nav.home },
@@ -16,52 +16,38 @@ const navItems = [
   { href: `${base}${lang === 'es' ? '/sobre-mi' : '/about'}`, label: strings.nav.about },
   { href: `${base}${lang === 'es' ? '/contacto' : '/contact'}`, label: strings.nav.contact },
 ];
+
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+function isCurrent(href: string): boolean {
+  const clean = href.replace(/\/$/, '') || '/';
+  return clean === currentPath;
+}
 ---
 <header id="site-header">
   <div class="wrap">
-    <button
-      type="button"
-      class="hamburger"
-      id="nav-toggle"
-      aria-controls="main-nav"
-      aria-expanded="false"
-      aria-label={menuLabel}
-    >
-      <span aria-hidden="true">☰</span>
-    </button>
     <a href={homeHref} class="brand brand-bar" aria-label="catalina torres — home">
       <img src="/favicon.svg" alt="" class="brand-mark" width="72" height="36" />
       <span class="brand-text">catalina torres</span>
     </a>
-    <nav id="main-nav">
+    <nav id="main-nav" aria-label="primary">
       {navItems.map(({ href, label }) => (
-        <a href={href} class="navlink">{label}</a>
+        <a href={href} class={`navlink${isCurrent(href) ? ' current' : ''}`}>{label}</a>
       ))}
     </nav>
     <div class="lang-slot"><LangToggle /></div>
+    <nav class="mobile-strip" aria-label="primary mobile">
+      <span class="strip-prefix">{sectionsLabel} —</span>
+      {navItems.map(({ href, label }) => (
+        <a href={href} class={`strip-item${isCurrent(href) ? ' current' : ''}`}>{label}</a>
+      ))}
+      <span class="strip-end" aria-hidden="true">›</span>
+    </nav>
   </div>
 </header>
-<script>
-  const btn = document.getElementById('nav-toggle');
-  const nav = document.getElementById('main-nav');
-  const header = document.getElementById('site-header');
-  if (btn && nav && header) {
-    btn.addEventListener('click', () => {
-      const open = header.classList.toggle('nav-open');
-      btn.setAttribute('aria-expanded', String(open));
-    });
-    nav.addEventListener('click', (e) => {
-      if ((e.target as HTMLElement).tagName === 'A' || (e.target as HTMLElement).closest('a')) {
-        header.classList.remove('nav-open');
-        btn.setAttribute('aria-expanded', 'false');
-      }
-    });
-  }
-</script>
 <style>
   header {
     border-bottom: 1px dashed var(--divider);
-    padding: var(--s-4) 0;
+    padding: var(--s-4) 0 0;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -75,23 +61,12 @@ const navItems = [
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
     gap: var(--s-6);
+    padding-bottom: var(--s-4);
   }
   .brand-bar { justify-self: start; }
-  nav { justify-self: center; }
+  #main-nav { justify-self: center; }
   .lang-slot { justify-self: end; }
-  .hamburger {
-    display: none;
-    background: transparent;
-    border: 1px solid var(--divider);
-    border-radius: 3px;
-    padding: 4px 10px;
-    font-family: var(--font-body);
-    font-size: 18px;
-    line-height: 1;
-    color: var(--ink);
-    cursor: pointer;
-  }
-  .hamburger:hover { border-color: var(--ink); }
+
   .brand {
     display: inline-flex;
     flex-direction: column;
@@ -106,7 +81,8 @@ const navItems = [
     font-style: italic;
     font-size: var(--text-lg);
   }
-  nav { display: flex; align-items: center; gap: var(--s-6); flex-wrap: wrap; }
+
+  #main-nav { display: flex; align-items: center; gap: var(--s-6); flex-wrap: wrap; }
   .navlink {
     font-family: var(--font-body);
     font-size: var(--text-sm);
@@ -116,46 +92,74 @@ const navItems = [
     color: var(--ink);
   }
   .navlink:hover { color: var(--red); }
-  .lang-slot { display: block; }
+  .navlink.current { color: var(--red); border-bottom: 1px solid var(--red); padding-bottom: 2px; }
+
+  .mobile-strip { display: none; }
 
   @media (max-width: 768px) {
+    header { padding-bottom: 0; }
     .wrap {
       display: grid;
       grid-template-columns: auto 1fr auto;
-      gap: var(--s-3);
+      grid-template-rows: auto auto;
+      gap: var(--s-3) 0;
+      padding-bottom: var(--s-3);
       align-items: center;
     }
-    .hamburger {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 40px;
-      min-height: 40px;
+    .brand-bar {
+      grid-column: 1;
+      grid-row: 1;
+      flex-direction: row;
+      gap: var(--s-2);
       justify-self: start;
     }
-    .brand-bar { display: inline-flex; justify-self: center; }
-    .lang-slot { display: block; justify-self: end; }
-    nav {
-      display: none;
+    .brand { flex-direction: row; gap: var(--s-2); align-items: center; }
+    .brand-mark { width: 40px; height: 20px; margin-bottom: 0; }
+    .brand-text { font-size: var(--text-base); }
+    #main-nav { display: none; }
+    .lang-slot {
+      grid-column: 3;
+      grid-row: 1;
+      justify-self: end;
+    }
+
+    .mobile-strip {
+      display: flex;
       grid-column: 1 / -1;
-      flex-direction: column;
+      grid-row: 2;
       align-items: center;
-      gap: var(--s-2);
-      padding-top: var(--s-4);
-      width: auto;
-      justify-self: stretch;
+      gap: 14px;
+      overflow-x: auto;
+      white-space: nowrap;
+      padding: var(--s-2) var(--gutter);
       margin: 0 calc(-1 * var(--gutter));
-      max-height: calc(100vh - 80px);
-      overflow-y: auto;
+      border-top: 1px dashed var(--divider);
+      scrollbar-width: none;
     }
-    .navlink {
-      width: 100%;
-      text-align: center;
-      padding: var(--s-3) 0;
-      border-bottom: 1px dashed var(--divider);
-      font-size: var(--text-base);
+    .mobile-strip::-webkit-scrollbar { display: none; }
+    .strip-prefix {
+      font-family: var(--font-display);
+      font-style: italic;
+      color: var(--marginalia);
+      font-size: var(--text-xs);
+      flex-shrink: 0;
+    }
+    .strip-item {
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
       letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+      flex-shrink: 0;
+      padding: 8px 0;
     }
-    header.nav-open nav { display: flex; }
+    .strip-item.current { color: var(--red); border-bottom: 1px solid var(--red); padding-bottom: 6px; }
+    .strip-end {
+      color: var(--divider);
+      font-size: 18px;
+      flex-shrink: 0;
+      padding-right: var(--gutter);
+    }
   }
 </style>

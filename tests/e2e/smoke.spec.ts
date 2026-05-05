@@ -8,20 +8,20 @@ test.describe('Core navigation — EN', () => {
   });
 
   test('top-level pages return 200 and render their section heading', async ({ page }) => {
-    const routes: Array<{ path: string; heading: string }> = [
-      { path: '/services', heading: 'What I do' },
-      { path: '/projects', heading: 'Projects' },
-      { path: '/lab', heading: 'Try the tools' },
-      { path: '/about', heading: 'About' },
-      { path: '/contact', heading: 'Contact' },
-      { path: '/privacy', heading: 'Privacy' },
+    const routes: Array<{ path: string; heading: string; level: 1 | 2 }> = [
+      { path: '/services', heading: 'What I do', level: 2 },
+      { path: '/projects', heading: 'Projects', level: 2 },
+      { path: '/lab', heading: "let's run an experiment", level: 2 },
+      { path: '/about', heading: 'About', level: 2 },
+      { path: '/contact', heading: 'contact', level: 1 },
+      { path: '/privacy', heading: 'Privacy', level: 2 },
     ];
     for (const r of routes) {
       const res = await page.goto(r.path);
       expect(res?.status(), `status for ${r.path}`).toBe(200);
       await expect(
-        page.getByRole('heading', { level: 2, name: r.heading }).first(),
-        `h2 on ${r.path}`,
+        page.getByRole('heading', { level: r.level, name: r.heading }).first(),
+        `h${r.level} on ${r.path}`,
       ).toBeVisible();
     }
   });

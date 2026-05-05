@@ -51,29 +51,30 @@ for (const vp of VIEWPORTS) {
   }
 }
 
-test('hamburger menu toggles nav on mobile', async ({ page }) => {
+test('mobile shows section strip with all 6 items, no hamburger', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 667 });
   await page.goto('http://localhost:4321/');
 
-  const nav = page.locator('#main-nav');
-  const btn = page.locator('#nav-toggle');
+  // Hamburger and toggle script no longer exist
+  await expect(page.locator('#nav-toggle')).toHaveCount(0);
 
-  await expect(nav).toBeHidden();
-  await expect(btn).toBeVisible();
-  await expect(btn).toHaveAttribute('aria-expanded', 'false');
+  // Mobile strip is visible and contains all 6 items
+  const strip = page.locator('.mobile-strip');
+  await expect(strip).toBeVisible();
+  const items = strip.locator('.strip-item');
+  await expect(items).toHaveCount(6);
 
-  await btn.click();
-  await expect(nav).toBeVisible();
-  await expect(btn).toHaveAttribute('aria-expanded', 'true');
-
-  await btn.click();
-  await expect(nav).toBeHidden();
+  // Current page (home) is highlighted
+  const current = strip.locator('.strip-item.current');
+  await expect(current).toHaveCount(1);
+  await expect(current).toHaveText(/home/i);
 });
 
-test('header on desktop shows nav inline, no hamburger', async ({ page }) => {
+test('desktop shows inline nav, mobile strip is hidden', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto('http://localhost:4321/');
 
   await expect(page.locator('#main-nav')).toBeVisible();
-  await expect(page.locator('#nav-toggle')).toBeHidden();
+  await expect(page.locator('.mobile-strip')).toBeHidden();
+  await expect(page.locator('#nav-toggle')).toHaveCount(0);
 });
