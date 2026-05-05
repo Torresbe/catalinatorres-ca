@@ -11,9 +11,9 @@ test.describe('Core navigation — EN', () => {
     const routes: Array<{ path: string; heading: string; level: 1 | 2 }> = [
       { path: '/services', heading: 'What I do', level: 2 },
       { path: '/projects', heading: 'Projects', level: 2 },
-      { path: '/lab', heading: "let's run an experiment", level: 2 },
+      { path: '/lab', heading: "Let's run an experiment", level: 2 },
       { path: '/about', heading: 'About', level: 2 },
-      { path: '/contact', heading: 'contact', level: 1 },
+      { path: '/contact', heading: 'Contact', level: 1 },
       { path: '/privacy', heading: 'Privacy', level: 2 },
     ];
     for (const r of routes) {

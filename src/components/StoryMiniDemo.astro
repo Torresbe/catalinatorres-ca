@@ -7,7 +7,7 @@ type Node = { id: string; text: string; choices?: { label: string; next: string 
 const nodesEN: Node[] = [
   {
     id: 'start',
-    text: 'INSTRUCTIONS FOR WINDING THE CLOCK. The clock is small, on the table by the window, and it has stopped. You will turn the key three full turns to the right, gently. You will feel the spring tighten with each rotation. After the third turn, the mechanism is wound. Now read on — there is one decision to make.',
+    text: 'INSTRUCTIONS FOR WINDING THE CLOCK. The clock is small, on the table by the window, and it has stopped. You will turn the key three full turns to the right, gently. You will feel the spring tighten with each rotation. After the third turn, the mechanism is wound. Now read on. There is one decision to make.',
     choices: [{ label: 'continue reading', next: 'fork' }],
   },
   {
@@ -33,7 +33,7 @@ const nodesEN: Node[] = [
 const nodesES: Node[] = [
   {
     id: 'start',
-    text: 'INSTRUCCIONES PARA DARLE CUERDA AL RELOJ. El reloj es pequeño, sobre la mesa junto a la ventana, y se ha detenido. Darás tres vueltas completas a la llave hacia la derecha, con suavidad. Sentirás el resorte tensarse con cada rotación. Después de la tercera vuelta, el mecanismo está cargado. Sigue leyendo — hay una sola decisión que tomar.',
+    text: 'INSTRUCCIONES PARA DARLE CUERDA AL RELOJ. El reloj es pequeño, sobre la mesa junto a la ventana, y se ha detenido. Darás tres vueltas completas a la llave hacia la derecha, con suavidad. Sentirás el resorte tensarse con cada rotación. Después de la tercera vuelta, el mecanismo está cargado. Sigue leyendo. Hay una sola decisión que tomar.',
     choices: [{ label: 'seguir leyendo', next: 'fork' }],
   },
   {

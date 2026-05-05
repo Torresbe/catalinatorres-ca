@@ -6,7 +6,7 @@ const lang = getLangFromUrl(Astro.url);
 const strings = t(lang);
 const base = lang === 'es' ? '/es' : '';
 const homeHref = base || '/';
-const sectionsLabel = lang === 'es' ? 'secciones' : 'sections';
+const sectionsLabel = lang === 'es' ? 'Secciones' : 'Sections';
 
 const navItems = [
   { href: `${base}/`, label: strings.nav.home },
