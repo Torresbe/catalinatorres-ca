@@ -34,3 +34,6 @@ test-results
 
 # secrets / credentials accidentally dropped in the repo
 hostinger-recovery-codes.txt
+
+# brainstorming visual companion
+.superpowers/
