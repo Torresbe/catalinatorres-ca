@@ -1,17 +1,44 @@
 ---
 import Layout from '../../components/Layout.astro';
-import SectionHeader from '../../components/SectionHeader.astro';
 import ContactForm from '../../components/ContactForm.astro';
+
+const linkedinUrl = 'https://www.linkedin.com/in/catalina-torres-benjumea-3a64a523/';
 ---
-<Layout title="Contacto" description="Déjame una nota — leo cada carta y respondo en 48 horas.">
-  <SectionHeader label="§5" title="Contacto" subtitle="Déjame una nota — leo cada carta y respondo en 48 horas." />
+<Layout title="Contacto" description="Dos canales de contacto: LinkedIn y email.">
+  <h1 class="contact-title">contacto</h1>
+  <div class="contact-chips">
+    <a class="chip" href={linkedinUrl} target="_blank" rel="noopener noreferrer">linkedin <span class="arrow">→</span></a>
+    <a class="chip" href="#contact-form">email <span class="arrow">↓</span></a>
+  </div>
   <ContactForm />
-  <aside class="alt">
-    <p class="marginalia">o escríbeme directo a <a href="mailto:catalinatorres1000@gmail.com">catalinatorres1000@gmail.com</a>.</p>
-    <p class="marginalia">o búscame en <a href="https://www.linkedin.com/in/catalina-torres-benjumea-3a64a523/" rel="me noopener" target="_blank">LinkedIn</a>.</p>
-    <p class="marginalia">Al enviar un mensaje, aceptas los <a href="/es/privacidad">términos de privacidad</a>.</p>
-  </aside>
 </Layout>
 <style>
-  .alt { margin-top: var(--s-12); padding-top: var(--s-6); border-top: 1px dashed var(--divider); max-width: 640px; }
+  .contact-title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--text-4xl);
+    line-height: 1.1;
+    margin: var(--s-8) 0 var(--s-6);
+  }
+  .contact-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 var(--s-12);
+  }
+  .chip {
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    padding: 10px 16px;
+    background: rgba(160,130,90,0.06);
+    border: 1px solid var(--divider);
+    border-radius: 3px;
+    color: var(--marginalia);
+    letter-spacing: 0.3px;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .chip .arrow { color: var(--ink); }
+  .chip:hover { color: var(--ink); border-color: var(--ink); background: transparent; }
+  :global(html) { scroll-behavior: smooth; }
 </style>

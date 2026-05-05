@@ -3,11 +3,11 @@ import { getLangFromUrl } from '../i18n/util';
 const lang = getLangFromUrl(Astro.url);
 const privacyHref = lang === 'es' ? '/es/privacidad' : '/privacy';
 const labels = lang === 'es'
-  ? { name: 'nombre', email: 'email', company: 'empresa', companyOpt: '(opcional)', subject: 'asunto', message: 'mensaje', send: '[ enviar → ]', privacyAck: 'acepto los', privacyTerms: 'términos de privacidad' }
-  : { name: 'name', email: 'email', company: 'company', companyOpt: '(optional)', subject: 'subject', message: 'message', send: '[ send → ]', privacyAck: 'I accept the', privacyTerms: 'privacy terms' };
+  ? { name: 'nombre', email: 'email', company: 'empresa', companyOpt: '(opcional)', subject: 'asunto', message: 'mensaje', send: '[ enviar → ]', privacyAck: 'acepto los', privacyTerms: 'términos de privacidad', folio: 'MS. folio ∞ — mensaje' }
+  : { name: 'name', email: 'email', company: 'company', companyOpt: '(optional)', subject: 'subject', message: 'message', send: '[ send → ]', privacyAck: 'I accept the', privacyTerms: 'privacy terms', folio: 'MS. folio ∞ — message' };
 ---
 <section class="contact">
-  <p class="label">MS. folio ∞ — send a letter</p>
+  <p class="label">{labels.folio}</p>
   <form id="contact-form">
     <input type="text" name="website" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true" />
 
