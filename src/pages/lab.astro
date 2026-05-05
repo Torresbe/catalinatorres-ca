@@ -2,11 +2,51 @@
 import Layout from '../components/Layout.astro';
 import SectionHeader from '../components/SectionHeader.astro';
 import WorkflowDemo from '../components/WorkflowDemo.astro';
+
+const linkedinUrl = 'https://www.linkedin.com/in/catalina-torres-benjumea-3a64a523/';
 ---
-<Layout title="Lab" description="A tool that suggests workflows from an operational problem.">
-  <SectionHeader label="[§4] LAB" title="Try the tools" subtitle="Two small Claude-backed tools. Enter text, get structured output. Rate-limited to two requests per tool per visitor per 24 hours — enough to see how they work." />
-  <WorkflowDemo />
-  <p class="marginalia">
-    Rate limit: 2 requests per tool per 24h per IP. If you hit it, come back tomorrow or <a href="/contact">send a letter →</a>.
+<Layout title="Lab" description="Let's run an experiment. Describe an operational problem and the tool suggests a workflow.">
+  <SectionHeader label="[§4] LAB" title="let's run an experiment" />
+  <p class="lab-lede">
+    describe that problem you <em>'don't have time for'</em> and the tool suggests a workflow. don't worry if it doesn't all make sense — that's what i'm here for<svg class="pixel-heart" width="14" height="14" viewBox="0 0 5 5" fill="#2a2420" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="0" y="0" width="2" height="1"/><rect x="3" y="0" width="2" height="1"/><rect x="0" y="1" width="5" height="2"/><rect x="1" y="3" width="3" height="1"/><rect x="2" y="4" width="1" height="1"/></svg>
   </p>
+  <WorkflowDemo />
+  <div class="contact-chips">
+    <a class="chip" href={linkedinUrl} target="_blank" rel="noopener noreferrer">linkedin <span class="arrow">→</span></a>
+    <a class="chip" href="/contact">email <span class="arrow">→</span></a>
+  </div>
 </Layout>
+<style>
+  .lab-lede {
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: 1.6;
+    color: var(--ink);
+    max-width: 640px;
+    margin: 0 0 var(--s-12);
+  }
+  .lab-lede em { font-family: var(--font-display); font-style: italic; }
+  .pixel-heart { display: inline-block; vertical-align: -1px; margin-left: 2px; }
+  .contact-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding-top: var(--s-6);
+    border-top: 1px dashed var(--divider);
+    margin-top: var(--s-12);
+  }
+  .chip {
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    padding: 10px 16px;
+    background: rgba(160,130,90,0.06);
+    border: 1px solid var(--divider);
+    border-radius: 3px;
+    color: var(--marginalia);
+    letter-spacing: 0.3px;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .chip .arrow { color: var(--ink); }
+  .chip:hover { color: var(--ink); border-color: var(--ink); background: transparent; }
+</style>

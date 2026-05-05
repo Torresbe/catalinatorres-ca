@@ -2,11 +2,51 @@
 import Layout from '../../components/Layout.astro';
 import SectionHeader from '../../components/SectionHeader.astro';
 import WorkflowDemo from '../../components/WorkflowDemo.astro';
+
+const linkedinUrl = 'https://www.linkedin.com/in/catalina-torres-benjumea-3a64a523/';
 ---
-<Layout title="Lab" description="Una herramienta que sugiere flujos a partir de un problema operativo.">
-  <SectionHeader label="[§4] LAB" title="Prueba las herramientas" subtitle="Dos herramientas pequeñas con Claude. Escribe un texto, recibe salida estructurada. Limitado a dos peticiones por herramienta cada 24 horas — suficiente para ver cómo funcionan." />
-  <WorkflowDemo />
-  <p class="marginalia">
-    Límite: 2 peticiones por herramienta cada 24h por IP. Si lo alcanzas, vuelve mañana o <a href="/es/contacto">envía una carta →</a>.
+<Layout title="Lab" description="Hagamos un experimento. Describe un problema operativo y la herramienta sugiere un flujo de trabajo.">
+  <SectionHeader label="[§4] LAB" title="Hagamos un experimento" />
+  <p class="lab-lede">
+    describe ese problema para el que <em>'no tienes tiempo'</em> y la herramienta te sugiere un flujo de trabajo. no te preocupes si no entiendes, para eso estoy yo<svg class="pixel-heart" width="14" height="14" viewBox="0 0 5 5" fill="#2a2420" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="0" y="0" width="2" height="1"/><rect x="3" y="0" width="2" height="1"/><rect x="0" y="1" width="5" height="2"/><rect x="1" y="3" width="3" height="1"/><rect x="2" y="4" width="1" height="1"/></svg>
   </p>
+  <WorkflowDemo />
+  <div class="contact-chips">
+    <a class="chip" href={linkedinUrl} target="_blank" rel="noopener noreferrer">linkedin <span class="arrow">→</span></a>
+    <a class="chip" href="/es/contacto">email <span class="arrow">→</span></a>
+  </div>
 </Layout>
+<style>
+  .lab-lede {
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: 1.6;
+    color: var(--ink);
+    max-width: 640px;
+    margin: 0 0 var(--s-12);
+  }
+  .lab-lede em { font-family: var(--font-display); font-style: italic; }
+  .pixel-heart { display: inline-block; vertical-align: -1px; margin-left: 2px; }
+  .contact-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding-top: var(--s-6);
+    border-top: 1px dashed var(--divider);
+    margin-top: var(--s-12);
+  }
+  .chip {
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    padding: 10px 16px;
+    background: rgba(160,130,90,0.06);
+    border: 1px solid var(--divider);
+    border-radius: 3px;
+    color: var(--marginalia);
+    letter-spacing: 0.3px;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .chip .arrow { color: var(--ink); }
+  .chip:hover { color: var(--ink); border-color: var(--ink); background: transparent; }
+</style>
