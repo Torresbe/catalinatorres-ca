@@ -5,7 +5,7 @@ import { suggestWorkflow } from '../../lib/claude';
 
 export const prerender = false;
 
-const DEMO_LIMIT = 2;
+const DEMO_LIMIT = 3;
 const MAX_INPUT_CHARS = 2000;
 
 export const POST: APIRoute = async ({ request, clientAddress }) => {
