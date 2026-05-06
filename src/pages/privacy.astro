@@ -9,6 +9,11 @@ import SectionHeader from '../components/SectionHeader.astro';
       This is a simple site. It collects as little data as it can get away with. Here's what it does collect, and why.
     </p>
 
+    <h3>Minimal computing</h3>
+    <p>
+      The site adheres, where possible, to <em>minimal computing</em> principles: static pages, low weight, minimal dependencies, and fast load times even on slow connections or older devices. The Lab demo is the deliberate exception. It depends on a language model hosted by Anthropic, but it's isolated from the rest of the site: if the demo fails, the rest stays accessible and functional.
+    </p>
+
     <h3>Contact form submissions</h3>
     <p>
       If you send a message through the contact form, the form delivers your name, email, optional company, subject, and message to <a href="mailto:catalinatorres1000@gmail.com">catalinatorres1000@gmail.com</a>. The email lives in Catalina's Gmail inbox indefinitely, or until she deletes it. If you want your message deleted, email her with that request.
@@ -16,7 +21,7 @@ import SectionHeader from '../components/SectionHeader.astro';
 
     <h3>Rate limiting</h3>
     <p>
-      The contact form and the two Lab demos are rate-limited to prevent abuse. The site stores a SHA-256 hash of your IP address for 24 hours to track usage. The hash expires automatically. No personally identifiable information about your browsing is stored.
+      The contact form and the Lab demo are rate-limited to prevent abuse. The site stores a SHA-256 hash of your IP address for 24 hours to track usage. The hash expires automatically. No personally identifiable information about your browsing is stored.
     </p>
 
     <h3>Analytics</h3>
@@ -26,7 +31,7 @@ import SectionHeader from '../components/SectionHeader.astro';
 
     <h3>Third parties</h3>
     <p>
-      The site uses: Vercel (hosting), Resend (email delivery for the contact form), Anthropic API (powering Lab demos), Google Fonts (Libre Bodoni, Courier Prime). Each of these has its own privacy policy. Nothing from this site is sold to anyone.
+      The site uses: Vercel (hosting), Resend (email delivery for the contact form), Anthropic API (powering the Lab demo), Google Fonts (Libre Bodoni, Courier Prime). Each of these has its own privacy policy. Nothing from this site is sold to anyone.
     </p>
 
     <h3>Questions</h3>
