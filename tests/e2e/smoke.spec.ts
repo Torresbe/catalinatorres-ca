@@ -4,7 +4,7 @@ test.describe('Core navigation — EN', () => {
   test('home loads with hero h1', async ({ page }) => {
     await page.goto('/');
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-    await expect(page.getByRole('heading', { level: 1 })).toContainText('AI Solutions');
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Edit your operations');
   });
 
   test('top-level pages return 200 and render their section heading', async ({ page }) => {
