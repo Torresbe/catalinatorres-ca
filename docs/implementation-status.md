@@ -2,7 +2,7 @@
 
 **Modo de ejecución:** INLINE (Catalina ejecuta con Claude en sesión, checkpoints de review).
 
-**Estado actual (2026-05-01):** Tareas 1–18 **CERRADAS**. Tarea 19 (QA) **parcialmente verificada** — Classifier + Workflow Suggester + Zodiac ES verificados; quedan 4 chequeos funcionales + Lighthouse + cross-browser + page-by-page. Sitio en producción en `https://catatorres.ca` (+ `www.catatorres.ca`). 25/25 vitest + 14/14 Playwright local passing.
+**Estado actual (2026-06-12):** Tareas 1–18 **CERRADAS**. Tarea 19 (QA) **parcialmente verificada** — Workflow Suggester + Zodiac ES verificados (el Classifier fue eliminado del sitio; ver `docs/session-handoff.md`); quedan 4 chequeos funcionales + Lighthouse + cross-browser + page-by-page. Sitio en producción en `https://catatorres.ca` (+ `www.catatorres.ca`). 30/30 vitest passing.
 
 ## Plan
 
@@ -27,8 +27,8 @@
 
 ## Tests
 
-- **Vitest unit:** 22/22 passing — ratelimit (5), validation (10), claude (5), resend (2)
-- **Playwright smoke:** 14/14 passing — navegación EN, i18n + path mapping asimétrico, 404, lista de proyectos, demos client-side (zodiac + story), contact form (render + HTML5 required + error path), classifier + workflow demos (error path)
+- **Vitest unit:** 30/30 passing — ratelimit (5), validation (10), claude (10), errors (3), resend (2)
+- **Playwright e2e:** 55 tests — smoke (13: navegación EN, i18n + path mapping asimétrico, 404, lista de proyectos, demos client-side zodiac + story, contact form, workflow demo error path), mobile-audit (30), no-brand-mentions (12)
 
 ## Al retomar
 
