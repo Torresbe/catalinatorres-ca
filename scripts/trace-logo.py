@@ -10,7 +10,7 @@ from PIL import Image, ImageFilter
 import sys
 from pathlib import Path
 
-SRC = Path(__file__).parent.parent / "LOGO" / "trex1.jpg"
+SRC = Path(__file__).parent.parent / "LOGO" / "dino-logo.jpg"
 OUT = Path(__file__).parent.parent / "public" / "favicon.svg"
 
 # Target grid — wider than tall to fit dino + laptop scene
