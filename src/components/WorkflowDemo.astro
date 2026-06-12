@@ -30,7 +30,7 @@ const labels = lang === 'es'
 
 <script>
   import { errorMessages, type ErrorCode } from '../lib/errors';
-  import type { Flow, FlowNode } from '../lib/claude';
+  import type { EditorReview, Flow, FlowNode } from '../lib/claude';
 
   const form = document.getElementById('suggest-form') as HTMLFormElement;
   const output = document.getElementById('suggest-output')!;
@@ -41,10 +41,16 @@ const labels = lang === 'es'
     en: {
       drafting: '[ drafting… ]', progress: 'drafting workflow…', send: '[ Suggest workflow → ]',
       typeLabels: { trigger: 'TRIGGER', action: 'ACTION', result: 'RESULT' },
+      reviewLabel: "editor's note",
+      confidence: { high: 'high confidence', medium: 'medium confidence', low: 'low confidence' },
+      assumes: 'what this assumes', breaks: 'where it can break', check: 'before building it:',
     },
     es: {
       drafting: '[ redactando… ]', progress: 'redactando flujo…', send: '[ Sugerir flujo → ]',
       typeLabels: { trigger: 'INICIO', action: 'ACCIÓN', result: 'RESULTADO' },
+      reviewLabel: 'nota del editor',
+      confidence: { high: 'confianza alta', medium: 'confianza media', low: 'confianza baja' },
+      assumes: 'lo que asume', breaks: 'dónde puede romperse', check: 'antes de construirlo:',
     },
   }[lang];
 
@@ -94,6 +100,22 @@ const labels = lang === 'es'
       <ol class="flow-steps">${stepsHTML}</ol>
       <div class="flow-diagram">${renderDiagram(flow.nodes)}</div>
       <p class="flow-closer">${escapeHtml(flow.closer)}</p>
+      ${flow.review ? renderReview(flow.review) : ''}
+    `;
+  }
+
+  function renderReview(review: EditorReview): string {
+    const list = (items: string[]) =>
+      `<ul class="review-list">${items.map((s) => `<li>${escapeHtml(s)}</li>`).join('')}</ul>`;
+    return `
+      <aside class="flow-review">
+        <p class="review-folio">${ui.reviewLabel} — ${ui.confidence[review.confidence]}</p>
+        <p class="review-heading">${ui.assumes}</p>
+        ${list(review.assumptions)}
+        <p class="review-heading">${ui.breaks}</p>
+        ${list(review.risks)}
+        <p class="review-check"><span class="review-check-label">${ui.check}</span> ${escapeHtml(review.humanCheck)}</p>
+      </aside>
     `;
   }
 
@@ -233,6 +255,60 @@ const labels = lang === 'es'
     padding-top: var(--s-4);
     margin: var(--s-8) 0 0;
     font-style: italic;
+  }
+
+  :global(#suggest-output .flow-review) {
+    margin-top: var(--s-8);
+    padding: var(--s-4) var(--s-5);
+    border: 1.5px solid var(--divider);
+    border-radius: 4px;
+    background: rgba(160,130,90,0.06);
+  }
+  :global(#suggest-output .review-folio) {
+    font-family: var(--font-body);
+    font-size: 10px;
+    color: var(--red);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0 0 var(--s-3);
+  }
+  :global(#suggest-output .review-heading) {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    color: var(--marginalia);
+    margin: var(--s-3) 0 var(--s-1);
+  }
+  :global(#suggest-output .review-list) {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  :global(#suggest-output .review-list li) {
+    padding-left: var(--s-4);
+    position: relative;
+    margin-bottom: var(--s-1);
+  }
+  :global(#suggest-output .review-list li)::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--marginalia);
+  }
+  :global(#suggest-output .review-check) {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    line-height: 1.55;
+    color: var(--ink);
+    border-top: 1px dashed var(--divider);
+    padding-top: var(--s-3);
+    margin: var(--s-4) 0 0;
+  }
+  :global(#suggest-output .review-check-label) {
+    color: var(--red);
   }
 
   @media (max-width: 640px) {

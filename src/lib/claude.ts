@@ -32,12 +32,22 @@ export interface FlowEdge {
   label?: string;
 }
 
+export type ReviewConfidence = 'high' | 'medium' | 'low';
+
+export interface EditorReview {
+  confidence: ReviewConfidence;
+  assumptions: string[];
+  risks: string[];
+  humanCheck: string;
+}
+
 export interface Flow {
   hook: string;
   steps: string[];
   closer: string;
   nodes: FlowNode[];
   edges: FlowEdge[];
+  review?: EditorReview;
 }
 
 export interface WorkflowResult {
@@ -47,6 +57,7 @@ export interface WorkflowResult {
 }
 
 const NODE_TYPES: ReadonlySet<string> = new Set(['trigger', 'action', 'result']);
+const CONFIDENCE_LEVELS: ReadonlySet<string> = new Set(['high', 'medium', 'low']);
 
 const FORBIDDEN_BRANDS = /\b(claude|chatgpt|chat-?gpt|gpt-?\d?|perplexity|openai|anthropic|gemini|bard|copilot|llama|mistral|cohere)\b/i;
 
@@ -58,7 +69,8 @@ Return ONLY a JSON object matching this schema:
   "steps": string[],
   "closer": string,
   "nodes": Array<{ "id": string, "type": "trigger"|"action"|"result", "label": string }>,
-  "edges": Array<{ "from": string, "to": string }>
+  "edges": Array<{ "from": string, "to": string }>,
+  "review": { "confidence": "high"|"medium"|"low", "assumptions": string[], "risks": string[], "humanCheck": string }
 }
 
 Field rules:
@@ -69,6 +81,11 @@ Field rules:
 - closer: one short sentence. What concretely changes day-to-day if this is implemented. Vivid, not abstract.
 - nodes: 3 to 5 nodes. Always exactly 1 "trigger" first, 1+ "result" last, "action" in between. Labels ≤ 32 chars, plain language, NO brand names.
 - edges: connect node ids ("n1" → "n2" → "n3"...) to form a linear DAG. Reference existing ids only.
+- review: after drafting the workflow, reread it as a skeptical editor annotating someone else's manuscript. Honest, not promotional — a "low" with good reasons reads as more credible than empty confidence.
+  - confidence: how well the workflow fits given ONLY what the user actually said. "high" only when volume, formats and frequency are stated or safely inferable. "medium" when one major unknown remains. "low" when the problem is underspecified. This field is ALWAYS one of the three English enum values, regardless of language.
+  - assumptions: 2-3 things the draft silently assumed (volumes, formats, languages, systems already in place). Each ≤ 25 words.
+  - risks: 1-3 concrete points where this flow breaks in practice. Not generic disclaimers — specific to THIS problem. Each ≤ 25 words.
+  - humanCheck: the single most important thing to verify with a person before building anything. One sentence.
 
 Language: detect the input language. If Spanish, ALL string fields in Spanish. If English, ALL in English.
 
@@ -78,6 +95,31 @@ No commentary, no markdown, only the JSON object.`;
 
 function ensureClean(value: string, where: string): void {
   if (FORBIDDEN_BRANDS.test(value)) throw new SyntaxError(`forbidden brand in ${where}`);
+}
+
+function validateReview(raw: unknown): EditorReview {
+  if (!raw || typeof raw !== 'object') throw new SyntaxError('review not an object');
+  const r = raw as Record<string, unknown>;
+  if (typeof r.confidence !== 'string' || !CONFIDENCE_LEVELS.has(r.confidence)) {
+    throw new SyntaxError(`unknown confidence: ${r.confidence}`);
+  }
+  if (typeof r.humanCheck !== 'string' || r.humanCheck.length === 0) throw new SyntaxError('humanCheck missing');
+  ensureClean(r.humanCheck, 'review humanCheck');
+
+  const lists: { key: 'assumptions' | 'risks'; value: unknown }[] = [
+    { key: 'assumptions', value: r.assumptions },
+    { key: 'risks', value: r.risks },
+  ];
+  const [assumptions, risks] = lists.map(({ key, value }) => {
+    if (!Array.isArray(value) || value.length === 0) throw new SyntaxError(`review ${key} missing/empty`);
+    return value.map((s, i) => {
+      if (typeof s !== 'string') throw new SyntaxError(`review ${key} ${i} not a string`);
+      ensureClean(s, `review ${key} ${i}`);
+      return s;
+    });
+  });
+
+  return { confidence: r.confidence as ReviewConfidence, assumptions, risks, humanCheck: r.humanCheck };
 }
 
 function validateFlow(raw: unknown): Flow {
@@ -124,14 +166,19 @@ function validateFlow(raw: unknown): Flow {
     return out;
   });
 
-  return { hook: f.hook, steps, closer: f.closer, nodes, edges };
+  const flow: Flow = { hook: f.hook, steps, closer: f.closer, nodes, edges };
+  // A missing review degrades gracefully (the flow renders without the
+  // editor's note) so a formatting slip doesn't burn one of the user's
+  // 3 rate-limited attempts. A present-but-invalid review still rejects.
+  if (f.review !== undefined) flow.review = validateReview(f.review);
+  return flow;
 }
 
 export async function suggestWorkflow(input: string): Promise<WorkflowResult> {
   try {
     const res = await client().messages.create({
       model: MODEL,
-      max_tokens: 800,
+      max_tokens: 1400,
       system: WORKFLOW_SYSTEM,
       messages: [{ role: 'user', content: input }],
     });

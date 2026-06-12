@@ -120,4 +120,71 @@ describe('suggestWorkflow', () => {
     expect(result.ok).toBe(false);
     expect(result.code).toBe(503);
   });
+
+  describe('editor review', () => {
+    const validReview = {
+      confidence: 'medium',
+      assumptions: ['Los PDFs tienen texto seleccionable, no son escaneos.', 'El volumen es estable, unos 500 por trimestre.'],
+      risks: ['Si la mitad son escaneos sin OCR, el sistema lee páginas vacías.'],
+      humanCheck: 'Confirmar cuántos PDFs son escaneados antes de construir nada.',
+    };
+
+    it('returns the review when the response includes a valid one', async () => {
+      mockCreate.mockResolvedValue({
+        content: [{ type: 'text', text: JSON.stringify({ ...validFlow, review: validReview }) }],
+      });
+      const result = await suggestWorkflow('input');
+      expect(result.ok).toBe(true);
+      expect(result.flow!.review).toBeDefined();
+      expect(result.flow!.review!.confidence).toBe('medium');
+      expect(result.flow!.review!.assumptions).toHaveLength(2);
+      expect(result.flow!.review!.risks).toHaveLength(1);
+      expect(result.flow!.review!.humanCheck).toContain('Confirmar');
+    });
+
+    it('still returns the flow when review is absent', async () => {
+      mockCreate.mockResolvedValue({ content: [{ type: 'text', text: JSON.stringify(validFlow) }] });
+      const result = await suggestWorkflow('input');
+      expect(result.ok).toBe(true);
+      expect(result.flow!.review).toBeUndefined();
+    });
+
+    it('returns error 500 on unknown confidence value', async () => {
+      const bad = { ...validReview, confidence: 'absolute' };
+      mockCreate.mockResolvedValue({
+        content: [{ type: 'text', text: JSON.stringify({ ...validFlow, review: bad }) }],
+      });
+      const result = await suggestWorkflow('input');
+      expect(result.ok).toBe(false);
+      expect(result.code).toBe(500);
+    });
+
+    it('returns error 500 when assumptions is empty', async () => {
+      const bad = { ...validReview, assumptions: [] };
+      mockCreate.mockResolvedValue({
+        content: [{ type: 'text', text: JSON.stringify({ ...validFlow, review: bad }) }],
+      });
+      const result = await suggestWorkflow('input');
+      expect(result.ok).toBe(false);
+      expect(result.code).toBe(500);
+    });
+
+    it('returns error 500 when a review field mentions a forbidden AI brand', async () => {
+      const bad = { ...validReview, risks: ['Gemini might misread scanned pages.'] };
+      mockCreate.mockResolvedValue({
+        content: [{ type: 'text', text: JSON.stringify({ ...validFlow, review: bad }) }],
+      });
+      const result = await suggestWorkflow('input');
+      expect(result.ok).toBe(false);
+      expect(result.code).toBe(500);
+    });
+
+    it('requests enough tokens for flow plus review', async () => {
+      mockCreate.mockResolvedValue({
+        content: [{ type: 'text', text: JSON.stringify({ ...validFlow, review: validReview }) }],
+      });
+      await suggestWorkflow('input');
+      expect(mockCreate.mock.calls[0][0].max_tokens).toBeGreaterThanOrEqual(1200);
+    });
+  });
 });
