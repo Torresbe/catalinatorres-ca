@@ -27,7 +27,7 @@
 
 ## Tests
 
-- **Vitest unit:** 30/30 passing — ratelimit (5), validation (10), claude (10), errors (3), resend (2)
+- **Vitest unit:** 36/36 passing — ratelimit (5), validation (10), claude (16, incluye nota del editor), errors (3), resend (2)
 - **Playwright e2e:** 55 tests — smoke (13: navegación EN, i18n + path mapping asimétrico, 404, lista de proyectos, demos client-side zodiac + story, contact form, workflow demo error path), mobile-audit (30), no-brand-mentions (12)
 
 ## Al retomar

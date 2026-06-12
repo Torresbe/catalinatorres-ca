@@ -75,7 +75,7 @@ Safari desktop, Chrome desktop, Firefox desktop, Safari iOS, Chrome Android. (mo
 - **Email:** público `hello@catatorres.ca` (reemplazó a `catalinatorres1000@gmail.com` en 2026-06). NO `fractalshoot@gmail.com` (sistema) ni `torresbe@ualberta.ca` (GitHub/Vercel auth). Verificar que `CONTACT_EMAIL` en Vercel apunte al mismo destino
 - **Astro CSS scoping gotcha:** elementos creados via `innerHTML` no llevan el atributo `data-astro-cid-XXX` → reglas scoped no matchean. Fix: `:global()` con prefix de container ID (e.g. `:global(#suggest-output .flow-card)`). Selectores como `html` también necesitan `:global(html)` cuando se aplican desde `<style>` scoped
 - **Sticky + overflow gotcha:** `overflow-x: hidden` en html/body rompe `position: sticky` en algunos browsers. La suite `mobile-audit` ya garantiza no scroll horizontal, así que el guard es innecesario. Si se necesita, aplicarlo a un wrapper específico
-- **Workflow Suggester schema:** `Flow = { hook, steps[], closer, nodes[], edges[] }`. Tipos de nodo: `trigger | action | result`. Validación rechaza marcas de IA (Claude, ChatGPT, GPT, Perplexity, OpenAI, Anthropic, Gemini, Bard, Copilot, LLM, Llama, Mistral, Cohere). Ver `src/lib/claude.ts:42`
+- **Workflow Suggester schema:** `Flow = { hook, steps[], closer, nodes[], edges[], review? }`. Tipos de nodo: `trigger | action | result`. `review` (nota del editor) = `{ confidence: high|medium|low, assumptions[], risks[], humanCheck }` — opcional al validar (si falta, el flujo se muestra sin nota; si viene malformado, 500). Validación rechaza marcas de IA (Claude, ChatGPT, GPT, Perplexity, OpenAI, Anthropic, Gemini, Bard, Copilot, LLM, Llama, Mistral, Cohere) en todos los campos, incluido review. Ver `src/lib/claude.ts`
 - **ERROR 429 con HTML:** el mensaje 429 en `src/lib/errors.ts` contiene anchors HTML inline. Los `renderError()` de WorkflowDemo y ContactForm interpolan el `${msg}` sin escapar, lo cual hace que el HTML se renderice. Cualquier código nuevo de error 429 debe respetar este patrón
 - **API keys:** ANTHROPIC + RESEND en Vercel env vars (Production). NO commiteadas
 
@@ -85,6 +85,6 @@ Safari desktop, Chrome desktop, Firefox desktop, Safari iOS, Chrome Android. (mo
 - Producción: `vercel --prod` o auto-deploy en cada `git push origin main`
 - Para limpiar rate limits durante QA: Upstash dashboard → Data Browser/CLI → comando `FLUSHDB`. (Vercel CLI no expone estas credentials)
 - Tests:
-  - Vitest unit: `npm run test` → **30 tests**
+  - Vitest unit: `npm run test` → **36 tests**
   - Playwright e2e: `npm run test:e2e` → **55 tests** (smoke 13, mobile-audit 30, no-brand-mentions 12)
 - Commits atómicos por tipo: `feat:`, `fix:`, `chore:`, `docs:`, `test:`. Separar concerns
