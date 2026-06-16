@@ -2,6 +2,7 @@ import type { APIRoute } from 'astro';
 import { validateDemoInput } from '../../lib/validation';
 import { checkAndIncrement } from '../../lib/ratelimit';
 import { suggestWorkflow } from '../../lib/claude';
+import { sendLabNotification } from '../../lib/resend';
 
 export const prerender = false;
 
@@ -27,6 +28,14 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     const result = await suggestWorkflow(input);
     if (!result.ok) {
       return Response.json({ ok: false, code: result.code }, { status: result.code! });
+    }
+
+    // Notify Catalina of the lead. Awaited so it runs before the serverless
+    // function freezes, but never allowed to affect the visitor's response.
+    try {
+      await sendLabNotification({ input, flow: result.flow! });
+    } catch {
+      // swallow — the visitor still gets their workflow
     }
 
     return Response.json({ ok: true, flow: result.flow });
