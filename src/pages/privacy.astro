@@ -19,6 +19,11 @@ import SectionHeader from '../components/SectionHeader.astro';
       If you send a message through the contact form, the form delivers your name, email, optional company, subject, and message to <a href="mailto:hello@catatorres.ca">hello@catatorres.ca</a>. The email lives in Catalina's Gmail inbox indefinitely, or until she deletes it. If you want your message deleted, email her with that request.
     </p>
 
+    <h3>Lab demo submissions</h3>
+    <p>
+      When you run the Lab workflow suggester, the problem you describe is sent to a language model to draft a workflow, and a copy of your text and that workflow is emailed to Catalina — so she sees what visitors actually need help with. Don't put anything confidential in there. As with the contact form, that email lives in her inbox until she deletes it.
+    </p>
+
     <h3>Rate limiting</h3>
     <p>
       The contact form and the Lab demo are rate-limited to prevent abuse. The site stores a SHA-256 hash of your IP address for 24 hours to track usage. The hash expires automatically. No personally identifiable information about your browsing is stored.
