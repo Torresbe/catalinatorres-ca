@@ -55,6 +55,23 @@ Targets: Performance ≥95, A11y =100, Best Practices ≥95, SEO =100. Rutas: `/
 ### Cross-browser
 Safari desktop, Chrome desktop, Firefox desktop, Safari iOS, Chrome Android. (mobile-audit.spec.ts ya corre en chromium; iOS Safari + Firefox desktop son los que faltan). Especial atención: la mobile-strip horizontal scrollable + `position: sticky` históricamente problemático en iOS Safari.
 
+## ⚠️ BLOQUEANTE — Resend domain no verificado (2026-06-16)
+
+**Síntoma:** ningún correo sale del sitio — ni el formulario de contacto ni el nuevo aviso del Lab. Ambos envían desde `notify@catatorres.ca` y Resend los rechaza.
+
+**Causa raíz (confirmada vía API de Resend):** el dominio `catatorres.ca` está en estado `failed`. Falta el registro **DKIM** en el DNS de Hostinger (probablemente se perdió en la migración de DNS o al añadir ImprovMX). Los registros `send` MX + TXT (amazonses) SÍ están en el DNS; Resend los marca failed solo porque la verificación global falla por el DKIM ausente.
+
+**Fix (Catalina, en Hostinger hPanel → DNS de catatorres.ca):** añadir UN registro TXT:
+- Tipo: `TXT`
+- Name/Host: `resend._domainkey`
+- Value: `p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCqt9QqtAXJ8HUdxrj+E2WgGSLOHN63H8z1hD84B6tFaUOrI/ukSkQ1NDbcphSp76yNjyuJQx+W7PVvRxnEbjaxwrL22Re4RRE5rMTIjOlIxnKluhTnZFor1GiPc29taBS4KoMWhEaAaB6XKXQwtg5+pUsEDizjLmmEdCOj4kI/bQIDAQAB`
+
+Luego en resend.com/domains → catatorres.ca → "Verify". Cuando el dominio quede `verified`, ambos correos funcionan. Verificar end-to-end con un envío real del form y del Lab.
+
+**Nota de diagnóstico:** se usó un endpoint temporal `/api/diag` (token-guarded) para leer la respuesta real de Resend sin exponer secretos; ya fue eliminado. El valor DKIM de arriba salió de la API de dominios de Resend.
+
+**Gotcha de deploy descubierto:** pushes de git muy seguidos pueden colapsar en el auto-deploy y dejar `catatorres.ca` apuntando a un commit intermedio. Si el dominio no refleja el último push, forzar con `vercel deploy --prod` + `vercel alias set <url> catatorres.ca` (y `www.catatorres.ca`). Además: archivos en `src/pages/` con prefijo `_` NO se buildean como rutas (convención de Astro).
+
 ## Pendientes opcionales / diferidos
 
 - [ ] **Em-dashes Categoría D/E** (separadores tipo `Etiqueta — descripción`): si Catalina quiere convertirlos a `:` por consistencia editorial, son ~15 ocurrencias en home chips, value lists de about/sobre-mi, folio labels, error format, y meta titles
