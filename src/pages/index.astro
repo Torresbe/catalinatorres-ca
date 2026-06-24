@@ -13,7 +13,7 @@ const capabilities = [
 
 const capacities = [
   { name: 'Email agents',          desc: 'that read, sort, and reply to the usual questions with kind, automatic answers.' },
-  { name: 'Booking calendars',     desc: 'that say "this Thursday at 2" without three back-and-forths.' },
+  { name: 'Quote drafting',        desc: 'read, priced, and ready before the lead goes cold.' },
   { name: 'Document organization', desc: "for the .zip on your desktop and the cabinet you haven't opened." },
   { name: 'End-to-end digitization', desc: 'from scanned paper to a searchable database.' },
   { name: 'Custom AI assistants',  desc: "that know the specific environment you're in and answer in your language, not with stray truths that have no context." },
@@ -113,17 +113,28 @@ const capacities = [
   .capabilities .chips .verb { color: var(--ink); }
 
   .capacities dl { margin: 0; }
-  .capacities dl > div { margin-bottom: var(--s-6); }
+  .capacities dl > div {
+    display: grid;
+    grid-template-columns: minmax(150px, 0.42fr) 1fr;
+    gap: var(--s-6);
+    align-items: baseline;
+    padding: var(--s-4) 0;
+    border-top: 1px dashed var(--divider);
+  }
+  .capacities dl > div:last-child { border-bottom: 1px dashed var(--divider); }
   .capacities dt {
     font-family: var(--font-display);
     font-size: var(--text-xl);
-    margin-bottom: var(--s-1);
+    margin: 0;
   }
   .capacities dd {
     margin: 0;
     color: var(--marginalia);
     font-size: var(--text-base);
     line-height: 1.55;
+  }
+  @media (max-width: 560px) {
+    .capacities dl > div { grid-template-columns: 1fr; gap: var(--s-1); padding: var(--s-3) 0; }
   }
 
   .cta { padding: var(--s-8) 0 var(--s-16); }

@@ -6,12 +6,12 @@ const services = [
   {
     label: 'I',
     title: 'AI Workflow Design',
-    body: "The repetitive things nobody should be doing by hand: downloading photos trapped in a social network you don't use anymore. Renaming documents in an office where everyone saves files their own way. Sending quotes before the lead goes cold. Finding each company's pain point and writing the kind of email where every recipient feels addressed by name, not blasted. An inbox that sorts itself, labels what matters, replies to the repetitive, and saves for you only what actually needs a human. I design the flows, test them inside your own context, and hand them over running.",
+    body: "The repetitive things nobody should be doing by hand: downloading photos trapped in a social network you don't use anymore. Renaming documents in an office where everyone saves files their own way. Drafting the quote before the lead goes cold — read, priced, and waiting for your approval before it sends. Finding each company's pain point and writing the kind of email where every recipient feels addressed by name, not blasted. An inbox that sorts itself, labels what matters, replies to the repetitive, and saves for you only what actually needs a human. I design the flows, test them inside your own context, and hand them over running.",
   },
   {
     label: 'II',
-    title: 'Research Operations',
-    body: "Research without spending weeks ordering before starting. A starting matrix of your whole bibliography — every paper classified, tagged, ready to synthesize. A consultation assistant trained on your sources that cites in whichever format the journal requires, without opening Word. Batch categorization of PDFs, pulling findings, methods, theoretical frameworks, whatever the research question needs. Side-by-side comparisons of what different authors say about the same thing. Duplicate detection across databases. Bilingual stays bilingual.",
+    title: 'Reliable Extraction & Research',
+    body: "Research without spending weeks ordering before starting. A starting matrix of your whole bibliography — every paper classified, tagged, ready to synthesize. A consultation assistant trained on your sources that cites in whichever format the journal requires, without opening Word. Batch categorization of PDFs, pulling findings, methods, theoretical frameworks, whatever the research question needs. Side-by-side comparisons of what different authors say about the same thing. Duplicate detection across databases. And when the source is a dense document — an audit, a report, a contract — the system extracts only what it can quote word for word, lets deterministic rules do the deciding, and flags anything uncertain for review: a result you can trust, not a plausible answer you have to check again. Bilingual stays bilingual.",
   },
   {
     label: 'III',
@@ -28,14 +28,18 @@ const services = [
     title: 'Custom AI Assistants',
     body: "An organization runs on the memory of whoever has been there longest. When that person leaves, the institutional knowledge leaves with them. The new volunteer asks the same five questions every Monday. The treasurer calls the president to confirm which venue was booked. The board member rereads the same procedural document because nobody made it findable. A private bilingual assistant trained on your procedures, your suppliers, your templates, your standard answers — with the judgment to say \"I don't know\" instead of guessing, and with no exposure of private documents to anyone outside the organization. An institutional memory that doesn't depend on any one person staying.",
   },
+  {
+    label: 'VI',
+    title: 'Putting Documents in Their Final Form',
+    body: "The manuscript that has to become a finished document: covers, copyright, table of contents, headings, figures, page numbers — dozens of checkpoints, every one a place a tired eye misses something. I automate the mechanical pass — a library that fixes what it can and flags what it can't — so the layout is correct before anyone signs off. What stays human stays human: whether it reads well, whether it looks right, the final call.",
+  },
 ];
 ---
-<Layout title="Services" description="Five services Catalina Torres offers — AI workflows, research operations, digital cataloging, bilingual content, and custom AI assistants.">
+<Layout title="Services" description="Six services Catalina Torres offers — AI workflows, reliable extraction and research, digital cataloging, bilingual content, custom AI assistants, and document layout.">
   <SectionHeader
     label="§1"
     title="What I do"
-    subtitle="Five ways I work with organizations and individuals who want AI to actually change how their operations run."
-    icon={{ src: '/dinos/servicios.png', alt: '', width: 240, height: 190 }}
+    subtitle="Six ways I work with organizations and individuals who want AI to actually change how their operations run."
   />
   <div class="services">
     {services.map(({ label, title, body }) => (

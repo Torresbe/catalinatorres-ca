@@ -6,12 +6,12 @@ const services = [
   {
     label: 'I',
     title: 'Diseño de flujos con IA',
-    body: "Las cosas repetitivas que nadie debería estar haciendo a mano: descargar fotos atrapadas en una red social que ya no usas. Renombrar documentos en una oficina donde cada quien guarda los archivos a su manera. Mandar cotizaciones antes de que el cliente potencial se enfríe. Encontrar el punto de dolor de cada empresa y escribir el tipo de correo donde quien lo recibe se siente reconocido, no bombardeado. Una bandeja de entrada que se ordena sola, etiqueta lo importante, responde lo repetitivo y deja para ti solo lo que de verdad necesita un humano. Diseño los flujos, los pruebo en tu propio contexto, y te los entrego corriendo.",
+    body: "Las cosas repetitivas que nadie debería estar haciendo a mano: descargar fotos atrapadas en una red social que ya no usas. Renombrar documentos en una oficina donde cada quien guarda los archivos a su manera. Redactar la cotización antes de que el cliente potencial se enfríe — leída, cotizada y esperando tu aprobación antes de salir. Encontrar el punto de dolor de cada empresa y escribir el tipo de correo donde quien lo recibe se siente reconocido, no bombardeado. Una bandeja de entrada que se ordena sola, etiqueta lo importante, responde lo repetitivo y deja para ti solo lo que de verdad necesita un humano. Diseño los flujos, los pruebo en tu propio contexto y te los entrego corriendo.",
   },
   {
     label: 'II',
-    title: 'Operaciones de investigación',
-    body: "Investigar sin perder semanas ordenando antes de empezar. Una matriz inicial de toda tu bibliografía — cada paper clasificado, etiquetado, listo para sintetizar. Un asistente de consulta entrenado en tus fuentes que cita por ti en el formato que pide la revista, sin abrir Word. Categorización en lote de PDFs, extrayendo hallazgos, métodos, marcos teóricos, lo que tu pregunta de investigación necesite. Comparaciones lado a lado entre lo que dicen distintos autores sobre lo mismo. Detección de duplicados entre bases. Lo bilingüe se mantiene bilingüe.",
+    title: 'Respuestas confiables a partir de documentos',
+    body: "Investigar sin perder semanas ordenando antes de empezar. Una matriz inicial de toda tu bibliografía — cada paper clasificado, etiquetado, listo para sintetizar. Un asistente de consulta entrenado en tus fuentes que cita por ti en el formato que pide la revista, sin abrir Word. Categorización en lote de PDFs, extrayendo hallazgos, métodos, marcos teóricos, lo que tu pregunta de investigación necesite. Comparaciones lado a lado entre lo que dicen distintos autores sobre lo mismo. Detección de duplicados entre bases. Y cuando la fuente es un documento denso — una auditoría, un informe, un contrato — el sistema extrae solo lo que puede citar palabra por palabra, deja que reglas deterministas tomen la decisión y marca lo dudoso para revisión: un resultado en el que puedes confiar, no una respuesta plausible que toca volver a comprobar. Lo bilingüe se mantiene bilingüe.",
   },
   {
     label: 'III',
@@ -26,16 +26,20 @@ const services = [
   {
     label: 'V',
     title: 'Asistentes de IA personalizados',
-    body: "Una organización funciona con la memoria de quien lleva más tiempo. Cuando esa persona se va, el conocimiento institucional se va con ella. La voluntaria nueva hace las mismas cinco preguntas cada lunes. La tesorera llama a la presidenta para confirmar qué venue se reservó. La persona de la junta vuelve a leer el mismo procedimiento porque nadie lo dejó accesible. Un asistente bilingüe privado entrenado en tus procedimientos, tus proveedores, tus plantillas, tus respuestas estándar — con el criterio de decir \"no sé\" en vez de adivinar, y sin exponer documentos privados a nadie fuera de la organización. Una memoria institucional que no depende de que una persona se quede.",
+    body: "Una organización funciona con la memoria de quien lleva más tiempo. Cuando esa persona se va, el conocimiento institucional se va con ella. La voluntaria nueva hace las mismas cinco preguntas cada lunes. La tesorera llama a la presidenta para confirmar qué venue se reservó. La persona de la junta vuelve a leer el mismo procedimiento porque nadie lo dejó accesible. Un asistente bilingüe privado entrenado en tus procedimientos, tus proveedores, tus plantillas, tus respuestas estándar — con el criterio de decir \"no sé\" en vez de adivinar y sin exponer documentos privados a nadie fuera de la organización. Una memoria institucional que no depende de que una persona se quede.",
+  },
+  {
+    label: 'VI',
+    title: 'Dar a los documentos su forma final',
+    body: "El manuscrito que tiene que volverse documento terminado: portadas, copyright, índice, encabezados, figuras, numeración — decenas de puntos de control, cada uno un lugar donde un ojo cansado deja pasar algo. Automatizo el paso mecánico — una biblioteca que corrige lo que puede y marca lo que no — para que la maquetación esté correcta antes de la firma final. Lo que sigue siendo humano sigue siendo humano: si se lee bien, si se ve bien, la última palabra.",
   },
 ];
 ---
-<Layout title="Servicios" description="Cinco servicios — flujos con IA, operaciones de investigación, catalogación digital, contenido bilingüe y asistentes a la medida.">
+<Layout title="Servicios" description="Seis servicios — flujos con IA, respuestas confiables a partir de documentos, catalogación digital, contenido bilingüe, asistentes a la medida y forma de documentos.">
   <SectionHeader
     label="§1"
     title="Lo que hago"
-    subtitle="Cinco maneras de trabajar con organizaciones y personas que quieren que la IA cambie de verdad cómo funcionan sus operaciones."
-    icon={{ src: '/dinos/servicios.png', alt: '', width: 240, height: 190 }}
+    subtitle="Seis maneras de trabajar con organizaciones y personas que quieren que la IA cambie de verdad cómo funcionan sus operaciones."
   />
   <div class="services">
     {services.map(({ label, title, body }) => (
