@@ -5,16 +5,17 @@ import SectionHeader from '../../../components/SectionHeader.astro';
 import { projectSlugFromId } from '../../../i18n/util';
 
 const projects = (await getCollection('projects', (e) => e.data.lang === 'es')).sort((a, b) => a.data.order - b.data.order);
+const visible = projects.slice(0, 4);
+const hidden = projects.slice(4);
 ---
-<Layout title="Proyectos" description="Seis proyectos entre práctica editorial, académica y automatización con IA.">
+<Layout title="Proyectos" description="Proyectos entre práctica editorial, académica y automatización con IA.">
   <SectionHeader
     label="[§3] CASOS"
     title="Proyectos"
     subtitle="De la experimentación editorial al diseño de operaciones y flujos nativos de IA, ordenados por años."
-    icon={{ src: '/dinos/proyectos.png', alt: '', width: 161, height: 118 }}
   />
   <ul class="list">
-    {projects.map((p) => (
+    {visible.map((p) => (
       <li>
         <a href={`/es/proyectos/${projectSlugFromId(p.id)}`}>
           <p class="era marginalia">{p.data.era}</p>
@@ -24,6 +25,22 @@ const projects = (await getCollection('projects', (e) => e.data.lang === 'es')).
       </li>
     ))}
   </ul>
+  {hidden.length > 0 && (
+    <details class="more">
+      <summary>Ver más</summary>
+      <ul class="list">
+        {hidden.map((p) => (
+          <li>
+            <a href={`/es/proyectos/${projectSlugFromId(p.id)}`}>
+              <p class="era marginalia">{p.data.era}</p>
+              <h3>{p.data.title}</h3>
+              <p class="summary">{p.data.summary}</p>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </details>
+  )}
 </Layout>
 <style>
   .list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--s-8); }
@@ -33,4 +50,16 @@ const projects = (await getCollection('projects', (e) => e.data.lang === 'es')).
   .list li a:hover h3 { color: var(--red); }
   .summary { font-size: var(--text-sm); color: var(--marginalia); margin: 0 0 var(--s-3); max-width: 600px; }
   .era { margin: 0; }
+  .more { margin-top: var(--s-8); }
+  .more > summary {
+    cursor: pointer;
+    list-style: none;
+    font-size: var(--text-sm);
+    color: var(--marginalia);
+    padding-bottom: var(--s-8);
+  }
+  .more > summary::-webkit-details-marker { display: none; }
+  .more > summary::after { content: ' \25BE'; }
+  .more[open] > summary::after { content: ' \25B4'; }
+  .more > summary:hover { color: var(--red); }
 </style>

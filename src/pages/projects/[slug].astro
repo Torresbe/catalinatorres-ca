@@ -22,6 +22,9 @@ const { Content } = await render(entry);
     <header class="head">
       <p class="label">PROJECT · {entry.data.era}</p>
       <h1>{entry.data.title}</h1>
+      {entry.data.tools && entry.data.tools.length > 0 && (
+        <p class="tools">{entry.data.tools.join(' · ')}</p>
+      )}
       <Marginalia>{entry.data.summary}</Marginalia>
     </header>
 
@@ -36,7 +39,13 @@ const { Content } = await render(entry);
 <style>
   .head { margin-bottom: var(--s-12); }
   .head .label { margin-bottom: var(--s-3); }
-  .head h1 { font-size: var(--text-4xl); margin-bottom: var(--s-6); }
+  .head h1 { font-size: var(--text-4xl); margin-bottom: var(--s-4); }
+  .head .tools {
+    font-size: var(--text-sm);
+    color: var(--marginalia);
+    letter-spacing: 0.03em;
+    margin-bottom: var(--s-6);
+  }
   .prose h2 {
     font-family: var(--font-display);
     font-size: var(--text-2xl);

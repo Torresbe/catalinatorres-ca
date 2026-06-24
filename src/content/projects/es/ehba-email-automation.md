@@ -2,7 +2,7 @@
 title: "Comunicaciones personalizadas"
 era: "2024"
 summary: "Welcome packages y correos de cada trimestre como parte de una reestructuración operativa después de un cambio de liderazgo."
-order: 3
+order: 6
 featured: true
 lang: es
 ---

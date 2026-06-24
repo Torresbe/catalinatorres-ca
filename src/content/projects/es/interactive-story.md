@@ -2,13 +2,13 @@
 title: "Historia interactiva — narrativa con bifurcaciones"
 era: "2022–24"
 summary: "Una historia que cambia según las decisiones del lector. El instinto editorial encontrándose con la lógica condicional por primera vez."
-order: 6
+order: 9
 lang: es
 ---
 
 ## El trabajo
 
-Durante la maestría escribí una historia interactiva en Python. Una ficción corta donde las decisiones del lector en momentos clave cambiaban lo que sucedía después. Quería saber cómo se sentía diseñar narrativa como un sistema — donde cada bifurcación tenía que sentirse ganada, cada decisión tenía que sentirse consecuente, y la escritura no podía apoyarse en la linealidad para llevar al lector hasta el final.
+Durante la maestría escribí una historia interactiva en Python. Una ficción corta donde las decisiones del lector en momentos clave cambiaban lo que sucedía después. Quería saber cómo se sentía diseñar narrativa como un sistema — donde cada bifurcación tenía que sentirse ganada, cada decisión tenía que sentirse consecuente y la escritura no podía apoyarse en la linealidad para llevar al lector hasta el final.
 
 ## Por qué importó
 

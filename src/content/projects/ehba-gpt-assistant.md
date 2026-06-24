@@ -2,7 +2,7 @@
 title: "Office Knowledge Assistant"
 era: "2024"
 summary: "A private bilingual assistant trained on the organization's procedures, suppliers, venues, and forms — so leadership stops asking each other twice a week."
-order: 4
+order: 7
 ---
 
 ## The work

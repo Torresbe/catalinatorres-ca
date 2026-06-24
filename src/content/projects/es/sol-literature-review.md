@@ -2,7 +2,7 @@
 title: "Revisión de literatura asistida por IA"
 era: "2025"
 summary: "Doscientos artículos académicos sobre equidad de género, clasificados en campos analíticos, en inglés y español."
-order: 2
+order: 5
 featured: true
 lang: es
 ---

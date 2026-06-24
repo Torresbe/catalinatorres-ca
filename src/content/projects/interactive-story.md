@@ -3,7 +3,7 @@ title: "Interactive Story — Branching Narrative"
 era: "2022–24"
 tools: ["Python", "Conditional logic", "Narrative design"]
 summary: "A story that changes depending on the reader's choices. Editorial instincts meeting conditional logic for the first time."
-order: 6
+order: 9
 ---
 
 ## The work

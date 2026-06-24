@@ -2,7 +2,7 @@
 title: "Asistente de conocimiento de oficina"
 era: "2024"
 summary: "Un asistente bilingüe privado entrenado en los procedimientos, proveedores, venues y formularios de la organización — para que la dirección deje de preguntarse lo mismo dos veces por semana."
-order: 4
+order: 7
 lang: es
 ---
 

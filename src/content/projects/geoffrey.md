@@ -2,7 +2,7 @@
 title: "Personal Library & Archive"
 era: "2025"
 summary: "A structured, analyzed digital library; thousands of photographs sorted by decade; a personal documents archive ready to search and cite."
-order: 1
+order: 3
 featured: true
 ---
 
@@ -22,3 +22,5 @@ A lifetime of files: a personal book collection without a catalogue, more than f
 ## What the client got
 
 A library he can read like a database ready to be cited, a citation pipeline that feeds his writing, an HTML showcase he can publish, and a photo archive that finally has a chronology. Everything runs locally. Nothing depends on a service that could disappear.
+
+The result is measured in time returned: the weekly cataloguing — around two thousand pages and twenty books — dropped from more than thirty hours by hand to about four.

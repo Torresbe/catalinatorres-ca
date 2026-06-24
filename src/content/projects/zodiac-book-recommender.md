@@ -2,7 +2,7 @@
 title: "Zodiac Book Recommender"
 era: "2022–24"
 summary: "An early experiment putting editorial knowledge and programming in the same room — a book recommender keyed to the zodiac, made to learn how digital tools think."
-order: 5
+order: 8
 ---
 
 ## The work

@@ -4,16 +4,17 @@ import Layout from '../../components/Layout.astro';
 import SectionHeader from '../../components/SectionHeader.astro';
 
 const projects = (await getCollection('projects', (e) => e.data.lang === 'en')).sort((a, b) => a.data.order - b.data.order);
+const visible = projects.slice(0, 4);
+const hidden = projects.slice(4);
 ---
-<Layout title="Projects" description="Six projects across editorial, academic, and AI automation practice.">
+<Layout title="Projects" description="Projects across editorial, academic, and AI automation practice.">
   <SectionHeader
     label="[§3] CASES"
     title="Projects"
     subtitle="From editorial experimentation to operations design and AI-native workflows, arranged by year."
-    icon={{ src: '/dinos/proyectos.png', alt: '', width: 161, height: 118 }}
   />
   <ul class="list">
-    {projects.map((p) => (
+    {visible.map((p) => (
       <li>
         <a href={`/projects/${p.id}`}>
           <p class="era marginalia">{p.data.era}</p>
@@ -23,6 +24,22 @@ const projects = (await getCollection('projects', (e) => e.data.lang === 'en')).
       </li>
     ))}
   </ul>
+  {hidden.length > 0 && (
+    <details class="more">
+      <summary>Show more</summary>
+      <ul class="list">
+        {hidden.map((p) => (
+          <li>
+            <a href={`/projects/${p.id}`}>
+              <p class="era marginalia">{p.data.era}</p>
+              <h3>{p.data.title}</h3>
+              <p class="summary">{p.data.summary}</p>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </details>
+  )}
 </Layout>
 <style>
   .list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--s-8); }
@@ -32,4 +49,16 @@ const projects = (await getCollection('projects', (e) => e.data.lang === 'en')).
   .list li a:hover h3 { color: var(--red); }
   .summary { font-size: var(--text-sm); color: var(--marginalia); margin: 0 0 var(--s-3); max-width: 600px; }
   .era { margin: 0; }
+  .more { margin-top: var(--s-8); }
+  .more > summary {
+    cursor: pointer;
+    list-style: none;
+    font-size: var(--text-sm);
+    color: var(--marginalia);
+    padding-bottom: var(--s-8);
+  }
+  .more > summary::-webkit-details-marker { display: none; }
+  .more > summary::after { content: ' \25BE'; }
+  .more[open] > summary::after { content: ' \25B4'; }
+  .more > summary:hover { color: var(--red); }
 </style>

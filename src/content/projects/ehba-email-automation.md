@@ -2,7 +2,7 @@
 title: "Personalized Communications"
 era: "2024"
 summary: "Welcome packages and term-by-term emails as part of an operations restructure after a leadership change."
-order: 3
+order: 6
 featured: true
 ---
 

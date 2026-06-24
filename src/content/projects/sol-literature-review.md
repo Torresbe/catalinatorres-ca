@@ -2,7 +2,7 @@
 title: "AI-Assisted Literature Review"
 era: "2025"
 summary: "Two hundred academic articles on gender equity, classified across analytical fields, in English and Spanish."
-order: 2
+order: 5
 featured: true
 ---
 
