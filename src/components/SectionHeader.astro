@@ -1,64 +1,27 @@
 ---
-interface Icon {
-  src: string;
-  alt: string;
-  width: number;
-  height: number;
-}
 interface Props {
   label?: string;
   title: string;
   subtitle?: string;
-  icon?: Icon;
 }
-const { label, title, subtitle, icon } = Astro.props;
+const { label, title, subtitle } = Astro.props;
 ---
 <header class="section-header">
   {label && <p class="label">{label}</p>}
   <div class="title-row">
     <h2>{title}</h2>
-    {icon && (
-      <img
-        src={icon.src}
-        alt={icon.alt}
-        width={icon.width}
-        height={icon.height}
-        class="section-icon"
-        loading="lazy"
-        decoding="async"
-      />
-    )}
   </div>
   {subtitle && <p class="subtitle">{subtitle}</p>}
 </header>
 <style>
   .section-header { margin-bottom: var(--s-8); }
   .section-header .label { margin-bottom: var(--s-2); }
-  .title-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--s-6);
-    margin-bottom: var(--s-3);
-  }
+  .title-row { margin-bottom: var(--s-3); }
   .title-row h2 { margin: 0; }
-  .section-icon {
-    height: 80px;
-    width: auto;
-    max-width: 140px;
-    flex-shrink: 0;
-    image-rendering: pixelated;
-    image-rendering: crisp-edges;
-    object-fit: contain;
-  }
   .section-header .subtitle {
     color: var(--marginalia);
     font-size: var(--text-sm);
     max-width: 600px;
     margin: 0;
-  }
-  @media (max-width: 768px) {
-    .section-icon { height: 56px; max-width: 96px; }
-    .title-row { gap: var(--s-3); }
   }
 </style>

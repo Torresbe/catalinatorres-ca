@@ -7,7 +7,6 @@ const linkedinUrl = 'https://www.linkedin.com/in/catalina-torres-benjumea-3a64a5
 <Layout title="Contacto" description="Dos canales de contacto: LinkedIn y email.">
   <div class="title-row">
     <h1 class="contact-title">Contacto</h1>
-    <img src="/dinos/mail.png" alt="" width="140" height="141" class="section-icon" loading="lazy" decoding="async" />
   </div>
   <div class="contact-chips">
     <a class="chip" href={linkedinUrl} target="_blank" rel="noopener noreferrer">LinkedIn <span class="arrow">→</span></a>
@@ -24,24 +23,7 @@ const linkedinUrl = 'https://www.linkedin.com/in/catalina-torres-benjumea-3a64a5
     margin: 0;
   }
   .title-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--s-6);
     margin: var(--s-8) 0 var(--s-6);
-  }
-  .section-icon {
-    height: 80px;
-    width: auto;
-    max-width: 140px;
-    flex-shrink: 0;
-    image-rendering: pixelated;
-    image-rendering: crisp-edges;
-    object-fit: contain;
-  }
-  @media (max-width: 768px) {
-    .section-icon { height: 56px; max-width: 96px; }
-    .title-row { gap: var(--s-3); }
   }
   .contact-chips {
     display: flex;
